@@ -1,4 +1,4 @@
-# Informações preliminares
+# Informações
 
 Essas são notas de aula para o uso nas disciplinas de Fundamentos de DevOps do curso de Bacharelado em Sistemas de Informação do [IFC - Campus Araquari](https://bsi.araquari.ifc.edu.br/ 'IFC'). O conteúdo foi desenvolvido pelo [Prof. Dr. Eduardo da Silva](https://github.com/eduardo-da-silva/ 'Repositório pessoal').
 
