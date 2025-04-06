@@ -1,6 +1,8 @@
 site_name: Fundamentos de DevOps
 site_author: Eduardo da Silva
 site_url: https://eduardo-da-silva.github.io/fundamentos-devops
+repo_url: https://github.com/eduardo-da-silva/fundamentos-devops
+repo_name: eduardo-da-silva/fundamentos-devops
 copyright: Copyright &copy; 2025 Eduardo da Silva
 
 theme:
@@ -10,8 +12,8 @@ theme:
   language: pt-BR
   features:
     - announce.dismiss
-    - content.action.edit
-    - content.action.view
+    # - content.action.edit
+    # - content.action.view
     - content.code.annotate
     - content.code.copy
     - content.code.select
@@ -24,7 +26,7 @@ theme:
     - navigation.indexes
     # - navigation.instant
     # - navigation.instant.prefetch
-    # - navigation.instant.progress
+    - navigation.instant.progress
     # - navigation.prune
     - navigation.sections
     # - navigation.tabs
@@ -80,9 +82,7 @@ markdown_extensions:
       repo: mkdocs-material
   - pymdownx.mark
   - pymdownx.smartsymbols
-  - pymdownx.snippets:
-      auto_append:
-        - includes/mkdocs.md
+  - pymdownx.snippets
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
@@ -101,4 +101,5 @@ markdown_extensions:
 nav:
   - Introdução: intro.md
   - Gestão de repositórios e colaboração: collaboration.md
-  - Integração Contínua: ci.md
+  - Integração Contínua: ci/index.md
+  
