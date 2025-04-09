@@ -103,4 +103,4 @@ nav:
   - Gestão de repositórios e colaboração: collaboration.md
   - Integração Contínua: ci/index.md
   - Contêineres:  containers/index.md
-  
+  - Docker: docker/index.md
