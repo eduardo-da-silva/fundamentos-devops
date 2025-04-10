@@ -48,6 +48,30 @@ Em sistemas operacionais baseados em Linux, como Ubuntu, você pode instalar o D
     sudo systemctl enable docker
     ```
 
+=== "Debian"
+
+    ```bash
+    sudo apt-get update && sudo apt upgrade
+    sudo apt-get install \
+        apt-transport-https \
+        ca-certificates \
+        curl \
+        gnupg \
+        lsb-release
+
+    curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+    echo \
+    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+    $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+    sudo apt-get update
+    sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+    sudo systemctl start docker
+    sudo systemctl enable docker
+    ```
+
 === "Fedora"
 
     ```bash
