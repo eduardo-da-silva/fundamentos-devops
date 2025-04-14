@@ -1,8 +1,14 @@
 # Docker
 
-O Docker é uma plataforma de software que permite criar, testar e implantar aplicativos rapidamente. O Docker empacota o software em unidades padronizadas chamadas contêineres, que incluem tudo o que o software precisa para funcionar, como bibliotecas, dependências e arquivos de configuração. Isso garante que o aplicativo funcione de maneira consistente em qualquer ambiente.
+Criado em 2013, o Docker introduziu o que se tornou o padrão da indústria para contêineres. Ele foi desenvolvido por Solomon Hykes e sua equipe na dotCloud, uma plataforma de PaaS (Platform as a Service). Desde então, o Docker evoluiu para se tornar uma das ferramentas mais populares para desenvolvimento e implantação de aplicativos em contêineres.
 
-Em resumo, é uma plataforma que simplifica o processo de desenvolvimento, teste, empacotamento e implantação de aplicativos em contêineres portáteis e leves. O Docker é amplamente utilizado em ambientes de desenvolvimento e produção, permitindo que os desenvolvedores criem aplicativos de forma mais rápida e eficiente.
+Docker é uma plataforma Open Source escrita em Go que ajuda a criação e a administração de ambientes isolados. Ele permite criar, testar e implantar aplicativos rapidamente. O Docker empacota o software em unidades padronizadas chamadas contêineres, que incluem tudo o que o software precisa para funcionar, como bibliotecas, dependências e arquivos de configuração. Isso garante que o aplicativo funcione de maneira consistente em qualquer ambiente.
+
+O Docker trabalha com uma virtualização a nível do sistema operacional, onde o mesmo utiliza de recursos como o kernel do sistema hospedeiro para executar seus contêineres. Diferente do modelo tradicional de Máquinas Virtuais, o Docker não necessita da instalação de um sistema operacional por completo, e sim apenas dos arquivos necessários para a aplicação ser executada.
+
+Em resumo, o Docker simplifica o processo de desenvolvimento, teste, empacotamento, homologação e implantação de aplicativos em contêineres portáteis e leves. O Docker é amplamente utilizado em ambientes de desenvolvimento e produção, permitindo que os desenvolvedores criem aplicativos de forma mais rápida e eficiente, minimizando impactos no processo de desenvolvimento e entrega de software.
+
+Como já discutido anteriormente, existem diversos runtimes de contêineres e até é possível utilizar contêineres sem Docker. Contudo, atualmente o Docker é o runtime de container mais utilizada no mercado, sendo uma tecnologia fundamental no mundo do DevOps.
 
 ## Instalação do Docker
 
@@ -115,6 +121,23 @@ docker run hello-world
 Isso deve baixar uma imagem de teste do Docker Hub e executar um contêiner a partir dela. Se tudo estiver funcionando corretamente, você verá uma mensagem de boas-vindas do Docker.
 
 ## Os componentes do Docker
+
+<!-- ```mermaid
+architecture-beta
+    group client[Cliente]
+    service pull(database)[Docker Pull] in client
+    service build(disk)[Docker Build] in client
+    service run(disk)[Docker Run] in client
+
+    group host[Docker Host]
+    service daemon(database)[Docker Docker Daemon] in host
+    service disk3(disk)[Docker Build] in host
+    service disk4(disk)[Docker Push] in host
+
+    pull{group}:R -- L:daemon{group}
+    build{group}:R -- L:daemon{group}
+    run{group}:R -- L:daemon{group}
+``` -->
 
 Existem três componentes principais no ecossistema Docker:
 

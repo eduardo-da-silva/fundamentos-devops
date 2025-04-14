@@ -6,7 +6,9 @@ Nesta seção, abordaremos os conceitos básicos de containers, sem entrar nos d
 
 O uso de `containers` (ou contêineres) é uma prática comum no desenvolvimento de software moderno, permitindo que os desenvolvedores criem, testem e implantem aplicativos de forma consistente em diferentes ambientes. Os containers são unidades leves e portáteis que empacotam o código-fonte, bibliotecas e dependências necessárias para executar um aplicativo, garantindo que ele funcione da mesma forma em qualquer lugar.
 
-Os containers são baseados na tecnologia de virtualização, mas diferentemente das máquinas virtuais, que virtualizam todo o sistema operacional, os containers compartilham o mesmo núcleo do sistema operacional host. Isso torna os containers mais leves e rápidos de iniciar, além de permitir que vários containers sejam executados simultaneamente em um único host.
+De forma resumida, um contêiner é um ambiente completo, composto por uma aplicação e todas suas dependências, bibliotecas, binários, arquivos de configuração, em um único pacote. Os containers são baseados na tecnologia de virtualização, mas diferentemente das máquinas virtuais, que virtualizam todo o sistema operacional, os containers compartilham o mesmo núcleo do sistema operacional host. Isso torna os containers mais leves e rápidos de iniciar, além de permitir que vários containers sejam executados simultaneamente em um único host.
+
+Ao criar um contêiner para uma aplicação e suas dependências, as diferenças entre distribuições de sistemas operacionais e camadas inferiores da infraestrutura são abstraídas. Com isso, os desenvolvedores podem se concentrar em escrever código e aplicações, sem se preocupar com as diferenças entre os ambientes de desenvolvimento, teste e produção.
 
 ### O que são contêineres?
 
@@ -85,6 +87,20 @@ Os namespaces são usados para isolar diferentes recursos do sistema, como:
 - **Time namespace**: Isola o tempo entre contêineres, permitindo que cada contêiner tenha seu próprio relógio e fuso horário.
 - **Seccomp namespace**: Isola os filtros de segurança entre contêineres, permitindo que cada contêiner tenha seu próprio conjunto de regras de segurança.
 
+A imagem abaixo ilustra como esses recurso estão isolados dentro de um namespace:
+
+```mermaid
+flowchart LR
+  subgraph Namespace
+    PID
+    NET
+    MNT
+    USER
+    IPC
+    UTS
+  end
+```
+
 ### Criando um ambiente isolado com namespace
 
 No Linux, você pode criar um ambiente isolado usando namespaces com o comando `unshare`. O comando `unshare` permite que você execute um comando em um novo namespace, isolando-o do restante do sistema. Isso é útil para testar e desenvolver aplicativos em um ambiente isolado.
@@ -134,6 +150,18 @@ Os cgroups são usados para controlar o uso de recursos em várias áreas, inclu
 - **Limitação de rede**: Permite definir limites de uso de rede para grupos de processos, garantindo que um contêiner não consuma mais largura de banda do que o necessário.
 - **Limitação de I/O**: Permite definir limites de uso de entrada/saída (I/O) para grupos de processos, garantindo que um contêiner não consuma mais recursos de I/O do que o necessário.
 
+```mermaid
+flowchart LR
+  subgraph CGroup
+    CPU
+    cpuset
+    memory
+    device
+    I/O
+    network
+  end
+```
+Os cgroups são uma parte fundamental da tecnologia de contêineres, pois permitem que os desenvolvedores definam limites e monitorem o uso de recursos em contêineres. Isso é especialmente importante em ambientes de produção, onde vários contêineres podem estar sendo executados simultaneamente e o uso excessivo de recursos por um contêiner pode afetar o desempenho de outros contêineres ou do sistema host.
 Por isso, junto com os namespaces, os cgroups são fundamentais para garantir o isolamento e o controle de recursos em contêineres. Eles permitem que os desenvolvedores definam limites e monitorem o uso de recursos, garantindo que os contêineres não afetem o desempenho do sistema host ou de outros contêineres.
 
 ## Criando um ambiente isolado com cgroups
