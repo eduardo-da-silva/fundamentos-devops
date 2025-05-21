@@ -104,3 +104,5 @@ nav:
   - Integração Contínua: ci/index.md
   - Contêineres:  containers/index.md
   - Docker: docker/index.md
+  - Orquestração: orquestracao/index.md
+  - Entrega Contínua: cd/index.md

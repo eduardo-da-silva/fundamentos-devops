@@ -41,7 +41,8 @@ Em sistemas operacionais baseados em Linux, como Ubuntu, você pode instalar o D
         gnupg \
         lsb-release
 
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+    sudo mkdir -p /etc/apt/keyrings
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 
     echo \
     "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
@@ -65,7 +66,8 @@ Em sistemas operacionais baseados em Linux, como Ubuntu, você pode instalar o D
         gnupg \
         lsb-release
 
-    curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+    sudo mkdir -p /etc/apt/keyrings
+    curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 
     echo \
     "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
@@ -413,3 +415,124 @@ docker volume inspect <volume_name>
 ```
 
 Isso exibirá informações detalhadas sobre o volume, incluindo o caminho no host onde os dados estão armazenados. O caminho pode variar dependendo do sistema operacional e da configuração do Docker.
+
+## Docker compose
+
+O Docker Compose é uma ferramenta que permite definir e executar aplicativos Docker compostos por vários contêineres. Com o Docker Compose, você pode usar um arquivo YAML para configurar os serviços, redes e volumes necessários para o seu aplicativo. Isso facilita a orquestração de contêineres e a criação de ambientes de desenvolvimento e produção consistentes.
+
+O formato YAML é uma linguagem de serialização de dados legível por humanos, que é amplamente utilizada para configuração de aplicativos, em especial no contexto de DevOps e infraestrutura como código. O arquivo de configuração do Docker Compose é chamado `docker-compose.yml` e deve estar localizado no diretório raiz do seu projeto.
+
+O Docker Compose é especialmente útil quando você tem um aplicativo que depende de vários serviços, como um banco de dados, um servidor web e um serviço de cache. Com o Docker Compose, você pode definir todos esses serviços em um único arquivo e iniciar todos eles com um único comando.
+
+Todas as configurações que são realizadas na configuração de um `docker-compose` podem ser realizadas diretamente na linha de comando, mas o uso do `docker-compose` é mais prático e organizado. Anteriormente, vimos como executar um contêiner Ngnix com persistência de dados usando `bind mounts`. Também vimos como executar um contêiner PostgreSQL com persistência de dados usando volumes.
+
+Agora, vamos considerar o seguinte cenário: você executa um contêiner docker com o PostgreSQL e um outro contêiner com a ferramenta `PgAdmin` (1). Contudo, você não quer que o banco de dados PostgreSQL fique exposto na rede, mas sim que o `PgAdmin` tenha acesso a ele. Para isso, você deveria criar uma rede interna entre os dois contêineres. Isso pode ser feito facilmente com o Docker Compose, e veremos como fazer isso a seguir.
+{ .annotate }
+
+1. O `PgAdmin` é uma ferramenta de gerenciamento e administração de banco de dados PostgreSQL. Ele fornece uma interface gráfica para interagir com o banco de dados, permitindo que você execute consultas SQL, visualize dados e gerencie objetos do banco de dados.
+
+```yaml title='docker-compose.yml'
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=sample_db
+    volumes:
+      - db-postgres-data:/var/lib/postgresql/data
+    networks:
+      - internal-network
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - '5050:80'
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    networks:
+      - internal-network
+
+networks:
+  internal-network:
+    driver: bridge
+
+volumes:
+  db-postgres-data:
+    driver: local
+```
+
+Note que o arquivo está dividido em três seções principais: `services`, `networks` e `volumes`. A seção `services` define os serviços que serão executados, a seção `networks` define as redes que serão criadas e a seção `volumes` define os volumes que serão utilizados.
+
+Na seção `services`, temos dois serviços: `db` e `pgadmin`.
+
+- **db** - Esse serviço usa a imagem oficial do PostgreSQL e define algumas variáveis de ambiente para configurar o banco de dados. O banco de dados será criado com o nome `sample_db`, e as credenciais de acesso serão definidas como `postgres` para o usuário e senha. Note que o volume `db-postgres-data` é montado no diretório `/var/lib/postgresql/data` dentro do contêiner, garantindo que os dados do banco de dados sejam persistidos mesmo que o contêiner seja removido. O serviço `db` também está conectado à rede interna `internal-network`, o que significa que ele pode se comunicar com outros serviços na mesma rede.
+- **pgadmin** - Esse serviço usa a imagem oficial do PgAdmin e expõe a porta 80 do contêiner na porta 5050 do `host`. As variáveis de ambiente `PGADMIN_DEFAULT_EMAIL` e `PGADMIN_DEFAULT_PASSWORD` são usadas para definir as credenciais de acesso ao PgAdmin. O serviço `pgadmin` também está conectado à rede interna `internal-network`, permitindo que ele se comunique com o serviço `db`.
+
+!!!abstract "Relembrando"
+
+    Os nomes dessas variáveis de ambiente foram definidos na documentação oficial do PgAdmin. Você pode consultar a [documentação oficial do PgAdmin](https://www.pgadmin.org/docs/pgadmin4/latest/container_deployment.html) para mais informações sobre as variáveis de ambiente disponíveis. Cada imagem possui as suas variáveis de ambiente, e é importante consultar a documentação para entender como configurá-las corretamente.
+
+Note que, pela configuração de `networks`, os dois serviços estão conectados à mesma rede interna chamada `internal-network`. Isso significa que eles podem se comunicar entre si, mas não estarão acessíveis diretamente a partir do host. O PgAdmin poderá acessar o banco de dados PostgreSQL usando o nome do serviço `db` como hostname. O próprio Docker irá resolver o nome do serviço para o endereço IP do contêiner correspondente na rede interna, e também gerenciará a atribuição de endereços IP para os contêineres na rede criada.
+
+Para iniciar os serviços definidos no arquivo `docker-compose.yml`, você pode usar o seguinte comando:
+
+```bash
+docker compose up # (1) (2)
+```
+
+1. Você também pode usar a opção `-d` para executar os serviços em segundo plano (modo "detached").
+2. Também você pode definir apenas um serviço específico para iniciar. O comando `docker compose up db` iniciará apenas o serviço `db`.
+
+Depois de iniciado os serviços, você pode acessar o PgAdmin no seu navegador em `http://localhost:5050`. Use as credenciais definidas no arquivo `docker-compose.yml` para fazer login. Depois de autenticado, você pode adicionar uma nova conexão ao banco de dados PostgreSQL usando o nome do serviço `db` como hostname e as credenciais definidas no arquivo `docker-compose.yml`.
+
+Com isso, o seu contêiner `pgadmin` poderá acessar o banco de dados PostgreSQL, que está em outro contêiner, e você poderá gerenciar o banco de dados através da interface gráfica do PgAdmin.
+
+### Comandos do Docker Compose
+
+Abaixo estão alguns comandos essenciais do Docker Compose que você usará com maior frequência:
+
+| Comando                                   | Descrição                                                                                              |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| `docker compose up`                       | Cria e inicia os serviços definidos no arquivo `docker-compose.yml`.                                   |
+| `docker compose down`                     | Para e remove os serviços definidos no arquivo `docker-compose.yml`.                                   |
+| `docker compose ps`                       | Lista os serviços em execução definidos no arquivo `docker-compose.yml`.                               |
+| `docker compose logs`                     | Exibe os logs dos serviços em execução definidos no arquivo `docker-compose.yml`.                      |
+| `docker compose build`                    | Constrói as imagens dos serviços definidos no arquivo `docker-compose.yml`.                            |
+| `docker compose exec <service> <command>` | Executa um comando em um contêiner em execução de um serviço definido no arquivo `docker-compose.yml`. |
+| `docker compose run <service>`            | Executa um comando em um novo contêiner de um serviço definido no arquivo `docker-compose.yml`.        |
+| `docker compose config`                   | Valida e exibe a configuração do arquivo `docker-compose.yml`.                                         |
+| `docker compose pull`                     | Faz o download das imagens dos serviços definidos no arquivo `docker-compose.yml`.                     |
+| `docker compose rm`                       | Remove os contêineres parados dos serviços definidos no arquivo `docker-compose.yml`.                  |
+| `docker compose restart`                  | Reinicia os serviços definidos no arquivo `docker-compose.yml`.                                        |
+| `docker compose start`                    | Inicia os serviços definidos no arquivo `docker-compose.yml` que estão parados.                        |
+| `docker compose stop`                     | Para os serviços definidos no arquivo `docker-compose.yml` que estão em execução.                      |
+| `docker compose version`                  | Exibe a versão do Docker Compose instalada.                                                            |
+| `docker compose help`                     | Exibe a ajuda para o Docker Compose.                                                                   |
+| `docker compose -f <file>`                | Especifica um arquivo de configuração diferente do padrão `docker-compose.yml`.                        |
+
+Existem muitos outros comandos e opções disponíveis no Docker Compose, mas esses são os mais comuns e úteis para começar. Você pode consultar a [documentação oficial do Docker Compose](https://docs.docker.com/compose/) para obter mais informações sobre os comandos e as opções disponíveis.
+
+## Redes Docker
+
+No exemplo que apresentamos, foi criada uma rede interna chamada `internal-network`, que permite que os contêineres se comuniquem entre si. O Docker cria automaticamente uma rede bridge padrão chamada `bridge` quando o Docker é instalado. Essa rede é usada para conectar contêineres em execução no mesmo host.
+
+Em geral, o docker permite a criação de diversos tipos de redes (`drivers`). Aqui, falaremos de três:
+
+- **Bridge**: A rede bridge padrão é criada automaticamente pelo Docker e é usada para conectar contêineres em execução no mesmo host. Essa rede permite que os contêineres se comuniquem entre si usando endereços IP internos.
+- **Host**: A rede host conecta o contêiner diretamente à rede do host. Isso significa que o contêiner compartilha o mesmo espaço de rede que o host, permitindo acesso direto às interfaces de rede do host. Essa rede é útil quando você precisa de desempenho máximo e não se importa com o isolamento do contêiner.
+- **Overlay**: A rede overlay permite que você conecte contêineres em diferentes hosts Docker. Essa rede é útil para criar aplicativos distribuídos que precisam se comunicar entre diferentes hosts. O Docker Swarm usa redes overlay para conectar serviços em diferentes nós do cluster.
+
+Na maioria das vezes você usará a rede bridge padrão, que permitem que os contêineres se comuniquem entre si usando nomes de serviço, o que facilita a configuração e o gerenciamento de aplicativos compostos por vários contêineres.
+
+Para listar as redes disponíveis em sua máquina local, você pode usar o seguinte comando:
+
+```bash
+docker network ls
+```
+
+Também é possível inspecionar uma rede específica para obter mais informações sobre ela, como os contêineres conectados a ela e as configurações de rede. Para isso, você pode usar o seguinte comando:
+
+```bash
+docker network inspect <network_name>
+```
