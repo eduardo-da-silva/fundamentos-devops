@@ -150,7 +150,13 @@ if __name__ == '__main__':
     uvicorn.run(app, host="0.0.0.0", port=8000)
 ```
 
-Para testarmos a aplicação, podemos executar o seguinte comando:
+Já vamos gerar o arquivo `requirements.txt` com as dependências necessárias para a aplicação. Para isso, execute o seguinte comando:
+
+```bash
+pip freeze > requirements.txt
+```
+
+Em seguida, para testarmos a aplicação, podemos executar o seguinte comando:
 
 ```bash
 python main.py
