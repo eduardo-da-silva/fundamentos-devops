@@ -178,8 +178,8 @@ FROM python:3.13-slim
 WORKDIR /app
 COPY app/requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
-COPY app/app.py app.py
-CMD ["python", "app.py"]
+COPY app/main.py main.py
+CMD ["python", "main.py"]
 ```
 
 O arquivo declara uma imagem simples para a aplicação que foi desenvolvida. Abaixo, um detalhamento de cada linha:
@@ -188,8 +188,8 @@ O arquivo declara uma imagem simples para a aplicação que foi desenvolvida. Ab
 - `WORKDIR /app`: Define o diretório de trabalho dentro do contêiner como `/app`.
 - `COPY app/requirements.txt requirements.txt`: Copia o arquivo `requirements.txt` para o diretório de trabalho no contêiner.
 - `RUN pip install --no-cache-dir -r requirements.txt`: Instala as dependências da aplicação especificadas no `requirements.txt`.
-- `COPY app/app.py app.py`: Copia o arquivo `app.py` para o diretório de trabalho no contêiner.
-- `CMD ["python", "app.py"]`: Define o comando a ser executado quando o contêiner for iniciado, que é rodar a aplicação FastAPI.
+- `COPY app/main.py main.py`: Copia o arquivo `main.py` para o diretório de trabalho no contêiner.
+- `CMD ["python", "main.py"]`: Define o comando a ser executado quando o contêiner for iniciado, que é rodar a aplicação FastAPI.
 
 Para testar, vamos construir a imagem. Aqui, usarei o meu nome de usuário do DockerHub (`eduardosilvasc`). Você deve usar o seu usuário para depois fazer a publicação da imagem:
 
