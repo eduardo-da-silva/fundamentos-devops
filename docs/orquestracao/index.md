@@ -132,6 +132,7 @@ Agora, crie um ambiente virtual `venv` e ative esse ambiente:
 ```bash
 python -m venv .venv
 source .venv/bin/activate
+pip install fastapi uvicorn
 ```
 
 Em seguida, crie um arquivo `main.py` com o seguinte conteúdo:
@@ -261,7 +262,7 @@ kubectl get pods
 Você deve ver o pod `hello-fastapi` na lista de pods em execução. Para acessar a aplicação FastAPI que está rodando no pod, você pode usar o port-forwarding do Kubernetes:
 
 ```bash
-kubectl port-forward pod/hello-fastapi 8000:8000
+kubectl port-forward pod/hello-fastapi --address 0.0.0.0 8000:8000
 ```
 
 Agora, você pode acessar a aplicação em http://localhost:8000. A resposta deve ser a mesma que obtivemos anteriormente:
@@ -320,7 +321,7 @@ kubectl get pods
 Você deve ver 3 pods `hello-fastapi` em execução. Para acessar a aplicação FastAPI que está rodando nos pods, você pode usar o port-forwarding do Kubernetes:
 
 ```bash
-kubectl port-forward deployment/hello-fastapi 8000:8000
+kubectl port-forward deployment/hello-fastapi --address 0.0.0.0 8000:8000
 ```
 
 Agora, você pode acessar a aplicação em http://localhost:8000. A resposta deve ser a mesma que obtivemos anteriormente:
@@ -363,7 +364,7 @@ kubectl get services
 Você deve ver o Service `hello-fastapi` na lista de serviços em execução. Para acessar a aplicação FastAPI que está rodando nos pods, você pode usar o port-forwarding do Kubernetes:
 
 ```bash
-kubectl port-forward service/hello-fastapi-service 8000:80
+kubectl port-forward service/hello-fastapi-service --address 0.0.0.0 8000:8000
 ```
 
 Agora, você pode acessar a aplicação em http://localhost:8000. A resposta deve ser a mesma que obtivemos anteriormente:

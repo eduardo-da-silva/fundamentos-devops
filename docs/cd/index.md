@@ -25,7 +25,7 @@ Isso criará um namespace chamado `argocd` e instalará o ArgoCD nesse namespace
 Após a instalação, você pode acessar o ArgoCD através do seguinte comando:
 
 ```bash
-kubectl port-forward svc/argocd-server -n argocd 8080:443
+kubectl port-forward svc/argocd-server -n argocd --address 0.0.0.0 8080:443
 ```
 
 Isso fará o encaminhamento da porta 8080 do seu computador local para a porta 443 do serviço `argocd-server` no namespace `argocd`. Você pode acessar o ArgoCD em `https://localhost:8080`.
@@ -164,7 +164,7 @@ Após a sincronização, você verá os recursos criados na árvore de recursos 
 Como estamos executando o ArgoCD dentro de um cluster com o kind, não temos acesso ao serviço que foi implantado com o Kustomize e o ArgoCD. Para acessar o serviço, você pode usar o seguinte comando:
 
 ```bash
-kubectl port-forward svc/hello-fastapi-service 8000:8000
+kubectl port-forward svc/hello-fastapi-service --address 0.0.0.0 8000:8000
 ```
 
 Note que o nome do serviço pode variar de acordo com o que você definiu no arquivo `service.yaml`. O comando acima fará o encaminhamento da porta 8000 do seu computador local para a porta 8000 do serviço. Esse número de porta também pode variar de acordo com o que você definiu no arquivo `service.yaml`, `deployment.yaml` e na própria aplicação FastAPI. Você pode acessar o serviço em `http://localhost:8000`. Isso fará com que você consiga acessar a aplicação FastAPI que foi implantada no Kubernetes.
