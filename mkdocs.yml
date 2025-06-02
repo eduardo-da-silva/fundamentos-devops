@@ -106,3 +106,4 @@ nav:
   - Docker: docker/index.md
   - Orquestração: orquestracao/index.md
   - Entrega Contínua: cd/index.md
+  - Infraestrutura como Código: iac/index.md
