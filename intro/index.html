@@ -1,0 +1,875 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Eduardo da Silva">
+      
+      
+        <link rel="canonical" href="https://eduardo-da-silva.github.io/fundamentos-devops/intro/">
+      
+      
+      
+        <link rel="next" href="../collaboration/">
+      
+      
+      <link rel="icon" href="../images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Introdução - Fundamentos de DevOps</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#introducao" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href=".." title="Fundamentos de DevOps" class="md-header__button md-logo" aria-label="Fundamentos de DevOps" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Fundamentos de DevOps
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Introdução
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Compartilhar" aria-label="Compartilhar" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/eduardo-da-silva/fundamentos-devops" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    eduardo-da-silva/fundamentos-devops
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Fundamentos de DevOps" class="md-nav__button md-logo" aria-label="Fundamentos de DevOps" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Fundamentos de DevOps
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/eduardo-da-silva/fundamentos-devops" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    eduardo-da-silva/fundamentos-devops
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Introdução
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introdução
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#fundamentos-de-devops" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fundamentos de DevOps
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#versionamento-de-codigo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Versionamento de Código
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Versionamento de Código">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#praticas-de-versionamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      Práticas de versionamento
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#praticas-de-semver" class="md-nav__link">
+    <span class="md-ellipsis">
+      Práticas de SemVer
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conventional-commits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conventional Commits
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Conventional Commits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ferramentas-para-auxiliar-no-cumprimento-da-convencao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ferramentas para auxiliar no cumprimento da convenção
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../collaboration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Gestão de repositórios e colaboração
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ci/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Integração Contínua
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../containers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Contêineres
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Docker
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../orquestracao/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Orquestração
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Entrega Contínua
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../iac/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Infraestrutura como Código
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#fundamentos-de-devops" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fundamentos de DevOps
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#versionamento-de-codigo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Versionamento de Código
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Versionamento de Código">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#praticas-de-versionamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      Práticas de versionamento
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#praticas-de-semver" class="md-nav__link">
+    <span class="md-ellipsis">
+      Práticas de SemVer
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conventional-commits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conventional Commits
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Conventional Commits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ferramentas-para-auxiliar-no-cumprimento-da-convencao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ferramentas para auxiliar no cumprimento da convenção
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="introducao">Introdução<a class="headerlink" href="#introducao" title="Permanent link">&para;</a></h1>
+<p>DevOps é uma cultura e conjunto de práticas que visa unificar o desenvolvimento de software (Dev) com a operação de sistemas (Ops). Esta abordagem enfatiza a colaboração, automação e integração contínua, permitindo entregas mais rápidas e confiáveis de software.</p>
+<p>O termo "DevOps" surgiu em 2009 durante a conferência Agile Conference em Toronto, quando <a href="https://x.com/patrickdebois">Patrick Debois</a> e <a href="https://x.com/littleidea">Andrew Shafer</a> discutiram os problemas entre as equipes de desenvolvimento e operações. O movimento ganhou força após a primeira DevOpsDays, realizada na Bélgica no mesmo ano.</p>
+<p>A frustração com o modelo tradicional de desenvolvimento, onde existia uma clara separação (e frequentemente conflito) entre as equipes de desenvolvimento e operações, levou à busca por uma abordagem mais integrada. As equipes de desenvolvimento queriam implementar mudanças rapidamente, enquanto as equipes de operações priorizavam a estabilidade do sistema.</p>
+<p>Esta divisão resultava em:</p>
+<ul>
+<li>Longos ciclos de desenvolvimento</li>
+<li>Problemas frequentes em produção</li>
+<li>Comunicação deficiente entre equipes</li>
+<li>Resistência à mudança</li>
+</ul>
+<p>O DevOps surgiu como resposta a esses desafios, propondo uma cultura de colaboração e integração entre as equipes.</p>
+<h2 id="fundamentos-de-devops">Fundamentos de DevOps<a class="headerlink" href="#fundamentos-de-devops" title="Permanent link">&para;</a></h2>
+<p>Dentro de uma organização que adota DevOps, as equipes de desenvolvimento e operações trabalham juntas para alcançar os objetivos comuns de entrega rápida e confiável de software. Isso envolve a implementação de práticas ágeis, automação de processos e monitoramento contínuo do desempenho do software.</p>
+<p>De forma resumida, os princípios fundamentais do DevOps incluem:</p>
+<ul>
+<li>
+<p><strong>Cultura de colaboração entre equipes</strong>: A colaboração entre as equipes de desenvolvimento e operações é essencial. Por exemplo, em um projeto de desenvolvimento de uma aplicação web, as equipes podem realizar reuniões diárias para discutir o progresso, identificar obstáculos e planejar as próximas etapas juntos.</p>
+</li>
+<li>
+<p><strong>Automação de processos</strong>: A automação reduz erros humanos e acelera o ciclo de desenvolvimento. Um exemplo prático é a utilização de pipelines de integração contínua (CI) e entrega contínua (CD) para automatizar testes e implantações. Ferramentas como Jenkins, GitLab CI/CD e GitHub Actions são amplamente utilizadas para esse fim.</p>
+</li>
+<li>
+<p><strong>Medição contínua de resultados</strong>: Medir e monitorar o desempenho do software e dos processos é crucial para identificar áreas de melhoria. Por exemplo, a equipe pode usar ferramentas como Prometheus e Grafana para monitorar a performance da aplicação em produção e gerar alertas em caso de problemas.</p>
+</li>
+<li>
+<p><strong>Compartilhamento de conhecimento</strong>: Promover uma cultura de aprendizado contínuo e compartilhamento de conhecimento entre as equipes. Isso pode ser feito através de sessões de retrospectiva, onde as equipes discutem o que funcionou bem e o que pode ser melhorado, ou através de documentações que detalham as melhores práticas e lições aprendidas.</p>
+</li>
+<li>
+<p><strong>Segurança integrada</strong>: Incorporar práticas de segurança desde o início do ciclo de desenvolvimento. Isso é conhecido como DevSecOps. Por exemplo, realizar análises de vulnerabilidades e testes de segurança automatizados durante o processo de CI/CD para garantir que o código esteja seguro antes de ser implantado em produção.</p>
+</li>
+</ul>
+<p>Esses princípios ajudam a criar um ambiente onde as mudanças podem ser implementadas de forma rápida e segura, resultando em entregas mais frequentes e de maior qualidade. Nos dias atuais, a adoção de DevOps é essencial para as empresas que buscam se manter competitivas em um mercado cada vez mais dinâmico e exigente.</p>
+<p>Isso porque a capacidade de responder rapidamente às demandas dos clientes e às mudanças no mercado é um diferencial competitivo importante. Ao adotar os conceitos e técnicas de DevOps, as empresas têm maior flexibilidade para lançar novas funcionalidades, corrigir bugs e ajustar o software de acordo com as necessidades do negócio.</p>
+<p>Dessa forma, se bem empregada, a implementação bem-sucedida do DevOps resulta em:</p>
+<ul>
+<li>
+<p><strong>Entregas mais rápidas</strong>: Com a automação de processos e a integração contínua, as equipes podem lançar novas funcionalidades e correções de bugs com maior frequência. Por exemplo, uma equipe de desenvolvimento pode usar pipelines de CI/CD para automatizar a construção, teste e implantação de uma aplicação, reduzindo o tempo entre a escrita do código e sua disponibilização em produção.</p>
+</li>
+<li>
+<p><strong>Maior qualidade de software</strong>: Através de testes automatizados e monitoramento contínuo, é possível identificar e corrigir problemas antes que eles afetem os usuários finais. Por exemplo, a utilização de testes unitários, testes de integração e testes de aceitação automatizados garante que o código esteja funcionando conforme o esperado em diferentes cenários.</p>
+</li>
+<li>
+<p><strong>Melhor resposta a problemas</strong>: Com a implementação de práticas de monitoramento e logging, as equipes podem detectar e responder a incidentes mais rapidamente. Por exemplo, ao usar ferramentas como ELK Stack (Elasticsearch, Logstash e Kibana) para centralizar e analisar logs, a equipe pode identificar a causa raiz de um problema e aplicar correções de forma ágil.</p>
+</li>
+<li>
+<p><strong>Maior satisfação do cliente</strong>: A capacidade de entregar novas funcionalidades e melhorias de forma contínua e confiável aumenta a satisfação do cliente. Por exemplo, uma empresa de e-commerce que adota DevOps pode lançar novas funcionalidades de forma incremental, respondendo rapidamente ao feedback dos usuários e melhorando a experiência de compra.</p>
+</li>
+</ul>
+<p>Esses benefícios demonstram como a adoção de práticas DevOps pode transformar a forma como as equipes de desenvolvimento e operações trabalham, resultando em um ciclo de desenvolvimento mais eficiente e produtos de maior qualidade.</p>
+<h2 id="versionamento-de-codigo">Versionamento de Código<a class="headerlink" href="#versionamento-de-codigo" title="Permanent link">&para;</a></h2>
+<p>O versionamento de código é uma prática essencial no desenvolvimento de software que consiste em controlar e gerenciar as alterações feitas no código-fonte ao longo do tempo. Isso permite que as equipes de desenvolvimento trabalhem de forma colaborativa, rastreiem as mudanças realizadas e revertam para versões anteriores se necessário.</p>
+<p>No contexto do DevOps, o versionamento de código é fundamental por várias razões:</p>
+<ul>
+<li>
+<p><strong>Colaboração eficiente</strong>: Ferramentas de versionamento, como Git, permitem que múltiplos desenvolvedores trabalhem simultaneamente no mesmo projeto sem conflitos. Por exemplo, em um projeto de desenvolvimento de uma aplicação web, diferentes desenvolvedores podem trabalhar em funcionalidades distintas e integrar suas mudanças de forma coordenada.</p>
+</li>
+<li>
+<p><strong>Histórico de mudanças</strong>: Manter um histórico detalhado das alterações facilita a identificação de quando e por quem uma mudança foi feita. Isso é crucial para auditorias e para entender a evolução do projeto. Por exemplo, se um bug for introduzido, a equipe pode revisar o histórico de commits para encontrar a origem do problema.</p>
+</li>
+<li>
+<p><strong>Reversão de alterações</strong>: Caso uma mudança cause problemas, é possível reverter para uma versão anterior do código de forma rápida e segura. Isso minimiza o impacto de erros em produção. Por exemplo, se uma nova funcionalidade causar falhas, a equipe pode reverter para a versão estável anterior enquanto trabalha na correção.</p>
+</li>
+<li>
+<p><strong>Integração contínua</strong>: O versionamento de código é a base para a integração contínua (CI), onde o código é frequentemente integrado e testado automaticamente. Isso garante que as mudanças sejam verificadas continuamente, reduzindo o risco de problemas em produção. Ferramentas como Jenkins e GitHub Actions são usadas para configurar pipelines de CI que automatizam esses processos.</p>
+</li>
+<li>
+<p><strong>Entrega contínua</strong>: Com o versionamento de código, é possível automatizar a entrega contínua (CD), onde as mudanças são automaticamente implantadas em ambientes de produção após passarem por testes rigorosos. Isso acelera o ciclo de desenvolvimento e entrega de software. Por exemplo, uma equipe pode configurar um pipeline de CD que implanta automaticamente novas versões da aplicação em um ambiente de produção após a aprovação dos testes.</p>
+</li>
+</ul>
+<p>Esses benefícios mostram como o versionamento de código é uma prática indispensável para a implementação bem-sucedida do DevOps, promovendo um desenvolvimento mais ágil, colaborativo e seguro.</p>
+<h3 id="praticas-de-versionamento">Práticas de versionamento<a class="headerlink" href="#praticas-de-versionamento" title="Permanent link">&para;</a></h3>
+<details class="note">
+<summary>Nota importante sobre Git</summary>
+<p>Aqui, estou considerando que você já conheça o Git. Caso ainda não tenha familiaridade com a ferramenta, sugiro buscar algum material para estudo.</p>
+<p>Para mais detalhes, veja esse <a href="../git-basico/">material </a>, com algumas dicas iniciais de Git.</p>
+</details>
+<p>Existem várias práticas e convenções que podem ser adotadas para facilitar o versionamento de código e a colaboração entre desenvolvedores. Alguns dos conceitos mais comuns incluem:</p>
+<ul>
+<li>
+<p><strong>Branches</strong>: Dividir o código em branches (ramificações) separadas para desenvolver funcionalidades ou correções de bugs isoladamente. Por exemplo, uma equipe pode criar um branch <code>feature/nova-funcionalidade</code> para implementar uma nova funcionalidade sem interferir no código principal.</p>
+</li>
+<li>
+<p><strong>Merges</strong>: Integrar as mudanças de um branch para outro, geralmente usando pull requests. Por exemplo, após concluir o desenvolvimento de uma funcionalidade em um branch de feature, a equipe pode abrir um pull request para mesclar as mudanças no branch principal.</p>
+</li>
+<li>
+<p><strong>Conventional Commits</strong>: Adotar uma convenção de mensagens de commit padronizada para facilitar a compreensão do histórico de mudanças. Por exemplo, prefixar as mensagens de commit com palavras-chave como <code>feat</code>, <code>fix</code>, <code>chore</code>, <code>docs</code>, <code>style</code>, <code>refactor</code>, <code>test</code> ou <code>ci</code> para indicar o tipo de alteração realizada.</p>
+</li>
+<li>
+<p><strong>GitFlow</strong>: Seguir um modelo de branching como o GitFlow, que define um fluxo de trabalho com branches específicos para features, releases, hotfixes e versões. Por exemplo, o GitFlow propõe o uso de branches <code>feature/</code>, <code>release/</code>, <code>hotfix/</code> e <code>develop</code> para organizar o desenvolvimento de forma estruturada.</p>
+</li>
+</ul>
+<p>Essas práticas ajudam a manter o código organizado, facilitam a colaboração entre desenvolvedores e garantem a consistência do histórico de mudanças ao longo do tempo.</p>
+<h3 id="praticas-de-semver">Práticas de SemVer<a class="headerlink" href="#praticas-de-semver" title="Permanent link">&para;</a></h3>
+<p>O <a href="https://semver.org/">SemVer</a> (Semantic Versioning) é uma convenção de versionamento que define um padrão para atribuir versões a um software com base nas mudanças realizadas. O SemVer é composto por três números separados por pontos: <code>MAJOR.MINOR.PATCH</code>.</p>
+<ul>
+<li><code>MAJOR</code>: incrementado quando são feitas alterações incompatíveis com versões anteriores.</li>
+<li><code>MINOR</code>: incrementado quando são adicionadas funcionalidades de forma retrocompatível.</li>
+<li><code>PATCH</code>: incrementado quando são feitas correções de bugs de forma retrocompatível.</li>
+</ul>
+<p>Um exemplo de uso do SemVer seria:</p>
+<ul>
+<li><code>1.2.3</code>: versão <code>1</code> (major), <code>2</code> (minor) e <code>3</code> (patch).</li>
+</ul>
+<p>Essa convenção facilita a comunicação entre desenvolvedores, usuários e ferramentas, permitindo que todos entendam o impacto das mudanças em uma nova versão do software. Por exemplo, ao seguir o SemVer, os usuários podem saber se uma atualização contém apenas correções de bugs (<code>PATCH</code>), novas funcionalidades (<code>MINOR</code>) ou mudanças incompatíveis (<code>MAJOR</code>). No caso de uma API pública, por exemplo, sabe-se que houver uma alteração no <code>MAJOR</code>, a API foi modificada de forma incompatível com a versão anterior.</p>
+<h2 id="conventional-commits">Conventional Commits<a class="headerlink" href="#conventional-commits" title="Permanent link">&para;</a></h2>
+<p>O Conventional Commits é uma convenção de mensagens de commit padronizada que facilita a compreensão do histórico de mudanças em um repositório de código. Essa convenção define um formato consistente para as mensagens de commit, permitindo que desenvolvedores e ferramentas identifiquem rapidamente o tipo de alteração realizada.</p>
+<p>Um bom local de consulta é o <a href="https://www.conventionalcommits.org/">site oficial do Conventional Commits</a>, que fornece informações detalhadas sobre a convenção, exemplos de mensagens de commit e recomendações de uso. Ele é mantido pela comunidade e é uma referência útil para quem deseja adotar a convenção em seus projetos. O projeto foi inspirado em outras convenções de mensagens de commit, em especial o Angular Commit Message Guidelines.</p>
+<p>Em linhas gerais, as mensagens de commit seguem um padrão predefinido, que inclui um prefixo indicando o tipo de alteração realizada, seguido de um título descritivo. Alguns dos prefixos mais comuns incluem:</p>
+<ul>
+<li><code>feat</code>: Para novas funcionalidades ou melhorias</li>
+<li><code>fix</code>: Para correções de bugs</li>
+<li><code>chore</code>: Para tarefas de manutenção ou refatoração</li>
+<li><code>docs</code>: Para alterações na documentação</li>
+<li><code>style</code>: Para alterações de estilo ou formatação</li>
+<li><code>refactor</code>: Para refatorações de código</li>
+<li><code>test</code>: Para adições ou alterações em testes</li>
+<li><code>ci</code>: Para alterações em configurações de CI/CD</li>
+</ul>
+<p>Por exemplo, uma mensagem de commit seguindo a convenção Conventional Commits pode ser:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>feat: adiciona funcionalidade de login
+</span></code></pre></div>
+<p>Essa mensagem indica que o commit adiciona uma nova funcionalidade de login ao projeto. Ao seguir essa convenção, os desenvolvedores podem facilmente identificar o propósito de cada commit e entender as mudanças realizadas ao longo do tempo.</p>
+<p>Além disso, ferramentas de automação, como linters e geradores de changelog, podem ser configuradas para analisar as mensagens de commit e gerar informações úteis, como logs de alterações e notas de versão automaticamente.</p>
+<p>A adoção do Conventional Commits é uma prática recomendada para equipes que buscam manter um histórico de mudanças claro e organizado, facilitando a colaboração e a revisão de código.</p>
+<h3 id="ferramentas-para-auxiliar-no-cumprimento-da-convencao">Ferramentas para auxiliar no cumprimento da convenção<a class="headerlink" href="#ferramentas-para-auxiliar-no-cumprimento-da-convencao" title="Permanent link">&para;</a></h3>
+<p>Para facilitar o uso do Conventional Commits, você pode instalar extensões no Visual Studio Code que fornecem suporte para a convenção. Essas extensões ajudam a formatar as mensagens de commit de acordo com a convenção, garantindo consistência e facilitando a leitura do histórico de mudanças.</p>
+<p>Uma extensão popular para o Visual Studio Code é o <a href="https://marketplace.visualstudio.com/items?itemName=vivaxy.vscode-conventional-commits">Conventional Commits</a>, que fornece recursos como autocompletar, validação e formatação das mensagens de commit de acordo com a convenção.</p>
+<p>Caso você não tenha interesse em fazer os commits dentro do VS Code, você pode utilizar ferramentas como o <a href="https://commitizen.github.io/cz-cli/">Commitizen</a> para auxiliar na criação de mensagens de commit seguindo a convenção. O Commitizen é uma ferramenta de linha de comando que fornece um assistente interativo para criar mensagens de commit padronizadas.</p>
+<p>Ainda, é possível utilizar ferramentas como o Commitlint e o Husky para validar as mensagens de commit automaticamente durante o processo de commit, garantindo que todas as mensagens sigam a convenção corretamente.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar para o topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Rodapé" >
+        
+        
+          
+          <a href="../collaboration/" class="md-footer__link md-footer__link--next" aria-label="Próximo: Gestão de repositórios e colaboração">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Próximo
+              </span>
+              <div class="md-ellipsis">
+                Gestão de repositórios e colaboração
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 Eduardo da Silva
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["announce.dismiss", "content.code.annotate", "content.code.copy", "content.code.select", "content.tooltips", "navigation.footer", "navigation.indexes", "navigation.instant.progress", "navigation.sections", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  </body>
+</html>
