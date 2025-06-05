@@ -76,6 +76,8 @@ Existem várias ferramentas populares que suportam a prática de IaC, incluindo:
 
 - **Pulumi**: Uma plataforma que permite definir a infraestrutura usando linguagens de programação convencionais, como JavaScript, TypeScript e Python.
 
+--8<-- "docs/iac/packer-vagrant-virtualbox.md"
+
 ## Conclusão
 
 A Infraestrutura como Código (IaC) é uma prática essencial para equipes de DevOps que buscam aumentar a eficiência, reduzir erros e melhorar a colaboração. Ao tratar a infraestrutura como código, as organizações podem aproveitar os benefícios da automação, reproduzibilidade e versionamento, tornando-se mais ágeis e responsivas às necessidades de negócios em constante mudança.
