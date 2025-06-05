@@ -46,6 +46,14 @@ Vamos fazer um laboratório de integração do Packer com o Vagrant e o VirtualB
 
     Nesse caso estamos utilizando o HCL (HashiCorp Configuration Language) para definir a configuração do Packer. O arquivo especifica os plugins necessários, como o VirtualBox e o Vagrant. Os plugins são responsáveis por fornecer suporte a diferentes provedores de virtualização e ferramentas de provisionamento. Mais informações sobre o HCL podem ser encontradas na [documentação do Packer](https://developer.hashicorp.com/packer/integrations).
 
+    Você precisar agora inicializar o projeto Packer e instalar o plugins registrados. Para isso, execute os seguintes comandos:
+
+    ```bash
+    packer init .
+    packer install plugin github.com/hashicorp/virtualbox
+    packer install plugin github.com/hashicorp/vagrant
+    ```
+
 3.  **Crie um arquivo de configuração do Packer**
 
     Crie um arquivo chamado `debian.json` com o seguinte conteúdo:
