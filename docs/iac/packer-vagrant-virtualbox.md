@@ -202,14 +202,32 @@ Vamos fazer um laboratório de integração do Packer com o Vagrant e o VirtualB
 
     d-i pkgsel/run_tasksel boolean false
     d-i pkgsel/include string openssh-server build-essential
-    d-i pkgsel/include string sudo curl vim net-tools ssh
+    d-i pkgsel/include string sudo curl vim net-tools ssh lynx ansible
 
     d-i pkgsel/upgrade select full-upgrade
     ```
 
-5.  **Crie o arquivo de configuração do Vagrant**:
+5.  **Crie o arquivo de imagem**
 
-    Crie um arquivo chamaddo `Vagrantfile`, com seguinte conteúdo:
+    Execute o seguinte comando para criar a sua imagem:
+
+    ```bash
+    packer build debian.json
+    ```
+
+6.  Adicione a imagem criada ao Vagrant
+
+    Após a criação da imagem, você pode adicionar a imagem ao Vagrant usando o seguinte comando:
+
+    ```bash
+    vagrant box add debian12 debian12.box
+    ```
+
+    Isso registrará a imagem `debian12.box` no Vagrant, permitindo que você crie máquinas virtuais a partir dela.
+
+7.  **Crie o arquivo de configuração do Vagrant**:
+
+    Crie um arquivo chamado `Vagrantfile`, com seguinte conteúdo:
 
     ```cfg
     Vagrant.configure("2") do |config|
@@ -224,15 +242,26 @@ Vamos fazer um laboratório de integração do Packer com o Vagrant e o VirtualB
     end
     ```
 
-6.  **Crie o arquivo de imagem**
+    Caso você queira, por exemplo, levantar três máquinas virtuais, você pode modificar o arquivo `Vagrantfile` para incluir múltiplas máquinas. Veja um exemplo:
 
-    Execute o seguinte comando para criar a sua imagem:
-
-    ```bash
-    packer build debian.json
+    ```cfg
+    Vagrant.configure("2") do |config|
+      (1..3).each do |i|
+        config.vm.define "debian#{i}" do |machine|
+          machine.vm.box = "debian12"
+          machine.vm.network "public_network", bridge: "enp2s0"
+          machine.vm.provider "virtualbox" do |vb|
+            vb.memory = "2048"
+            vb.cpus = 2
+          end
+        end
+      end
+    end
     ```
 
-7.  **Use o seu ambiente com o vagrant**
+    Nesse exemplo, estamos criando três máquinas virtuais chamadas `debian1`, `debian2` e `debian3`, todas com as mesmas configurações de rede e recursos.
+
+8.  **Use o seu ambiente com o vagrant**
 
     Para usar o ambiente criado execute:
 

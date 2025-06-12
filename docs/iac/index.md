@@ -77,6 +77,7 @@ Existem várias ferramentas populares que suportam a prática de IaC, incluindo:
 - **Pulumi**: Uma plataforma que permite definir a infraestrutura usando linguagens de programação convencionais, como JavaScript, TypeScript e Python.
 
 --8<-- "docs/iac/packer-vagrant-virtualbox.md"
+--8<-- "docs/iac/lab-ansible.md"
 
 ## Conclusão
 
