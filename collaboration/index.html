@@ -1,0 +1,1162 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Eduardo da Silva">
+      
+      
+        <link rel="canonical" href="https://eduardo-da-silva.github.io/fundamentos-devops/collaboration/">
+      
+      
+        <link rel="prev" href="../intro/">
+      
+      
+        <link rel="next" href="../ci/">
+      
+      
+      <link rel="icon" href="../images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Gestão de repositórios e colaboração - Fundamentos de DevOps</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#gestao-de-repositorios-e-colaboracao" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href=".." title="Fundamentos de DevOps" class="md-header__button md-logo" aria-label="Fundamentos de DevOps" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Fundamentos de DevOps
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Gestão de repositórios e colaboração
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Compartilhar" aria-label="Compartilhar" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/eduardo-da-silva/fundamentos-devops" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    eduardo-da-silva/fundamentos-devops
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Fundamentos de DevOps" class="md-nav__button md-logo" aria-label="Fundamentos de DevOps" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Fundamentos de DevOps
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/eduardo-da-silva/fundamentos-devops" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    eduardo-da-silva/fundamentos-devops
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introdução
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Gestão de repositórios e colaboração
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Gestão de repositórios e colaboração
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#repositorios-remotos-e-locais" class="md-nav__link">
+    <span class="md-ellipsis">
+      Repositórios Remotos e locais
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plataformas-git" class="md-nav__link">
+    <span class="md-ellipsis">
+      Plataformas Git
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Plataformas Git">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#github" class="md-nav__link">
+    <span class="md-ellipsis">
+      GitHub
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gitlab" class="md-nav__link">
+    <span class="md-ellipsis">
+      GitLab
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bitbucket" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bitbucket
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#revisao-das-plataformas-git" class="md-nav__link">
+    <span class="md-ellipsis">
+      Revisão das plataformas Git
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estrategias-de-branching" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estratégias de Branching
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Estratégias de Branching">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#resolucao-de-conflitos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resolução de Conflitos
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gitflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      GitFlow
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pull-requests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pull Requests
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pull Requests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#por-que-usar-pull-requests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Por que usar pull requests?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#como-criar-um-pull-request" class="md-nav__link">
+    <span class="md-ellipsis">
+      Como criar um pull request
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#code-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      Code Review
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Code Review">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#beneficios-do-code-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      Benefícios do code review
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#boas-praticas-de-code-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      Boas práticas de code review
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#projeto-em-grupo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Projeto em grupo
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ci/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Integração Contínua
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../containers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Contêineres
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Docker
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../orquestracao/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Orquestração
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Entrega Contínua
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../iac/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Infraestrutura como Código
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#repositorios-remotos-e-locais" class="md-nav__link">
+    <span class="md-ellipsis">
+      Repositórios Remotos e locais
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plataformas-git" class="md-nav__link">
+    <span class="md-ellipsis">
+      Plataformas Git
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Plataformas Git">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#github" class="md-nav__link">
+    <span class="md-ellipsis">
+      GitHub
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gitlab" class="md-nav__link">
+    <span class="md-ellipsis">
+      GitLab
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bitbucket" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bitbucket
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#revisao-das-plataformas-git" class="md-nav__link">
+    <span class="md-ellipsis">
+      Revisão das plataformas Git
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estrategias-de-branching" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estratégias de Branching
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Estratégias de Branching">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#resolucao-de-conflitos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resolução de Conflitos
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gitflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      GitFlow
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pull-requests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pull Requests
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pull Requests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#por-que-usar-pull-requests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Por que usar pull requests?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#como-criar-um-pull-request" class="md-nav__link">
+    <span class="md-ellipsis">
+      Como criar um pull request
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#code-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      Code Review
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Code Review">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#beneficios-do-code-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      Benefícios do code review
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#boas-praticas-de-code-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      Boas práticas de code review
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#projeto-em-grupo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Projeto em grupo
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="gestao-de-repositorios-e-colaboracao">Gestão de Repositórios e Colaboração<a class="headerlink" href="#gestao-de-repositorios-e-colaboracao" title="Permanent link">&para;</a></h1>
+<p>Nesta etapa do curso, vamos explorar as práticas de gestão de repositórios e colaboração em equipe. Vamos abordar o uso de plataformas como GitHub e GitLab, as funcionalidades disponíveis, boas práticas de colaboração, pull requests, code review e estratégias de branching.</p>
+<p>Num projeto Git, a colaboração eficiente é essencial para o sucesso do desenvolvimento de software. Através de ferramentas e práticas adequadas, é possível organizar o trabalho em equipe, revisar e integrar as alterações de forma eficiente, garantindo a qualidade do código e a produtividade da equipe.</p>
+<p>Inicialmente, é importante resgatar alguns conceitos importantes, entre eles: repositórios remotos e locais, branches, pull requests e code review. Esses elementos são fundamentais para a colaboração em equipe e para a organização do desenvolvimento de software.</p>
+<h2 id="repositorios-remotos-e-locais">Repositórios Remotos e locais<a class="headerlink" href="#repositorios-remotos-e-locais" title="Permanent link">&para;</a></h2>
+<p>Os repositórios remotos são versões do seu projeto que estão hospedadas em servidores remotos, como GitHub, GitLab ou Bitbucket. Eles permitem que você compartilhe seu código com outras pessoas e acesse-o de qualquer lugar. Além disso, os repositórios remotos são essenciais para a colaboração em equipe, pois permitem que vários desenvolvedores trabalhem no mesmo projeto simultaneamente.</p>
+<p>Eles diferem dos repositórios locais, que estão armazenados em sua máquina e são acessíveis apenas localmente. Ao trabalhar em um projeto colaborativo, é comum que cada desenvolvedor tenha uma cópia do repositório remoto em sua máquina local, onde eles podem fazer alterações e contribuições.</p>
+<p>Em linhas gerais, a relação entre repositórios remotos e locais é bidirecional: você pode clonar um repositório remoto para sua máquina local, fazer alterações e enviá-las de volta para o repositório remoto. Da mesma forma, você pode baixar as alterações feitas por outros desenvolvedores no repositório remoto para sua máquina local.</p>
+<h2 id="plataformas-git">Plataformas Git<a class="headerlink" href="#plataformas-git" title="Permanent link">&para;</a></h2>
+<p>O Git é uma ferramenta poderosa para o controle de versão de código-fonte, mas para colaborar efetivamente em projetos de software, é necessário uma plataforma de hospedagem de repositórios Git. Ao usar uma plataforma Git, os desenvolvedores podem compartilhar, revisar e colaborar em projetos de forma eficiente, além de acessar recursos adicionais, como integração contínua, controle de acesso e gerenciamento de tarefas.</p>
+<p>Existem várias plataformas populares para hospedagem de repositórios Git, cada uma com suas próprias características e funcionalidades. Algumas das plataformas mais conhecidas são:</p>
+<ul>
+<li><strong>GitHub</strong>: Uma das plataformas mais populares para hospedagem de repositórios Git, o GitHub oferece uma ampla gama de recursos para colaboração em projetos de código aberto e privados. Ele é amplamente utilizado pela comunidade de desenvolvedores e empresas de tecnologia.</li>
+<li><strong>GitLab</strong>: O GitLab é uma plataforma de desenvolvimento de software completa, que inclui recursos de controle de versão, integração contínua, gerenciamento de tarefas e muito mais. Ele é conhecido por sua flexibilidade e por oferecer uma versão de código aberto que pode ser instalada em servidores locais.</li>
+<li><strong>Bitbucket</strong>: O Bitbucket é uma plataforma de hospedagem de repositórios Git da Atlassian, que oferece suporte para projetos de código aberto e privados. Ele é conhecido por sua integração com outras ferramentas da Atlassian, como Jira e Confluence.</li>
+</ul>
+<p>Essas três plataformas apresentadas possuem diversos recursos gratuitos e pagos, sendo amplamente utilizadas pela comunidade de desenvolvedores para hospedar projetos de software e colaborar em equipe. Cada uma delas tem suas vantagens e características específicas, o que pode influenciar na escolha da plataforma mais adequada para um determinado projeto ou equipe de desenvolvimento.</p>
+<h3 id="github">GitHub<a class="headerlink" href="#github" title="Permanent link">&para;</a></h3>
+<p>O GitHub foi criado em 2008 por Chris Wanstrath, PJ Hyett e Tom Preston-Werner e é uma das plataformas mais populares para hospedagem de repositórios Git. Depois de sua criação, o GitHub cresceu rapidamente e se tornou uma das maiores comunidades de desenvolvedores do mundo, com milhões de repositórios públicos e privados hospedados em sua plataforma. Em 2018, o GitHub foi adquirido pela Microsoft, que além de manter a plataforma, tem investido em melhorias e integrações com outros produtos da empresa.</p>
+<p>Alguns dos principais recursos do GitHub incluem:</p>
+<ul>
+<li><strong>Repositórios públicos e privados</strong>: O GitHub permite hospedar repositórios públicos gratuitamente, que podem ser acessados por qualquer pessoa. Além disso, ele oferece planos pagos para repositórios privados, que são ideais para projetos comerciais ou proprietários.</li>
+<li><strong>Issues e projetos</strong>: O GitHub oferece recursos avançados para gerenciamento de tarefas, como issues e projetos, que permitem que as equipes organizem e priorizem o trabalho de forma eficiente.</li>
+<li><strong>Pull requests e code review</strong>: Os pull requests são uma forma estruturada de colaboração em projetos Git, permitindo que os desenvolvedores revisem, discutam e integrem as alterações de forma coordenada.</li>
+<li><strong>Integração contínua</strong>: O GitHub Actions é uma ferramenta de integração contínua integrada ao GitHub, que permite automatizar tarefas de build, testes e implantação diretamente nos repositórios.</li>
+<li><strong>Comunidade e colaboração</strong>: O GitHub é conhecido por sua ampla comunidade de desenvolvedores, que compartilham projetos de código aberto, contribuem com projetos existentes e colaboram em equipe de forma eficiente.</li>
+</ul>
+<h3 id="gitlab">GitLab<a class="headerlink" href="#gitlab" title="Permanent link">&para;</a></h3>
+<p>O GitLab é uma plataforma de desenvolvimento de software completa, que oferece recursos de controle de versão, integração contínua, gerenciamento de tarefas e muito mais. Ele foi criado em 2011 por Dmitriy Zaporozhets e Valery Sizov e se tornou uma alternativa popular ao GitHub, especialmente para equipes que buscam uma solução completa para o ciclo de vida do desenvolvimento de software.</p>
+<p>Alguns dos principais recursos do GitLab incluem:</p>
+<ul>
+<li><strong>Repositórios públicos e privados</strong>: O GitLab oferece suporte para repositórios públicos e privados, com recursos avançados de controle de acesso e segurança.</li>
+<li><strong>Integração contínua</strong>: O GitLab CI/CD é uma ferramenta de integração contínua integrada ao GitLab, que permite automatizar tarefas de build, testes e implantação diretamente nos repositórios.</li>
+<li><strong>Gerenciamento de tarefas</strong>: O GitLab oferece recursos avançados para gerenciamento de tarefas, como issues, epics e roadmaps, que permitem que as equipes organizem e priorizem o trabalho de forma eficiente.</li>
+<li><strong>Code review e merge requests</strong>: O GitLab oferece recursos avançados para code review e merge requests, que permitem que as equipes revisem, discutam e integrem as alterações de forma coordenada.</li>
+<li><strong>Automação e personalização</strong>: O GitLab é conhecido por sua flexibilidade e capacidade de automação, permitindo que as equipes personalizem seus processos de desenvolvimento de acordo com suas necessidades.</li>
+</ul>
+<p>Outra característica do GitLab é que ele permite a instalação em servidores locais, o que é ideal para empresas que desejam manter o controle sobre seus dados e processos de desenvolvimento. Além disso, o GitLab oferece uma versão de código aberto, o GitLab Community Edition, que pode ser usada gratuitamente por equipes de desenvolvimento.</p>
+<h3 id="bitbucket">Bitbucket<a class="headerlink" href="#bitbucket" title="Permanent link">&para;</a></h3>
+<p>O Bitbucket é uma plataforma de hospedagem de repositórios Git da Atlassian, que oferece suporte para projetos de código aberto e privados. Ele foi criado em 2008 e adquirido pela Atlassian em 2010, tornando-se parte do portfólio de ferramentas de desenvolvimento da empresa, que inclui o Jira, Confluence e Trello.</p>
+<p>Alguns dos principais recursos do Bitbucket incluem:</p>
+<ul>
+<li><strong>Repositórios públicos e privados</strong>: O Bitbucket oferece suporte para repositórios públicos e privados, com recursos avançados de controle de acesso e segurança.</li>
+<li><strong>Integração com outras ferramentas da Atlassian</strong>: O Bitbucket é integrado com outras ferramentas da Atlassian, como Jira e Confluence, permitindo uma integração contínua entre o controle de versão, gerenciamento de tarefas e documentação.</li>
+<li><strong>Code review e pull requests</strong>: O Bitbucket oferece recursos avançados para code review e pull requests, que permitem que as equipes revisem, discutam e integrem as alterações de forma coordenada.</li>
+<li><strong>Integração contínua</strong>: O Bitbucket Pipelines é uma ferramenta de integração contínua integrada ao Bitbucket, que permite automatizar tarefas de build, testes e implantação diretamente nos repositórios.</li>
+</ul>
+<p>O Bitbucket é uma opção popular para equipes que já utilizam outras ferramentas da Atlassian, como o Jira e Confluence, pois oferece uma integração nativa entre essas ferramentas. Além disso, o Bitbucket oferece planos gratuitos e pagos, com recursos avançados para equipes de desenvolvimento de todos os tamanhos.</p>
+<h3 id="revisao-das-plataformas-git">Revisão das plataformas Git<a class="headerlink" href="#revisao-das-plataformas-git" title="Permanent link">&para;</a></h3>
+<p>As plataformas Git, como GitHub, GitLab e Bitbucket, desempenham um papel fundamental na colaboração eficiente em projetos de software. Elas oferecem recursos avançados para gerenciamento de repositórios, controle de versão, integração contínua e colaboração em equipe, permitindo que os desenvolvedores trabalhem de forma coordenada e produtiva.</p>
+<p>Existem ainda outras plataformas de hospedagem de repositórios Git disponíveis no mercado, cada uma com suas próprias características e funcionalidades. A escolha da plataforma mais adequada para um projeto ou equipe de desenvolvimento depende de vários fatores, como o tamanho da equipe, o tipo de projeto, os recursos necessários e as preferências dos desenvolvedores.</p>
+<p>Independentemente da plataforma escolhida, é importante que as equipes adotem boas práticas de colaboração, como o uso de pull requests, code review e integração contínua, para garantir a qualidade do código, a eficiência do desenvolvimento e a produtividade da equipe.</p>
+<h2 id="estrategias-de-branching">Estratégias de Branching<a class="headerlink" href="#estrategias-de-branching" title="Permanent link">&para;</a></h2>
+<p>O uso de branches (ramificações) é uma prática comum no versionamento de código que permite que os desenvolvedores trabalhem em funcionalidades ou correções de bugs isoladamente, sem interferir no código principal. Cada branch representa uma linha de desenvolvimento separada, que pode ser integrada ao branch principal (geralmente <code>main</code> ou <code>master</code>) por meio de merges.</p>
+<p>Os branches são úteis para organizar o trabalho em equipe, facilitar a revisão de código e manter um histórico claro das alterações realizadas. Por exemplo, uma equipe de desenvolvimento pode criar branches específicos para cada funcionalidade ou tarefa, como <code>feature/nova-funcionalidade</code> ou <code>bugfix/correcao-bug</code>.</p>
+<p>Após concluir o desenvolvimento em um branch, é comum realizar um merge para integrar as mudanças no branch principal. O merge é o processo de combinar as alterações de um branch em outro, garantindo que o código seja atualizado e os conflitos sejam resolvidos corretamente.</p>
+<h3 id="resolucao-de-conflitos">Resolução de Conflitos<a class="headerlink" href="#resolucao-de-conflitos" title="Permanent link">&para;</a></h3>
+<p>Durante o merge, podem ocorrer conflitos quando duas ou mais alterações entram em conflito, ou seja, modificam a mesma parte do código. Nesses casos, é necessário resolver os conflitos manualmente, escolhendo qual versão do código deve ser mantida.</p>
+<p>As ferramentas de versionamento, como Git, oferecem suporte para resolver conflitos de forma eficiente, permitindo que os desenvolvedores comparem as versões do código, escolham as alterações desejadas e finalizem o merge com sucesso.</p>
+<p>A resolução de conflitos é uma etapa importante no processo de desenvolvimento colaborativo, pois garante que as mudanças sejam integradas corretamente e que o código seja mantido consistente ao longo do tempo.</p>
+<h3 id="gitflow">GitFlow<a class="headerlink" href="#gitflow" title="Permanent link">&para;</a></h3>
+<p>O GitFlow é um modelo de branching amplamente utilizado que define um fluxo de trabalho com branches específicos para features, releases, hotfixes e versões. Ele propõe a utilização de branches como <code>feature/</code>, <code>release/</code>, <code>hotfix/</code> e <code>develop</code> para organizar o desenvolvimento de forma estruturada e facilitar a colaboração em equipe.</p>
+<p>O GitFlow é baseado em algumas premissas fundamentais:</p>
+<ul>
+<li><code>master</code>: Branch principal que contém o código em produção.</li>
+<li><code>develop</code>: Branch de desenvolvimento contínuo, onde as features são integradas.</li>
+<li><code>feature/</code>: Branches para o desenvolvimento de novas funcionalidades.</li>
+<li><code>release/</code>: Branches para preparar novas versões para produção.</li>
+<li><code>hotfix/</code>: Branches para corrigir bugs críticos em produção.</li>
+</ul>
+<p>O GitFlow é uma estratégia eficaz para organizar o desenvolvimento de software, facilitar a colaboração em equipe e manter um histórico claro das alterações realizadas.</p>
+<p>Para implementar o GitFlow existe um aplicativo, chamado git-flow, que facilita a utilização dessa estratégia.</p>
+<p>Por exemplo, usando o git-flow, você pode criar um novo branch de feature com o comando:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git<span class="w"> </span>flow<span class="w"> </span>feature<span class="w"> </span>start<span class="w"> </span>nova-funcionalidade
+</span></code></pre></div>
+<p>E finalizar a feature com o comando:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>git<span class="w"> </span>flow<span class="w"> </span>feature<span class="w"> </span>finish<span class="w"> </span>nova-funcionalidade
+</span></code></pre></div>
+<p>O git-flow automatiza o processo de criação e finalização de branches, facilitando o uso do GitFlow em projetos de desenvolvimento de software.</p>
+<p>Contudo, nem sempre é necessário usar essa ferramenta, pois o GitFlow pode ser implementado manualmente, sem a necessidade de uma ferramenta específica. O que importa é seguir o fluxo de trabalho proposto pelo GitFlow para organizar o desenvolvimento de forma eficiente.</p>
+<p>Existem outras estratégias de branching, como o trunk-based development, que propõem abordagens diferentes para organizar o desenvolvimento de software. Cada equipe pode escolher a estratégia que melhor se adapta às suas necessidades e ao seu fluxo de trabalho.</p>
+<h2 id="pull-requests">Pull Requests<a class="headerlink" href="#pull-requests" title="Permanent link">&para;</a></h2>
+<p>Os pull requests (ou solicitações de pull) são uma forma de colaboração em projetos Git, em que um desenvolvedor propõe as alterações feitas em um branch para serem mescladas no branch principal (ou outra branch). Eles são comumente usados em projetos colaborativos para revisar, discutir e integrar as alterações de forma estruturada.</p>
+<p>Ao abrir um pull request, o desenvolvedor pode descrever as alterações feitas, mencionar outros colaboradores, solicitar revisões e discutir os detalhes das mudanças. Isso permite que a equipe revise o código, faça comentários, sugira melhorias e aprove as alterações antes de serem mescladas no código principal.</p>
+<h3 id="por-que-usar-pull-requests">Por que usar pull requests?<a class="headerlink" href="#por-que-usar-pull-requests" title="Permanent link">&para;</a></h3>
+<p>Os pull requests são uma prática recomendada para colaboração em projetos Git por vários motivos:</p>
+<ul>
+<li><strong>Revisão de código</strong>: Os pull requests permitem que os desenvolvedores revisem o código de seus colegas, façam comentários, sugiram melhorias e identifiquem possíveis problemas antes de mesclar as alterações no código principal. Isso ajuda a garantir a qualidade do código e a identificar bugs precocemente.</li>
+<li><strong>Colaboração estruturada</strong>: Ao abrir um pull request, os desenvolvedores podem descrever as alterações feitas, mencionar outros colaboradores, solicitar revisões e discutir os detalhes das mudanças. Isso promove uma colaboração mais estruturada e eficiente entre os membros da equipe.</li>
+<li><strong>Histórico de alterações</strong>: Os pull requests mantêm um registro detalhado das alterações feitas no código, incluindo quem fez as alterações, quando foram feitas e quais foram as discussões realizadas. Isso é útil para auditorias, para entender o contexto das mudanças e para rastrear a evolução do código ao longo do tempo.</li>
+<li><strong>Integração contínua</strong>: Os pull requests são uma parte fundamental da integração contínua (CI), onde o código é frequentemente integrado e testado automaticamente. Ferramentas como GitHub Actions e GitLab CI/CD permitem configurar pipelines de CI que automatizam a verificação das alterações propostas antes de serem mescladas no código principal.</li>
+</ul>
+<h3 id="como-criar-um-pull-request">Como criar um pull request<a class="headerlink" href="#como-criar-um-pull-request" title="Permanent link">&para;</a></h3>
+<p>Para criar um pull request, siga os seguintes passos:</p>
+<ol>
+<li><strong>Crie um branch</strong>: Antes de abrir um pull request, crie um branch a partir do branch principal (geralmente <code>main</code> ou <code>master) para desenvolver suas alterações. Por exemplo, você pode criar um branch</code>feature/nova-funcionalidade` para implementar uma nova funcionalidade.</li>
+<li><strong>Faça as alterações</strong>: Faça as alterações desejadas no seu branch, adicione, modifique ou remova arquivos conforme necessário.</li>
+<li><strong>Commit e push</strong>: Após fazer as alterações, faça commits locais e envie as alterações para o repositório remoto usando <code>git push</code>.</li>
+<li><strong>Abra o pull request</strong>: No GitHub ou GitLab, vá até a página do repositório, clique no botão "New pull request" e selecione o branch que contém as alterações que você deseja mesclar.</li>
+<li><strong>Descreva as alterações</strong>: Escreva uma descrição detalhada das alterações feitas, mencione outros colaboradores, solicite revisões e discuta os detalhes das mudanças.</li>
+<li><strong>Solicite revisões</strong>: Se desejar, solicite revisões de outros colaboradores para revisar o código, fazer comentários e sugerir melhorias.</li>
+<li><strong>Aguarde a aprovação</strong>: Aguarde a revisão e a aprovação dos colaboradores antes de mesclar as alterações no código principal.</li>
+<li><strong>Resolva os comentários</strong>: Caso haja comentários ou sugestões de melhorias, faça as alterações necessárias e atualize o pull request.</li>
+<li><strong>Mescle as alterações</strong>: Após a aprovação e resolução dos comentários, mescle as alterações no branch principal clicando no botão "Merge pull request".</li>
+</ol>
+<p>Alguns times de desenvolvimento podem ter regras específicas para a abertura e aprovação de pull requests, como a obrigatoriedade de revisão por pares, a execução de testes automatizados ou a integração com ferramentas de CI/CD. Certifique-se de seguir as práticas adotadas pela sua equipe ao criar e revisar pull requests.</p>
+<p>Um estratégia muito comum é delimitar qual usuário pode fazer o merge do pull request, evitando que o próprio autor do pull request faça o merge, garantindo assim uma revisão por pares.</p>
+<h2 id="code-review">Code Review<a class="headerlink" href="#code-review" title="Permanent link">&para;</a></h2>
+<p>O code review (ou revisão de código) é uma prática essencial para garantir a qualidade do código, identificar possíveis problemas e promover a colaboração em equipe. Durante o code review, os desenvolvedores revisam o código de seus colegas, fazem comentários, sugerem melhorias e verificam se as boas práticas de desenvolvimento foram seguidas.</p>
+<p>Em geral, o code review é realizado por meio de ferramentas de controle de versão, como GitHub e GitLab, que permitem que os desenvolvedores visualizem as alterações, façam comentários linha a linha e discutam as mudanças propostas. Essa prática ajuda a identificar bugs, melhorar a legibilidade do código e promover a troca de conhecimento entre os membros da equipe.</p>
+<p>Na prática, em equipes bem organizadas, o code review é uma etapa obrigatória antes de mesclar as alterações em um projeto. Ele garante que o código seja revisado por pares, que possíveis problemas sejam identificados e que a qualidade do código seja mantida ao longo do tempo.</p>
+<h3 id="beneficios-do-code-review">Benefícios do code review<a class="headerlink" href="#beneficios-do-code-review" title="Permanent link">&para;</a></h3>
+<p>O code review traz diversos benefícios para equipes de desenvolvimento, incluindo:</p>
+<ul>
+<li><strong>Identificação de bugs</strong>: Durante o code review, os desenvolvedores podem identificar bugs, problemas de lógica e falhas de segurança no código antes que ele seja mesclado no projeto principal. Isso ajuda a garantir a qualidade do software e a reduzir o número de bugs em produção.</li>
+<li><strong>Melhoria da qualidade do código</strong>: O code review promove a troca de conhecimento entre os membros da equipe, permitindo que os desenvolvedores aprendam uns com os outros, compartilhem boas práticas e melhorem a qualidade do código. Comentários construtivos e sugestões de melhorias ajudam a elevar o nível técnico da equipe.</li>
+<li><strong>Conformidade com padrões e boas práticas</strong>: Durante o code review, os desenvolvedores podem verificar se o código segue os padrões de codificação, as boas práticas de desenvolvimento e as diretrizes do projeto. Isso ajuda a manter a consistência do código, facilita a manutenção e evita problemas futuros.</li>
+<li><strong>Aprendizado contínuo</strong>: O code review é uma oportunidade para os desenvolvedores aprenderem novas técnicas, ferramentas e abordagens de desenvolvimento. Ao revisar o código de seus colegas, os desenvolvedores podem expandir seu conhecimento e aprimorar suas habilidades técnicas.</li>
+<li><strong>Promoção da colaboração</strong>: O code review promove a colaboração e a comunicação entre os membros da equipe, criando um ambiente de trabalho mais colaborativo e produtivo. Comentários construtivos, sugestões de melhorias e discussões técnicas ajudam a fortalecer o trabalho em equipe.</li>
+</ul>
+<h3 id="boas-praticas-de-code-review">Boas práticas de code review<a class="headerlink" href="#boas-praticas-de-code-review" title="Permanent link">&para;</a></h3>
+<p>Para obter os melhores resultados com o code review, é importante seguir algumas boas práticas:</p>
+<ul>
+<li><strong>Seja construtivo</strong>: Ao fazer comentários no código de seus colegas, seja construtivo e respeitoso. Evite críticas negativas ou ataques pessoais e concentre-se em fornecer feedback útil e construtivo.</li>
+<li><strong>Seja específico</strong>: Ao identificar problemas ou sugerir melhorias, seja específico e forneça exemplos claros. Explique o motivo por trás das sugestões e forneça orientações sobre como corrigir os problemas.</li>
+<li><strong>Mantenha o foco</strong>: Durante o code review, mantenha o foco nos objetivos da revisão. Evite discutir questões não relacionadas ao código ou aprofundar-se em detalhes irrelevantes.</li>
+<li><strong>Respeite o tempo</strong>: Respeite o tempo dos seus colegas e evite sobrecarregá-los com revisões extensas ou desnecessárias. Priorize os comentários mais relevantes e úteis para melhorar o código.</li>
+<li><strong>Aprenda com o feedback</strong>: Encare o code review como uma oportunidade de aprendizado e crescimento. Esteja aberto a receber feedback, aprender com os comentários dos seus colegas e aprimorar suas habilidades técnicas.</li>
+</ul>
+<h2 id="projeto-em-grupo">Projeto em grupo<a class="headerlink" href="#projeto-em-grupo" title="Permanent link">&para;</a></h2>
+<p>A proposta é um projeto em grupo para desenvolver um Gerenciador de Tarefas Web simples, onde os usuários podem adicionar, editar e remover tarefas. O projeto deve ser feito em equipe no GitHub, seguindo boas práticas de versionamento e colaboração.</p>
+<p>O tema sugerido não é obrigatório, mas serve como ponto de partida para a prática de colaboração em equipe. Os alunos podem adaptar o projeto conforme desejarem, desde que sigam as diretrizes de versionamento e colaboração propostas.</p>
+<p><strong>Tecnologias sugeridas</strong></p>
+<ul>
+<li><strong>Backend</strong>: FastAPI, Django ou Node.js</li>
+<li><strong>Frontend</strong>: HTML, CSS, JavaScript (ou Vue.js, se quiserem algo mais avançado)</li>
+<li><strong>Banco de dados</strong>: SQLite ou PostgreSQL (opcional)</li>
+<li><strong>Ferramentas</strong>: GitHub para versionamento e colaboração</li>
+</ul>
+<p><strong>Organização da Equipe (4 pessoas)</strong></p>
+<p>No desenvolvimento do projeto não devem ser criados papeis fixos (documentador, testador, desenvolvedor backend ou frontend), mas sim que todos os membros participem de todas as etapas do desenvolvimento. A ideia é que todos aprendam e pratiquem as habilidades de versionamento e colaboração.</p>
+<p><strong>Tarefas que devem ser consideradas</strong></p>
+<ul>
+<li>
+<p><strong>Versionamento e Repositório</strong></p>
+</li>
+<li>
+<p>Configurar o repositório no GitHub.</p>
+</li>
+<li>Criar o README.md com a documentação inicial.</li>
+<li>
+<p>Definir a estrutura de pastas do projeto.</p>
+</li>
+<li>
+<p><strong>Backend</strong></p>
+</li>
+<li>
+<p>Criar uma API para gerenciar as tarefas (CRUD).</p>
+</li>
+<li>Criar os endpoints REST.</li>
+<li>
+<p>Documentar a API (Swagger ou Postman).</p>
+</li>
+<li>
+<p><strong>Frontend</strong></p>
+</li>
+<li>
+<p>Criar a interface web para interação com a API.</p>
+</li>
+<li>
+<p>Usar HTML/CSS e JavaScript para consumir os dados.</p>
+</li>
+<li>
+<p><strong>Integração e Revisão de Código</strong></p>
+</li>
+<li>Definir e aplicar Conventional Commits.</li>
+<li>Gerenciar pull requests e code reviews.</li>
+<li>Definir e aplicar estratégias de branching.</li>
+</ul>
+<p><strong>Requisitos do Projeto</strong></p>
+<ul>
+<li>Criar um repositório público no GitHub.</li>
+<li>Definir branches (main, develop, feature/*).</li>
+<li>Aplicar commits semânticos (Conventional Commits).</li>
+<li>Criar pull requests para cada nova funcionalidade.</li>
+<li>Implementar code review antes de mergear código.</li>
+<li>Criar um README.md explicando o projeto.</li>
+</ul>
+<p><strong>Como o trabalho será avaliado</strong></p>
+<ul>
+<li>Uso correto do Git e GitHub (branching, commits, PRs, code review).</li>
+<li>Organização do repositório (documentação, estrutura do projeto).</li>
+<li>Colaboração (todos os membros devem contribuir).</li>
+<li>Qualidade do código (boas práticas e estruturação).</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar para o topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Rodapé" >
+        
+          
+          <a href="../intro/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Introdução">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                Introdução
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../ci/" class="md-footer__link md-footer__link--next" aria-label="Próximo: Integração Contínua">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Próximo
+              </span>
+              <div class="md-ellipsis">
+                Integração Contínua
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 Eduardo da Silva
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["announce.dismiss", "content.code.annotate", "content.code.copy", "content.code.select", "content.tooltips", "navigation.footer", "navigation.indexes", "navigation.instant.progress", "navigation.sections", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  </body>
+</html>

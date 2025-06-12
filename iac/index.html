@@ -1,0 +1,1303 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Eduardo da Silva">
+      
+      
+        <link rel="canonical" href="https://eduardo-da-silva.github.io/fundamentos-devops/iac/">
+      
+      
+        <link rel="prev" href="../cd/">
+      
+      
+      
+      <link rel="icon" href="../images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Infraestrutura como Código - Fundamentos de DevOps</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#infraestrutura-como-codigo-iac" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href=".." title="Fundamentos de DevOps" class="md-header__button md-logo" aria-label="Fundamentos de DevOps" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Fundamentos de DevOps
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Infraestrutura como Código
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Compartilhar" aria-label="Compartilhar" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/eduardo-da-silva/fundamentos-devops" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    eduardo-da-silva/fundamentos-devops
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Fundamentos de DevOps" class="md-nav__button md-logo" aria-label="Fundamentos de DevOps" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Fundamentos de DevOps
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/eduardo-da-silva/fundamentos-devops" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    eduardo-da-silva/fundamentos-devops
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introdução
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../collaboration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Gestão de repositórios e colaboração
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ci/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Integração Contínua
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../containers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Contêineres
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Docker
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../orquestracao/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Orquestração
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Entrega Contínua
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Infraestrutura como Código
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Infraestrutura como Código
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#o-que-e-infraestrutura-como-codigo-iac" class="md-nav__link">
+    <span class="md-ellipsis">
+      O que é Infraestrutura como Código (IaC)?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#origens-da-iac" class="md-nav__link">
+    <span class="md-ellipsis">
+      Origens da IaC
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#beneficios-da-iac" class="md-nav__link">
+    <span class="md-ellipsis">
+      Benefícios da IaC
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limitacoes-da-iac" class="md-nav__link">
+    <span class="md-ellipsis">
+      Limitações da IaC
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#classificacao-da-iac-quanto-a-abordagem-de-implementacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Classificação da IaC quanto à abordagem de implementação
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tipos-de-ferramentas-de-iac" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tipos de ferramentas de IaC
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ferramentas-comuns-de-iac" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ferramentas Comuns de IaC
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#laboratorio-de-integracao-do-packer-vagrant-virtualbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      Laboratório de integração do Packer + Vagrant + VirtualBox
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Laboratório de integração do Packer + Vagrant + VirtualBox">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fundamentos-das-ferramentas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fundamentos das ferramentas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pre-requisitos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pré-requisitos
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#criando-uma-imagem-personalizada-com-o-packer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Criando uma imagem personalizada com o Packer
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#laboratorio-de-ansible" class="md-nav__link">
+    <span class="md-ellipsis">
+      Laboratório de Ansible
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Laboratório de Ansible">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-requisitos_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pré-requisitos
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#laboratorio-pratico" class="md-nav__link">
+    <span class="md-ellipsis">
+      Laboratório Prático
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conclusão
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#o-que-e-infraestrutura-como-codigo-iac" class="md-nav__link">
+    <span class="md-ellipsis">
+      O que é Infraestrutura como Código (IaC)?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#origens-da-iac" class="md-nav__link">
+    <span class="md-ellipsis">
+      Origens da IaC
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#beneficios-da-iac" class="md-nav__link">
+    <span class="md-ellipsis">
+      Benefícios da IaC
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limitacoes-da-iac" class="md-nav__link">
+    <span class="md-ellipsis">
+      Limitações da IaC
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#classificacao-da-iac-quanto-a-abordagem-de-implementacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Classificação da IaC quanto à abordagem de implementação
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tipos-de-ferramentas-de-iac" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tipos de ferramentas de IaC
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ferramentas-comuns-de-iac" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ferramentas Comuns de IaC
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#laboratorio-de-integracao-do-packer-vagrant-virtualbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      Laboratório de integração do Packer + Vagrant + VirtualBox
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Laboratório de integração do Packer + Vagrant + VirtualBox">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fundamentos-das-ferramentas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fundamentos das ferramentas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pre-requisitos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pré-requisitos
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#criando-uma-imagem-personalizada-com-o-packer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Criando uma imagem personalizada com o Packer
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#laboratorio-de-ansible" class="md-nav__link">
+    <span class="md-ellipsis">
+      Laboratório de Ansible
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Laboratório de Ansible">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-requisitos_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pré-requisitos
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#laboratorio-pratico" class="md-nav__link">
+    <span class="md-ellipsis">
+      Laboratório Prático
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conclusão
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="infraestrutura-como-codigo-iac">Infraestrutura como Código (IaC)<a class="headerlink" href="#infraestrutura-como-codigo-iac" title="Permanent link">&para;</a></h1>
+<h2 id="o-que-e-infraestrutura-como-codigo-iac">O que é Infraestrutura como Código (IaC)?<a class="headerlink" href="#o-que-e-infraestrutura-como-codigo-iac" title="Permanent link">&para;</a></h2>
+<p>A Infraestrutura como Código (Infrastructure as Code – IaC) é uma prática fundamental nas abordagens modernas de DevOps e engenharia de software. Ela permite que a infraestrutura de TI — servidores, redes, máquinas virtuais, armazenamento e até serviços de nuvem — seja gerenciada e provisionada por meio de arquivos de código, de maneira automatizada, reproduzível e versionável. Essa abordagem transforma a infraestrutura em um ativo de software, permitindo que equipes tratem a infraestrutura com os mesmos princípios e práticas que aplicam ao desenvolvimento de software.</p>
+<h2 id="origens-da-iac">Origens da IaC<a class="headerlink" href="#origens-da-iac" title="Permanent link">&para;</a></h2>
+<p>A prática de Infraestrutura como Código (IaC) tem suas raízes na automação de TI e na virtualização. Com o advento de tecnologias de virtualização, como VMware e Hyper-V, as equipes de TI começaram a automatizar o provisionamento de máquinas virtuais. Essa automação inicial evoluiu para a necessidade de gerenciar não apenas máquinas virtuais, mas também redes, armazenamento e outros componentes de infraestrutura de forma programática.</p>
+<p>A popularização de serviços de nuvem, como Amazon Web Services (AWS) e Microsoft Azure, também impulsionou a adoção da IaC. Esses provedores de nuvem oferecem APIs e ferramentas que permitem que a infraestrutura seja definida e gerenciada por meio de código, tornando a IaC uma prática padrão nas operações em nuvem.</p>
+<p>Antes do surgimento da IaC, a configuração de servidores era feita manualmente (via SSH, scripts shell, edições em tempo real de arquivos de configuração), o que era demorado, sujeito a erros e difícil de auditar ou replicar. Mesmo com a virtualização, embora ferramentas como VMWare e VirtualBox possibilitaram a criação de ambientes mais rápidos, ainda havia a dependência de interação manual. Mais recentemente, com o avanço do DevOps e da computação em nuvem, tornou-se essencial criar ambientes automatizados e reproduzíveis — daí a adoção do IaC.</p>
+<h2 id="beneficios-da-iac">Benefícios da IaC<a class="headerlink" href="#beneficios-da-iac" title="Permanent link">&para;</a></h2>
+<p>O uso de Infraestrutura como Código (IaC) traz uma série de benefícios significativos para as equipes de desenvolvimento e operações:</p>
+<ol>
+<li>
+<p><strong>Automação</strong>: A IaC permite a automação do provisionamento e gerenciamento da infraestrutura, reduzindo a necessidade de intervenções manuais e minimizando erros.</p>
+</li>
+<li>
+<p><strong>Reproduzibilidade</strong>: Com a IaC, é possível reproduzir ambientes de forma consistente, garantindo que as mesmas configurações sejam aplicadas em diferentes ambientes (desenvolvimento, teste, produção).</p>
+</li>
+<li>
+<p><strong>Versionamento</strong>: Assim como o código-fonte, a infraestrutura pode ser versionada, permitindo que equipes rastreiem alterações, revertam para versões anteriores e colaborem de forma mais eficaz.</p>
+</li>
+<li>
+<p><strong>Escalabilidade</strong>: A IaC facilita a escalabilidade da infraestrutura, permitindo que recursos sejam provisionados ou desprovisionados rapidamente, conforme a demanda.</p>
+</li>
+<li>
+<p><strong>Integração Contínua e Entrega Contínua (CI/CD)</strong>: A IaC é uma parte essencial das práticas de CI/CD, permitindo que a infraestrutura seja tratada como código e integrada aos pipelines de entrega de software.</p>
+</li>
+<li>
+<p><strong>Auditoria e Conformidade</strong>: Com a IaC, é possível auditar as configurações da infraestrutura de forma mais eficaz, garantindo que as políticas de conformidade sejam seguidas e facilitando a identificação de desvios.</p>
+</li>
+<li>
+<p><strong>Redução de error humanos</strong>: A automação e a padronização proporcionadas pela IaC reduzem significativamente a probabilidade de erros humanos, que são comuns em processos manuais de configuração.</p>
+</li>
+</ol>
+<h2 id="limitacoes-da-iac">Limitações da IaC<a class="headerlink" href="#limitacoes-da-iac" title="Permanent link">&para;</a></h2>
+<p>Apesar dos muitos benefícios, a Infraestrutura como Código (IaC) também apresenta algumas limitações e desafios:</p>
+<ol>
+<li>
+<p><strong>Complexidade</strong>: A IaC pode introduzir complexidade adicional, especialmente em ambientes grandes e distribuídos, onde a gestão de dependências e configurações pode se tornar desafiadora.</p>
+</li>
+<li>
+<p><strong>Curva de Aprendizado</strong>: Para equipes que não estão familiarizadas com a IaC, pode haver uma curva de aprendizado significativa para entender as ferramentas e práticas associadas.</p>
+</li>
+<li>
+<p><strong>Dependência de Ferramentas</strong>: A IaC geralmente depende de ferramentas específicas, o que pode levar a um acoplamento indesejado entre a infraestrutura e as ferramentas utilizadas.</p>
+</li>
+<li>
+<p><strong>Gerenciamento de Estado</strong>: Em algumas ferramentas de IaC, o gerenciamento do estado da infraestrutura pode ser complicado, especialmente em ambientes dinâmicos onde os recursos são frequentemente criados e destruídos.</p>
+</li>
+<li>
+<p><strong>Segurança</strong>: A IaC pode introduzir riscos de segurança se não for gerenciada adequadamente, especialmente se as credenciais e segredos forem armazenados em código ou repositórios de forma insegura.</p>
+</li>
+</ol>
+<h2 id="classificacao-da-iac-quanto-a-abordagem-de-implementacao">Classificação da IaC quanto à abordagem de implementação<a class="headerlink" href="#classificacao-da-iac-quanto-a-abordagem-de-implementacao" title="Permanent link">&para;</a></h2>
+<p>A Infraestrutura como Código (IaC) pode ser classificada em duas categorias principais:</p>
+<ol>
+<li>
+<p><strong>Declarativa</strong>: Nesse modelo, o usuário descreve o estado desejado da infraestrutura, e a ferramenta de IaC se encarrega de criar ou modificar os recursos para alcançar esse estado. Exemplos de ferramentas incluem Terraform e AWS CloudFormation.</p>
+</li>
+<li>
+<p><strong>Imperativa</strong>: Nesse modelo, o usuário especifica os passos necessários para alcançar o estado desejado da infraestrutura. A ferramenta executa esses passos em ordem. Exemplos de ferramentas incluem Ansible e Chef.</p>
+</li>
+</ol>
+<h2 id="tipos-de-ferramentas-de-iac">Tipos de ferramentas de IaC<a class="headerlink" href="#tipos-de-ferramentas-de-iac" title="Permanent link">&para;</a></h2>
+<p>As ferramentas de Infraestrutura como Código (IaC) podem ser divididas em duas categorias principais:</p>
+<ol>
+<li>
+<p><strong>Ferramentas de Provisionamento</strong>: Essas ferramentas são usadas para criar e gerenciar recursos de infraestrutura, como máquinas virtuais, redes e serviços em nuvem. Elas permitem que os usuários definam a infraestrutura desejada em arquivos de configuração e automatizem o processo de provisionamento. Exemplos incluem Terraform, AWS CloudFormation e Pulumi.</p>
+</li>
+<li>
+<p><strong>Ferramentas de Configuração</strong>: Essas ferramentas são usadas para configurar e gerenciar o software e as aplicações em execução na infraestrutura provisionada. Elas permitem que os usuários definam o estado desejado do software e automatizem a configuração dos sistemas. Exemplos incluem Ansible, Chef e Puppet.</p>
+</li>
+<li>
+<p><strong>Ferramentas de Orquestração</strong>: Essas ferramentas são usadas para coordenar e gerenciar a execução de várias tarefas e processos em um ambiente de infraestrutura. Elas ajudam a garantir que as dependências sejam atendidas e que os recursos sejam provisionados e configurados na ordem correta. Exemplos incluem Kubernetes (para orquestração de contêineres) e Apache Mesos.</p>
+</li>
+<li>
+<p><strong>Ferramentas de Empacotamento</strong>: Essas ferramentas são usadas para empacotar e distribuir a infraestrutura como código, facilitando o compartilhamento e a reutilização de configurações. Elas permitem que os usuários criem pacotes de infraestrutura que podem ser facilmente implantados em diferentes ambientes. É muito comum para a criação de ambientes locais. Exemplos incluem Docker (para contêineres) e Vagrant (para ambientes de desenvolvimento).</p>
+</li>
+</ol>
+<h2 id="ferramentas-comuns-de-iac">Ferramentas Comuns de IaC<a class="headerlink" href="#ferramentas-comuns-de-iac" title="Permanent link">&para;</a></h2>
+<p>Existem várias ferramentas populares que suportam a prática de IaC, incluindo:</p>
+<ul>
+<li>
+<p><strong>Terraform</strong>: Uma ferramenta de código aberto que permite definir e provisionar infraestrutura em nuvem usando uma linguagem de configuração declarativa.</p>
+</li>
+<li>
+<p><strong>AWS CloudFormation</strong>: Um serviço da Amazon Web Services que permite criar e gerenciar recursos da AWS usando arquivos de modelo.</p>
+</li>
+<li>
+<p><strong>Ansible</strong>: Uma ferramenta de automação que pode ser usada para configurar e gerenciar infraestrutura de forma declarativa.</p>
+</li>
+<li>
+<p><strong>Pulumi</strong>: Uma plataforma que permite definir a infraestrutura usando linguagens de programação convencionais, como JavaScript, TypeScript e Python.</p>
+</li>
+</ul>
+<h2 id="laboratorio-de-integracao-do-packer-vagrant-virtualbox">Laboratório de integração do Packer + Vagrant + VirtualBox<a class="headerlink" href="#laboratorio-de-integracao-do-packer-vagrant-virtualbox" title="Permanent link">&para;</a></h2>
+<p>Vamos fazer um laboratório de integração do Packer com o Vagrant e o VirtualBox. O objetivo é criar uma imagem de máquina virtual personalizada usando o Packer, que será utilizada pelo Vagrant para provisionar ambientes de desenvolvimento consistentes.</p>
+<h3 id="fundamentos-das-ferramentas">Fundamentos das ferramentas<a class="headerlink" href="#fundamentos-das-ferramentas" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Packer</strong>: É uma ferramenta de código aberto para criar imagens de máquina virtual idempotentes e reutilizáveis. Ele permite que você defina a configuração da imagem em um arquivo JSON ou HCL, especificando os recursos e as etapas de provisionamento necessários. O Packer suporta vários provedores de virtualização, incluindo VirtualBox, AWS, Azure e outros. Foi criado pela HashiCorp, a mesma empresa por trás do Terraform.</li>
+<li><strong>Vagrant</strong>: É uma ferramenta de código aberto para criar e gerenciar ambientes de desenvolvimento virtualizados. Ele permite que você defina a configuração do ambiente em um arquivo Vagrantfile, especificando o sistema operacional, as dependências e as configurações necessárias. O Vagrant é amplamente utilizado para criar ambientes de desenvolvimento consistentes e reproduzíveis, facilitando o trabalho em equipe e a colaboração entre desenvolvedores. Foi criado também pela HashiCorp.</li>
+<li><strong>VirtualBox</strong>: É um software de virtualização de código aberto que permite criar e executar máquinas virtuais em diferentes sistemas operacionais. Ele é amplamente utilizado como provedor de virtualização para o Vagrant, permitindo que os desenvolvedores criem e gerenciem ambientes de desenvolvimento virtualizados de forma fácil e eficiente. O VirtualBox suporta uma ampla variedade de sistemas operacionais convidados e é compatível com várias plataformas, incluindo Windows, macOS e Linux. Ele foi desenvolvido pela Oracle e é uma das ferramentas de virtualização mais populares no mundo do desenvolvimento de software.</li>
+</ul>
+<h3 id="pre-requisitos">Pré-requisitos<a class="headerlink" href="#pre-requisitos" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Packer</strong>: Certifique-se de ter o Packer instalado em sua máquina. Você pode baixar a versão mais recente do Packer em <a href="https://www.packer.io/downloads">packer.io</a>.</li>
+<li><strong>Vagrant</strong>: Instale o Vagrant em sua máquina. Você pode encontrar as instruções de instalação em <a href="https://www.vagrantup.com/downloads">vagrantup.com</a>.</li>
+<li><strong>VirtualBox</strong>: Instale o VirtualBox, que é o provedor de virtualização utilizado pelo Vagrant. Você pode baixar o VirtualBox em <a href="https://www.virtualbox.org/wiki/Downloads">virtualbox.org</a>.</li>
+</ol>
+<h3 id="criando-uma-imagem-personalizada-com-o-packer">Criando uma imagem personalizada com o Packer<a class="headerlink" href="#criando-uma-imagem-personalizada-com-o-packer" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p><strong>Crie um diretório para o projeto</strong>:</p>
+<p>O arquivo deve ser:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>mkdir<span class="w"> </span>packer-vagrant-virtualbox
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">cd</span><span class="w"> </span>packer-vagrant-virtualbox
+</span></code></pre></div>
+</li>
+<li>
+<p><strong>Crie um arquivo de configuração do Packer</strong></p>
+<p>Crie um arquivo chamado <code>packer.pkr.hcl</code> com o seguinte conteúdo:</p>
+<div class="language-hcl highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nb">packer</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="nb">required_plugins</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">        </span><span class="nb">virtualbox</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">            </span><span class="na">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;~&gt; 1&quot;</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">            </span><span class="na">source</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;github.com/hashicorp/virtualbox&quot;</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">        </span><span class="nb">vagrant</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">            </span><span class="na">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&gt;= 1.1.1&quot;</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">            </span><span class="na">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;github.com/hashicorp/vagrant&quot;</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>Nesse caso estamos utilizando o HCL (HashiCorp Configuration Language) para definir a configuração do Packer. O arquivo especifica os plugins necessários, como o VirtualBox e o Vagrant. Os plugins são responsáveis por fornecer suporte a diferentes provedores de virtualização e ferramentas de provisionamento. Mais informações sobre o HCL podem ser encontradas na <a href="https://developer.hashicorp.com/packer/integrations">documentação do Packer</a>.</p>
+<p>Você precisar agora inicializar o projeto Packer e instalar o plugins registrados. Para isso, execute os seguintes comandos:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>packer<span class="w"> </span>init<span class="w"> </span>.
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>packer<span class="w"> </span>install<span class="w"> </span>plugin<span class="w"> </span>github.com/hashicorp/virtualbox
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>packer<span class="w"> </span>install<span class="w"> </span>plugin<span class="w"> </span>github.com/hashicorp/vagrant
+</span></code></pre></div>
+</li>
+<li>
+<p><strong>Crie um arquivo de configuração do Packer</strong></p>
+<p>Crie um arquivo chamado <code>debian.json</code> com o seguinte conteúdo:</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">&quot;variables&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="nt">&quot;vm_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;debian12&quot;</span><span class="p">,</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="nt">&quot;iso_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.11.0-amd64-netinst.iso&quot;</span><span class="p">,</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="nt">&quot;iso_checksum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sha256:30ca12a15cae6a1033e03ad59eb7f66a6d5a258dcf27acd115c2bd42d22640e8&quot;</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span><span class="p">},</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">  </span><span class="nt">&quot;builders&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;virtualbox-iso&quot;</span><span class="p">,</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">      </span><span class="nt">&quot;guest_os_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Debian_64&quot;</span><span class="p">,</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">      </span><span class="nt">&quot;vm_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{{user `vm_name`}}&quot;</span><span class="p">,</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">      </span><span class="nt">&quot;iso_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{{user `iso_url`}}&quot;</span><span class="p">,</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">      </span><span class="nt">&quot;iso_checksum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{{user `iso_checksum`}}&quot;</span><span class="p">,</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">      </span><span class="nt">&quot;ssh_username&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;vagrant&quot;</span><span class="p">,</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">      </span><span class="nt">&quot;ssh_password&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;vagrant&quot;</span><span class="p">,</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">      </span><span class="nt">&quot;ssh_timeout&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;20m&quot;</span><span class="p">,</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">      </span><span class="nt">&quot;shutdown_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;echo &#39;vagrant&#39; | sudo -S shutdown -P now&quot;</span><span class="p">,</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">      </span><span class="nt">&quot;disk_size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">61440</span><span class="p">,</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">      </span><span class="nt">&quot;http_directory&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http&quot;</span><span class="p">,</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="w">      </span><span class="nt">&quot;boot_wait&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;5s&quot;</span><span class="p">,</span>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="w">      </span><span class="nt">&quot;boot_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="w">        </span><span class="s2">&quot;&lt;esc&gt;&lt;wait&gt;&quot;</span><span class="p">,</span>
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="w">        </span><span class="s2">&quot;auto url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg &quot;</span><span class="p">,</span>
+</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="w">        </span><span class="s2">&quot;debian-installer=en_US auto locale=pt_BR &quot;</span><span class="p">,</span>
+</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="w">        </span><span class="s2">&quot;kbd-chooser/method=us &quot;</span><span class="p">,</span>
+</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a><span class="w">        </span><span class="s2">&quot;hostname={{user `vm_name`}} &quot;</span><span class="p">,</span>
+</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="w">        </span><span class="s2">&quot;fb=false debconf/frontend=noninteractive &quot;</span><span class="p">,</span>
+</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a><span class="w">        </span><span class="s2">&quot;keyboard-configuration/layout=Brazilian &quot;</span><span class="p">,</span>
+</span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a><span class="w">        </span><span class="s2">&quot;keyboard-configuration/variant=Brazilian&lt;enter&gt;&quot;</span>
+</span><span id="__span-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a><span class="w">      </span><span class="p">],</span>
+</span><span id="__span-3-31"><a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a><span class="w">      </span><span class="nt">&quot;vboxmanage&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-3-32"><a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a><span class="w">        </span><span class="p">[</span><span class="s2">&quot;modifyvm&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;{{.Name}}&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;--memory&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;2048&quot;</span><span class="p">],</span>
+</span><span id="__span-3-33"><a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a><span class="w">        </span><span class="p">[</span><span class="s2">&quot;modifyvm&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;{{.Name}}&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;--cpus&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;2&quot;</span><span class="p">],</span>
+</span><span id="__span-3-34"><a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a>
+</span><span id="__span-3-35"><a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a><span class="w">        </span><span class="p">[</span><span class="s2">&quot;modifyvm&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;{{.Name}}&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;--nic1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;nat&quot;</span><span class="p">],</span>
+</span><span id="__span-3-36"><a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a><span class="w">        </span><span class="p">[</span><span class="s2">&quot;modifyvm&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;{{.Name}}&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;--nictype1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;82540EM&quot;</span><span class="p">],</span>
+</span><span id="__span-3-37"><a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a><span class="w">        </span><span class="p">[</span><span class="s2">&quot;modifyvm&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;{{.Name}}&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;--cableconnected1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;on&quot;</span><span class="p">]</span>
+</span><span id="__span-3-38"><a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a><span class="w">      </span><span class="p">]</span>
+</span><span id="__span-3-39"><a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-3-40"><a id="__codelineno-3-40" name="__codelineno-3-40" href="#__codelineno-3-40"></a><span class="w">  </span><span class="p">],</span>
+</span><span id="__span-3-41"><a id="__codelineno-3-41" name="__codelineno-3-41" href="#__codelineno-3-41"></a><span class="w">  </span><span class="nt">&quot;provisioners&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-3-42"><a id="__codelineno-3-42" name="__codelineno-3-42" href="#__codelineno-3-42"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-3-43"><a id="__codelineno-3-43" name="__codelineno-3-43" href="#__codelineno-3-43"></a><span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;shell&quot;</span><span class="p">,</span>
+</span><span id="__span-3-44"><a id="__codelineno-3-44" name="__codelineno-3-44" href="#__codelineno-3-44"></a><span class="w">      </span><span class="nt">&quot;inline&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-3-45"><a id="__codelineno-3-45" name="__codelineno-3-45" href="#__codelineno-3-45"></a><span class="w">        </span><span class="s2">&quot;echo &#39;Provisionando como vagrant...&#39;&quot;</span><span class="p">,</span>
+</span><span id="__span-3-46"><a id="__codelineno-3-46" name="__codelineno-3-46" href="#__codelineno-3-46"></a><span class="w">        </span><span class="s2">&quot;echo &#39;auto enp0s8&#39; | sudo tee -a /etc/network/interfaces&quot;</span><span class="p">,</span>
+</span><span id="__span-3-47"><a id="__codelineno-3-47" name="__codelineno-3-47" href="#__codelineno-3-47"></a><span class="w">        </span><span class="s2">&quot;echo &#39;iface enp0s8 inet dhcp&#39; | sudo tee -a /etc/network/interfaces&quot;</span><span class="p">,</span>
+</span><span id="__span-3-48"><a id="__codelineno-3-48" name="__codelineno-3-48" href="#__codelineno-3-48"></a><span class="w">        </span><span class="s2">&quot;mkdir -p /home/vagrant/.ssh&quot;</span><span class="p">,</span>
+</span><span id="__span-3-49"><a id="__codelineno-3-49" name="__codelineno-3-49" href="#__codelineno-3-49"></a><span class="w">        </span><span class="s2">&quot;chmod 700 /home/vagrant/.ssh&quot;</span><span class="p">,</span>
+</span><span id="__span-3-50"><a id="__codelineno-3-50" name="__codelineno-3-50" href="#__codelineno-3-50"></a><span class="w">        </span><span class="s2">&quot;curl -fsSL https://raw.githubusercontent.com/hashicorp/vagrant/main/keys/vagrant.pub -o /home/vagrant/.ssh/authorized_keys&quot;</span><span class="p">,</span>
+</span><span id="__span-3-51"><a id="__codelineno-3-51" name="__codelineno-3-51" href="#__codelineno-3-51"></a><span class="w">        </span><span class="s2">&quot;cat /home/vagrant/.ssh/authorized_keys&quot;</span><span class="p">,</span>
+</span><span id="__span-3-52"><a id="__codelineno-3-52" name="__codelineno-3-52" href="#__codelineno-3-52"></a><span class="w">        </span><span class="s2">&quot;chmod 600 /home/vagrant/.ssh/authorized_keys&quot;</span><span class="p">,</span>
+</span><span id="__span-3-53"><a id="__codelineno-3-53" name="__codelineno-3-53" href="#__codelineno-3-53"></a><span class="w">        </span><span class="s2">&quot;chown -R vagrant:vagrant /home/vagrant/.ssh&quot;</span>
+</span><span id="__span-3-54"><a id="__codelineno-3-54" name="__codelineno-3-54" href="#__codelineno-3-54"></a><span class="w">      </span><span class="p">]</span>
+</span><span id="__span-3-55"><a id="__codelineno-3-55" name="__codelineno-3-55" href="#__codelineno-3-55"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-3-56"><a id="__codelineno-3-56" name="__codelineno-3-56" href="#__codelineno-3-56"></a><span class="w">  </span><span class="p">],</span>
+</span><span id="__span-3-57"><a id="__codelineno-3-57" name="__codelineno-3-57" href="#__codelineno-3-57"></a><span class="w">  </span><span class="nt">&quot;post-processors&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-3-58"><a id="__codelineno-3-58" name="__codelineno-3-58" href="#__codelineno-3-58"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-3-59"><a id="__codelineno-3-59" name="__codelineno-3-59" href="#__codelineno-3-59"></a><span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;vagrant&quot;</span><span class="p">,</span>
+</span><span id="__span-3-60"><a id="__codelineno-3-60" name="__codelineno-3-60" href="#__codelineno-3-60"></a><span class="w">      </span><span class="nt">&quot;output&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;debian12.box&quot;</span>
+</span><span id="__span-3-61"><a id="__codelineno-3-61" name="__codelineno-3-61" href="#__codelineno-3-61"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-3-62"><a id="__codelineno-3-62" name="__codelineno-3-62" href="#__codelineno-3-62"></a><span class="w">  </span><span class="p">]</span>
+</span><span id="__span-3-63"><a id="__codelineno-3-63" name="__codelineno-3-63" href="#__codelineno-3-63"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>Nesse arquivo, definimos as variáveis necessárias, como o nome da máquina virtual, a URL do ISO do Debian e o checksum do ISO. Em seguida, configuramos o construtor <code>virtualbox-iso</code>, que especifica as configurações da máquina virtual, como o tipo de sistema operacional convidado, o nome da máquina virtual, a URL do ISO e as configurações de rede. O comando de inicialização é configurado para automatizar a instalação do Debian usando um arquivo de pré-configuração.</p>
+<p>Na chave <code>builder</code> especificamos o tipo de construtor como <code>virtualbox-iso</code>, que é responsável por criar uma imagem de máquina virtual usando o VirtualBox. As configurações incluem:</p>
+<ul>
+<li><code>guest_os_type</code>: Define o tipo de sistema operacional convidado, neste caso, Debian 64 bits.</li>
+<li><code>vm_name</code>: Define o nome da máquina virtual. Essa informação é passada como uma variável, permitindo que você altere facilmente o ISO sem modificar o arquivo principal.</li>
+<li><code>iso_url</code>: Especifica a URL do ISO do Debian que será usado para criar a imagem. Essa informação também é uma variável.</li>
+<li><code>iso_checksum</code>: Fornece o checksum do ISO para garantir a integridade do arquivo. Como as duas anteriores, é uma variável.</li>
+<li><code>ssh_username</code> e <code>ssh_password</code>: Definem as credenciais SSH para acessar a máquina virtual durante o provisionamento.</li>
+<li><code>ssh_timeout</code>: Define o tempo limite para a conexão SSH.</li>
+<li><code>shutdown_command</code>: Especifica o comando para desligar a máquina virtual após o provisionamento.</li>
+<li><code>disk_size</code>: Define o tamanho do disco da máquina virtual em megabytes.</li>
+<li><code>http_directory</code>: Especifica o diretório onde o Packer procurará arquivos HTTP para provisionamento.</li>
+<li><code>boot_wait</code>: Define o tempo de espera antes de iniciar o processo de boot.</li>
+<li><code>boot_command</code>: Define os comandos de boot que serão enviados para a máquina virtual durante o processo de inicialização. Esses comandos são usados para automatizar a instalação do Debian usando um arquivo de pré-configuração. Essas informações são passadas como uma lista de strings, onde cada string representa um comando a ser enviado para a máquina virtual no momento do boot.</li>
+<li><code>vboxmanage</code>: Permite modificar as configurações da máquina virtual usando comandos do VirtualBox. Aqui, estamos configurando a memória, o número de CPUs e as configurações de rede. Nesse caso, estamos configurando a máquina virtual para usar 2 GB de memória, 2 CPUs e uma interface de rede NAT.</li>
+</ul>
+<p>O bloco <code>provisioners</code> define as etapas de provisionamento que serão executadas após a criação da imagem. Neste caso, estamos usando um provisionador do tipo <code>shell</code>, que executa comandos shell na máquina virtual. Os comandos incluem a configuração da interface de rede e a adição da chave SSH do Vagrant. Note que ele baixa a chave pública do Vagrant diretamente do repositório oficial, que será usada para autenticação SSH no provisionamento.</p>
+<p>O bloco <code>post-processors</code> define as etapas que serão executadas após o provisionamento. Neste caso, estamos usando um post-processor do tipo <code>vagrant</code>, que cria um arquivo <code>.box</code> que pode ser usado pelo Vagrant para criar máquinas virtuais a partir da imagem criada pelo Packer.</p>
+</li>
+<li>
+<p><strong>Crie um arquivo de pré-configuração</strong>:</p>
+<p>Crie um diretório chamado <code>http</code> e dentro dele, crie um arquivo chamado <code>preseed.cfg</code> com o seguinte conteúdo:</p>
+<div class="language-cfg highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="na">d-i debian-installer/locale string pt_BR.UTF-8</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="na">d-i console-setup/ask_detect boolean false</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="na">d-i keyboard-configuration/xkb-keymap select br</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="na">d-i keyboard-configuration/layout select Brazil</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="na">d-i keyboard-configuration/variant select abnt2</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="na">d-i keyboard-configuration/modelcode string abnt2</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="na">d-i netcfg/choose_interface select enp0s3</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="na">d-i netcfg/choose_interface_if_needed boolean false</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="na">d-i netcfg/choose_interface priority critical</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="na">d-i netcfg/get_hostname string debian12</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="na">d-i netcfg/get_domain string localdomain</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="na">d-i mirror/country string manual</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="na">d-i mirror/http/hostname string deb.debian.org</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="na">d-i mirror/http/directory string /debian</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="na">d-i mirror/http/proxy string</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="na">d-i accessibility-profile/choose-profile select none</span>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="na">d-i clock-setup/utc boolean true</span>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="na">d-i time/zone string America/Sao_Paulo</span>
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="na">d-i clock-setup/ntp boolean true</span>
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="na">d-i partman-auto/method string regular</span>
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="na">d-i partman-auto/choose_recipe select atomic</span>
+</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="na">d-i partman-partitioning/confirm_write_new_label boolean true</span>
+</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="na">d-i partman/choose_partition select finish</span>
+</span><span id="__span-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a><span class="na">d-i partman/confirm boolean true</span>
+</span><span id="__span-4-31"><a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a><span class="na">d-i partman/confirm_nooverwrite boolean true</span>
+</span><span id="__span-4-32"><a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a>
+</span><span id="__span-4-33"><a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a><span class="na">d-i passwd/user-fullname string Vagrant User</span>
+</span><span id="__span-4-34"><a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a><span class="na">d-i passwd/username string vagrant</span>
+</span><span id="__span-4-35"><a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a><span class="na">d-i passwd/user-password password vagrant</span>
+</span><span id="__span-4-36"><a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a><span class="na">d-i passwd/user-password-again password vagrant</span>
+</span><span id="__span-4-37"><a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a><span class="na">d-i user-setup/encrypt-home boolean false</span>
+</span><span id="__span-4-38"><a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a><span class="na">d-i user-setup/allow-password-weak boolean true</span>
+</span><span id="__span-4-39"><a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a><span class="na">d-i passwd/user-default-groups string sudo</span>
+</span><span id="__span-4-40"><a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a>
+</span><span id="__span-4-41"><a id="__codelineno-4-41" name="__codelineno-4-41" href="#__codelineno-4-41"></a><span class="na">d-i passwd/root-login boolean false</span>
+</span><span id="__span-4-42"><a id="__codelineno-4-42" name="__codelineno-4-42" href="#__codelineno-4-42"></a><span class="na">d-i passwd/root-password password root</span>
+</span><span id="__span-4-43"><a id="__codelineno-4-43" name="__codelineno-4-43" href="#__codelineno-4-43"></a><span class="na">d-i passwd/root-password-again password root</span>
+</span><span id="__span-4-44"><a id="__codelineno-4-44" name="__codelineno-4-44" href="#__codelineno-4-44"></a>
+</span><span id="__span-4-45"><a id="__codelineno-4-45" name="__codelineno-4-45" href="#__codelineno-4-45"></a><span class="na">d-i grub-installer/only_debian boolean true</span>
+</span><span id="__span-4-46"><a id="__codelineno-4-46" name="__codelineno-4-46" href="#__codelineno-4-46"></a><span class="na">d-i grub-installer/bootdev string /dev/sda</span>
+</span><span id="__span-4-47"><a id="__codelineno-4-47" name="__codelineno-4-47" href="#__codelineno-4-47"></a><span class="na">d-i finish-install/reboot_in_progress note</span>
+</span><span id="__span-4-48"><a id="__codelineno-4-48" name="__codelineno-4-48" href="#__codelineno-4-48"></a><span class="na">d-i preseed/late_command string in-target adduser vagrant sudo</span>
+</span><span id="__span-4-49"><a id="__codelineno-4-49" name="__codelineno-4-49" href="#__codelineno-4-49"></a><span class="na">d-i preseed/late_command string in-target sh -c &quot;echo &#39;vagrant ALL</span><span class="o">=</span><span class="s">(ALL) NOPASSWD:ALL&#39; &gt; /etc/sudoers.d/vagrant &amp;&amp; chmod 440 /etc/sudoers.d/vagrant&quot;</span>
+</span><span id="__span-4-50"><a id="__codelineno-4-50" name="__codelineno-4-50" href="#__codelineno-4-50"></a>
+</span><span id="__span-4-51"><a id="__codelineno-4-51" name="__codelineno-4-51" href="#__codelineno-4-51"></a><span class="na">d-i pkgsel/run_tasksel boolean false</span>
+</span><span id="__span-4-52"><a id="__codelineno-4-52" name="__codelineno-4-52" href="#__codelineno-4-52"></a><span class="na">d-i pkgsel/include string openssh-server build-essential</span>
+</span><span id="__span-4-53"><a id="__codelineno-4-53" name="__codelineno-4-53" href="#__codelineno-4-53"></a><span class="na">d-i pkgsel/include string sudo curl vim net-tools ssh lynx ansible</span>
+</span><span id="__span-4-54"><a id="__codelineno-4-54" name="__codelineno-4-54" href="#__codelineno-4-54"></a>
+</span><span id="__span-4-55"><a id="__codelineno-4-55" name="__codelineno-4-55" href="#__codelineno-4-55"></a><span class="na">d-i pkgsel/upgrade select full-upgrade</span>
+</span></code></pre></div>
+</li>
+<li>
+<p><strong>Crie o arquivo de imagem</strong></p>
+<p>Execute o seguinte comando para criar a sua imagem:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>packer<span class="w"> </span>build<span class="w"> </span>debian.json
+</span></code></pre></div>
+</li>
+<li>
+<p>Adicione a imagem criada ao Vagrant</p>
+<p>Após a criação da imagem, você pode adicionar a imagem ao Vagrant usando o seguinte comando:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>vagrant<span class="w"> </span>box<span class="w"> </span>add<span class="w"> </span>debian12<span class="w"> </span>debian12.box
+</span></code></pre></div>
+<p>Isso registrará a imagem <code>debian12.box</code> no Vagrant, permitindo que você crie máquinas virtuais a partir dela.</p>
+</li>
+<li>
+<p><strong>Crie o arquivo de configuração do Vagrant</strong>:</p>
+<p>Crie um arquivo chamado <code>Vagrantfile</code>, com seguinte conteúdo:</p>
+<div class="language-cfg highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="na">Vagrant.configure(&quot;2&quot;) do |config|</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="na">config.vm.box</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;debian12&quot;</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="na">config.vm.network &quot;public_network&quot;, bridge</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;enp2s0&quot;</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">    </span><span class="na">config.vm.provider &quot;virtualbox&quot; do |vb|</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">        </span><span class="na">vb.memory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;2048&quot;</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">        </span><span class="na">vb.cpus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">2</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">    </span><span class="na">end</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="na">end</span>
+</span></code></pre></div>
+<p>Caso você queira, por exemplo, levantar três máquinas virtuais, você pode modificar o arquivo <code>Vagrantfile</code> para incluir múltiplas máquinas. Veja um exemplo:</p>
+<div class="language-cfg highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="na">Vagrant.configure(&quot;2&quot;) do |config|</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="na">(1..3).each do |i|</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="na">config.vm.define &quot;debian#{i}&quot; do |machine|</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">      </span><span class="na">machine.vm.box</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;debian12&quot;</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">      </span><span class="na">machine.vm.network &quot;public_network&quot;, bridge</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;enp2s0&quot;</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">      </span><span class="na">machine.vm.provider &quot;virtualbox&quot; do |vb|</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">        </span><span class="na">vb.memory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;2048&quot;</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">        </span><span class="na">vb.cpus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">2</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">      </span><span class="na">end</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">    </span><span class="na">end</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">  </span><span class="na">end</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="na">end</span>
+</span></code></pre></div>
+<p>Nesse exemplo, estamos criando três máquinas virtuais chamadas <code>debian1</code>, <code>debian2</code> e <code>debian3</code>, todas com as mesmas configurações de rede e recursos.</p>
+</li>
+<li>
+<p><strong>Use o seu ambiente com o vagrant</strong></p>
+<p>Para usar o ambiente criado execute:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>vagrant<span class="w"> </span>up
+</span></code></pre></div>
+</li>
+</ol>
+<h2 id="laboratorio-de-ansible">Laboratório de Ansible<a class="headerlink" href="#laboratorio-de-ansible" title="Permanent link">&para;</a></h2>
+<p>Ansible é uma ferramenta de automação de TI que permite gerenciar e configurar sistemas, implantar aplicativos e orquestrar tarefas complexas de forma simples e eficiente. Ele utiliza uma abordagem declarativa, onde o usuário define o estado desejado da infraestrutura ou dos sistemas, e o Ansible se encarrega de aplicar as mudanças necessárias para alcançar esse estado.</p>
+<p>Ansible é amplamente utilizado em ambientes de DevOps e Infraestrutura como Código (IaC) devido à sua simplicidade, flexibilidade e capacidade de automação. Ele é especialmente útil para gerenciar grandes quantidades de servidores e serviços, permitindo que as equipes de TI automatizem tarefas repetitivas e se concentrem em atividades mais estratégicas.</p>
+<h3 id="pre-requisitos_1">Pré-requisitos<a class="headerlink" href="#pre-requisitos_1" title="Permanent link">&para;</a></h3>
+<p>Antes de começar a trabalhar com Ansible, é necessário ter um ambiente configurado. Aqui estão os pré-requisitos:</p>
+<ol>
+<li><strong>Sistema Operacional</strong>: Ansible é compatível com sistemas baseados em Unix/Linux. Certifique-se de ter um sistema operacional adequado instalado, como Ubuntu, CentOS ou Debian.</li>
+<li><strong>Python</strong>: Ansible requer Python 3.6 ou superior. Verifique se o Python está instalado no seu sistema executando o comando <code>python3 --version</code>.</li>
+<li><strong>Acesso SSH</strong>: Ansible utiliza SSH para se conectar aos servidores remotos. Certifique-se de ter acesso SSH configurado para os servidores que deseja gerenciar.</li>
+<li><strong>Instalação do Ansible</strong>: Você pode instalar o Ansible usando o gerenciador de pacotes do seu sistema.</li>
+</ol>
+<p>Note que você precise dos servidores que deseja gerenciar com Ansible. Para este laboratório, você pode usar máquinas virtuais (que criamos no laboratório anterior) ou servidores na nuvem.</p>
+<p>Além disso, você deve gerar uma chave SSH para autenticação sem senha. Você pode fazer isso com o comando <code>ssh-keygen</code> e copiar a chave pública para os servidores remotos usando <code>ssh-copy-id</code>.</p>
+<h3 id="laboratorio-pratico">Laboratório Prático<a class="headerlink" href="#laboratorio-pratico" title="Permanent link">&para;</a></h3>
+<p>Neste laboratório, vamos criar um playbook simples do Ansible para instalar e configurar um servidor web Nginx em uma máquina virtual. O objetivo é demonstrar como o Ansible pode ser usado para automatizar a configuração de servidores. Sugiro que você faça isso dentro de uma pasta chamada <code>ansible</code> dentro do diretório <code>devops</code>. Isso é importante para dividir as configurações do Ansible de outras ferramentas e práticas de DevOps, com o <code>Packer</code>, <code>Vagrant</code> e <code>Docker</code>.</p>
+<ol>
+<li>
+<p><strong><em>Criar um arquivo de inventário</em></strong></p>
+<p>Crie um arquivo chamado <code>hosts</code> na pasta <code>ansible</code> e adicione o seguinte conteúdo:</p>
+<div class="language-ini highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">[webservers]</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="na">webserver1 ansible_host</span><span class="o">=</span><span class="s">192.168.56.101</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="na">webserver2 ansible_host</span><span class="o">=</span><span class="s">192.168.56.102</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="k">[all:vars]</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="na">ansible_ssh_private_key_file</span><span class="o">=</span><span class="s">/caminho/para/chave/privada/ssh</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="na">ansible_user</span><span class="o">=</span><span class="s">vagrant</span>
+</span></code></pre></div>
+<p>Substitua os endereços IP pelos endereços dos seus servidores. Esses IPs podem ser os endereços das máquinas virtuais criadas no laboratório anterior.</p>
+</li>
+<li>
+<p><strong><em>Criar um playbook do Ansible</em></strong></p>
+<p>Crie um arquivo chamado <code>install_nginx.yml</code> na pasta <code>ansible</code> e adicione o seguinte conteúdo:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nn">---</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Instalar e configurar Nginx</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">webservers</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">  </span><span class="nt">become</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">yes</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Instalar o Nginx</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">      </span><span class="nt">apt</span><span class="p">:</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">present</span>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="w">        </span><span class="nt">update_cache</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">yes</span>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Garantir que o Nginx esteja rodando</span>
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="w">      </span><span class="nt">service</span><span class="p">:</span>
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">started</span>
+</span></code></pre></div>
+<p>Você pode fazer várias outras configurações, como adicionar um arquivo de configuração personalizado ou copiar arquivos estáticos para o servidor. Também é possível adicionar outras tarefas, como instalar pacotes adicionais ou configurar o firewall.</p>
+</li>
+<li>
+<p><strong><em>Executar o playbook do Ansible</em></strong></p>
+<p>Para executar o playbook, abra um terminal na pasta <code>ansible</code> e execute o seguinte comando:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>ansible-playbook<span class="w"> </span>-i<span class="w"> </span>hosts<span class="w"> </span>install_nginx.yml
+</span></code></pre></div>
+<p>Isso irá conectar-se aos servidores definidos no arquivo de inventário e executar as tarefas definidas no playbook.</p>
+</li>
+</ol>
+<h2 id="conclusao">Conclusão<a class="headerlink" href="#conclusao" title="Permanent link">&para;</a></h2>
+<p>A Infraestrutura como Código (IaC) é uma prática essencial para equipes de DevOps que buscam aumentar a eficiência, reduzir erros e melhorar a colaboração. Ao tratar a infraestrutura como código, as organizações podem aproveitar os benefícios da automação, reproduzibilidade e versionamento, tornando-se mais ágeis e responsivas às necessidades de negócios em constante mudança.</p>
+<p>Note que é importante escolher a ferramenta de IaC certa com base nas necessidades específicas da equipe e do projeto, considerando fatores como a complexidade da infraestrutura, a familiaridade da equipe com as ferramentas e os requisitos de integração com outras práticas de DevOps. Também, é muito comum que as equipes utilizem uma combinação de ferramentas para atender a diferentes aspectos da IaC, como provisionamento, configuração e orquestração.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar para o topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Rodapé" >
+        
+          
+          <a href="../cd/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Entrega Contínua">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                Entrega Contínua
+              </div>
+            </div>
+          </a>
+        
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 Eduardo da Silva
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["announce.dismiss", "content.code.annotate", "content.code.copy", "content.code.select", "content.tooltips", "navigation.footer", "navigation.indexes", "navigation.instant.progress", "navigation.sections", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  </body>
+</html>

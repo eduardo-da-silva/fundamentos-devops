@@ -1,0 +1,1420 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Eduardo da Silva">
+      
+      
+        <link rel="canonical" href="https://eduardo-da-silva.github.io/fundamentos-devops/docker/">
+      
+      
+        <link rel="prev" href="../containers/">
+      
+      
+        <link rel="next" href="../orquestracao/">
+      
+      
+      <link rel="icon" href="../images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Docker - Fundamentos de DevOps</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#docker" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href=".." title="Fundamentos de DevOps" class="md-header__button md-logo" aria-label="Fundamentos de DevOps" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Fundamentos de DevOps
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Docker
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Compartilhar" aria-label="Compartilhar" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/eduardo-da-silva/fundamentos-devops" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    eduardo-da-silva/fundamentos-devops
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Fundamentos de DevOps" class="md-nav__button md-logo" aria-label="Fundamentos de DevOps" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Fundamentos de DevOps
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/eduardo-da-silva/fundamentos-devops" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    eduardo-da-silva/fundamentos-devops
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introdução
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../collaboration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Gestão de repositórios e colaboração
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ci/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Integração Contínua
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../containers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Contêineres
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Docker
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Docker
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#instalacao-do-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      Instalação do Docker
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#os-componentes-do-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      Os componentes do Docker
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Os componentes do Docker">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#estrutura-do-dockerfile" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estrutura do Dockerfile
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-imagem-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      A imagem Docker
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#o-conteiner-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      O contêiner Docker
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comandos-do-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comandos do Docker
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#persistencia-de-dados" class="md-nav__link">
+    <span class="md-ellipsis">
+      Persistência de dados
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Persistência de dados">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bind-mounts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bind mounts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#volumes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Volumes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docker-compose" class="md-nav__link">
+    <span class="md-ellipsis">
+      Docker compose
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Docker compose">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#comandos-do-docker-compose" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comandos do Docker Compose
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#redes-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      Redes Docker
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../orquestracao/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Orquestração
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Entrega Contínua
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../iac/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Infraestrutura como Código
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#instalacao-do-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      Instalação do Docker
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#os-componentes-do-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      Os componentes do Docker
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Os componentes do Docker">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#estrutura-do-dockerfile" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estrutura do Dockerfile
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-imagem-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      A imagem Docker
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#o-conteiner-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      O contêiner Docker
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comandos-do-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comandos do Docker
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#persistencia-de-dados" class="md-nav__link">
+    <span class="md-ellipsis">
+      Persistência de dados
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Persistência de dados">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bind-mounts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bind mounts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#volumes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Volumes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docker-compose" class="md-nav__link">
+    <span class="md-ellipsis">
+      Docker compose
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Docker compose">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#comandos-do-docker-compose" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comandos do Docker Compose
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#redes-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      Redes Docker
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="docker">Docker<a class="headerlink" href="#docker" title="Permanent link">&para;</a></h1>
+<p>Criado em 2013, o Docker introduziu o que se tornou o padrão da indústria para contêineres. Ele foi desenvolvido por Solomon Hykes e sua equipe na dotCloud, uma plataforma de PaaS (Platform as a Service). Desde então, o Docker evoluiu para se tornar uma das ferramentas mais populares para desenvolvimento e implantação de aplicativos em contêineres.</p>
+<p>Docker é uma plataforma Open Source escrita em Go que ajuda a criação e a administração de ambientes isolados. Ele permite criar, testar e implantar aplicativos rapidamente. O Docker empacota o software em unidades padronizadas chamadas contêineres, que incluem tudo o que o software precisa para funcionar, como bibliotecas, dependências e arquivos de configuração. Isso garante que o aplicativo funcione de maneira consistente em qualquer ambiente.</p>
+<p>O Docker trabalha com uma virtualização a nível do sistema operacional, onde o mesmo utiliza de recursos como o kernel do sistema hospedeiro para executar seus contêineres. Diferente do modelo tradicional de Máquinas Virtuais, o Docker não necessita da instalação de um sistema operacional por completo, e sim apenas dos arquivos necessários para a aplicação ser executada.</p>
+<p>Em resumo, o Docker simplifica o processo de desenvolvimento, teste, empacotamento, homologação e implantação de aplicativos em contêineres portáteis e leves. O Docker é amplamente utilizado em ambientes de desenvolvimento e produção, permitindo que os desenvolvedores criem aplicativos de forma mais rápida e eficiente, minimizando impactos no processo de desenvolvimento e entrega de software.</p>
+<p>Como já discutido anteriormente, existem diversos runtimes de contêineres e até é possível utilizar contêineres sem Docker. Contudo, atualmente o Docker é o runtime de container mais utilizada no mercado, sendo uma tecnologia fundamental no mundo do DevOps.</p>
+<h2 id="instalacao-do-docker">Instalação do Docker<a class="headerlink" href="#instalacao-do-docker" title="Permanent link">&para;</a></h2>
+<p>Em geral, uma ferramenta muito comum para administrar os contêineres Docker é o Docker Desktop. O Docker Desktop é uma aplicação que fornece uma interface gráfica para gerenciar contêineres Docker, imagens e volumes. Ele é fácil de instalar e configurar, e é uma ótima opção para desenvolvedores que desejam trabalhar com Docker em suas máquinas locais. Ele está disponível para Windows, macOS e Linux.</p>
+<p>Por outro lado, existe uma confusão comum entre "Docker Desktop" e "Docker Engine". O Docker Engine refere-se especificamente a um subconjunto dos componentes do Docker Desktop que são gratuitos e de código aberto e podem ser instalados apenas no Linux. O Docker Engine pode criar imagens de contêiner, executar contêineres a partir delas e, em geral, fazer a maioria das coisas que o Docker Desktop pode, mas é apenas para Linux e não fornece todo o polimento da experiência do desenvolvedor que o Docker Desktop fornece.</p>
+<p>Para instalar o Docker Desktop em sua máquina, acesse o <a href="https://docs.docker.com/get-started/get-docker/">site do Docker Desktop</a> e siga as instruções de instalação para o seu sistema operacional. O Docker Desktop é gratuito para uso pessoal e educacional, mas pode ter custos associados para uso comercial em algumas circunstâncias. Consulte a documentação do Docker para obter mais informações sobre preços e licenciamento.</p>
+<p>Em sistemas operacionais baseados em Linux, como Ubuntu, você pode instalar o Docker Engine diretamente usando o gerenciador de pacotes. Aqui estão os passos básicos para instalar o Docker Engine no Ubuntu:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:4"><input checked="checked" id="instalacao-do-docker-arch-linux" name="__tabbed_1" type="radio" /><input id="instalacao-do-docker-ubuntu" name="__tabbed_1" type="radio" /><input id="instalacao-do-docker-debian" name="__tabbed_1" type="radio" /><input id="instalacao-do-docker-fedora" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="instalacao-do-docker-arch-linux">Arch Linux</label><label for="instalacao-do-docker-ubuntu">Ubuntu</label><label for="instalacao-do-docker-debian">Debian</label><label for="instalacao-do-docker-fedora">Fedora</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>sudo<span class="w"> </span>pacman<span class="w"> </span>-Syu
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>sudo<span class="w"> </span>pacman<span class="w"> </span>-S<span class="w"> </span>docker<span class="w"> </span>docker-compose
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>docker
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>docker
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>upgrade
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span>apt-transport-https<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span>ca-certificates<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span>curl<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span>software-properties-common<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span>gnupg<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span>lsb-release
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>sudo<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/etc/apt/keyrings
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://download.docker.com/linux/ubuntu/gpg<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>gpg<span class="w"> </span>--dearmor<span class="w"> </span>-o<span class="w"> </span>/etc/apt/keyrings/docker.gpg
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="nb">echo</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="s2">&quot;deb [arch=</span><span class="k">$(</span>dpkg<span class="w"> </span>--print-architecture<span class="k">)</span><span class="s2"> signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="k">$(</span>lsb_release<span class="w"> </span>-cs<span class="k">)</span><span class="s2"> stable&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/apt/sources.list.d/docker.list<span class="w"> </span>&gt;<span class="w"> </span>/dev/null
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>docker-ce<span class="w"> </span>docker-ce-cli<span class="w"> </span>containerd.io<span class="w"> </span>docker-compose-plugin
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>docker
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>docker
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>upgrade
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span>apt-transport-https<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span>ca-certificates<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span>curl<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span>gnupg<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span>lsb-release
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>sudo<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/etc/apt/keyrings
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://download.docker.com/linux/debian/gpg<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>gpg<span class="w"> </span>--dearmor<span class="w"> </span>-o<span class="w"> </span>/etc/apt/keyrings/docker.gpg
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="nb">echo</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="s2">&quot;deb [arch=</span><span class="k">$(</span>dpkg<span class="w"> </span>--print-architecture<span class="k">)</span><span class="s2"> signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="k">$(</span>lsb_release<span class="w"> </span>-cs<span class="k">)</span><span class="s2"> stable&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/apt/sources.list.d/docker.list<span class="w"> </span>&gt;<span class="w"> </span>/dev/null
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>docker-ce<span class="w"> </span>docker-ce-cli<span class="w"> </span>containerd.io<span class="w"> </span>docker-compose-plugin
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>docker
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>docker
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>sudo<span class="w"> </span>dnf<span class="w"> </span>update<span class="w"> </span>-y
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>dnf-plugins-core<span class="w"> </span>-y
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>sudo<span class="w"> </span>dnf<span class="w"> </span>config-manager<span class="w"> </span>--add-repo<span class="w"> </span>https://download.docker.com/linux/fedora/docker-ce.repo
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>docker-ce<span class="w"> </span>docker-ce-cli<span class="w"> </span>containerd.io<span class="w"> </span>docker-compose-plugin
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>docker
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>docker
+</span></code></pre></div>
+</div>
+</div>
+</div>
+<p>Também, pode ser útil adicionar o usuário atual ao grupo <code>docker</code> para evitar a necessidade de usar <code>sudo</code> ao executar comandos do Docker. Você pode fazer isso com o seguinte comando:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>sudo<span class="w"> </span>usermod<span class="w"> </span>-aG<span class="w"> </span>docker<span class="w"> </span><span class="nv">$USER</span>
+</span></code></pre></div>
+<p>Depois de adicionar o usuário ao grupo <code>docker</code>, você precisará sair e entrar novamente na sessão para que as alterações tenham efeito. Você pode verificar se o usuário foi adicionado corretamente ao grupo <code>docker</code> executando o seguinte comando:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>groups<span class="w"> </span><span class="nv">$USER</span>
+</span></code></pre></div>
+<p>Após a instalação, você pode verificar se o Docker está funcionando corretamente executando o seguinte comando:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>docker<span class="w"> </span>--version
+</span></code></pre></div>
+<p>Isso deve exibir a versão do Docker instalada em seu sistema.</p>
+<p>Você também pode executar o <code>Hello World</code> do docker, com o seguinte comando:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>docker<span class="w"> </span>run<span class="w"> </span>hello-world
+</span></code></pre></div>
+<p>Isso deve baixar uma imagem de teste do Docker Hub e executar um contêiner a partir dela. Se tudo estiver funcionando corretamente, você verá uma mensagem de boas-vindas do Docker.</p>
+<h2 id="os-componentes-do-docker">Os componentes do Docker<a class="headerlink" href="#os-componentes-do-docker" title="Permanent link">&para;</a></h2>
+<!-- ```mermaid
+architecture-beta
+    group client[Cliente]
+    service pull(database)[Docker Pull] in client
+    service build(disk)[Docker Build] in client
+    service run(disk)[Docker Run] in client
+
+    group host[Docker Host]
+    service daemon(database)[Docker Docker Daemon] in host
+    service disk3(disk)[Docker Build] in host
+    service disk4(disk)[Docker Push] in host
+
+    pull{group}:R -- L:daemon{group}
+    build{group}:R -- L:daemon{group}
+    run{group}:R -- L:daemon{group}
+``` -->
+
+<p>Existem três componentes principais no ecossistema Docker:</p>
+<ul>
+<li><strong>Dockerfile</strong>: Um arquivo de texto contendo instruções (comandos) para construir uma imagem Docker.</li>
+<li><strong>Imagem Docker</strong>: Um instantâneo de um contêiner, criado a partir de um Dockerfile. As imagens são armazenadas em um registro, como o Docker Hub, e podem ser puxadas ou enviadas para o registro.</li>
+<li><strong>Contêiner Docker</strong>: Uma instância em execução de uma imagem Docker.</li>
+</ul>
+<h3 id="estrutura-do-dockerfile">Estrutura do Dockerfile<a class="headerlink" href="#estrutura-do-dockerfile" title="Permanent link">&para;</a></h3>
+<p>Um Dockerfile é um arquivo de texto que contém uma série de instruções para criar uma imagem Docker. Cada instrução no Dockerfile cria uma camada na imagem, e essas camadas são empilhadas para formar a imagem final. Aqui está um exemplo básico de um Dockerfile:</p>
+<div class="language-dockerfile highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">FROM</span><span class="w"> </span><span class="s">ubuntu:20.04</span><span class="w"> </span><span class="c"># (1)</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">RUN</span><span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>nodejs<span class="w"> </span>npm
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="k">COPY</span><span class="w"> </span>.<span class="w"> </span>.
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="k">RUN</span><span class="w"> </span>npm<span class="w"> </span>install
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="k">EXPOSE</span><span class="w"> </span><span class="s">3000</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;npm&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;start&quot;</span><span class="p">]</span>
+</span></code></pre></div>
+<ol>
+<li><code>FROM</code>: Especifica a imagem base a ser usada. Neste caso, estamos usando a imagem oficial do Ubuntu 20.04.</li>
+<li><code>RUN</code>: Executa comandos no contêiner durante a construção da imagem. Aqui, estamos atualizando o sistema e instalando o Node.js e o npm.</li>
+<li><code>WORKDIR</code>: Define o diretório de trabalho dentro do contêiner. Todos os comandos subsequentes serão executados a partir desse diretório.</li>
+<li><code>COPY</code>: Copia arquivos do diretório atual (no host) para o contêiner.</li>
+<li><code>EXPOSE</code>: Informa ao Docker que o contêiner escutará na porta especificada em tempo de execução. Isso não publica a porta, mas é uma boa prática documentar quais portas o contêiner usará.</li>
+<li><code>CMD</code>: Especifica o comando a ser executado quando o contêiner é iniciado. Neste caso, estamos iniciando o aplicativo Node.js com <code>npm start</code>.</li>
+</ol>
+<p>O quadro abaixo resume os principais comandos do Dockerfile:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Comando</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><code>FROM</code></td>
+<td style="text-align: left;">Especifica a imagem base a ser usada.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>RUN</code></td>
+<td style="text-align: left;">Executa comandos no contêiner durante a construção da imagem.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>WORKDIR</code></td>
+<td style="text-align: left;">Define o diretório de trabalho dentro do contêiner.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>COPY</code></td>
+<td style="text-align: left;">Copia arquivos do diretório atual (no host) para o contêiner.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>EXPOSE</code></td>
+<td style="text-align: left;">Informa ao Docker que o contêiner escutará na porta especificada.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>CMD</code></td>
+<td style="text-align: left;">Especifica o comando a ser executado quando o contêiner é iniciado.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>ENTRYPOINT</code></td>
+<td style="text-align: left;">Define o ponto de entrada do contêiner, permitindo que o contêiner seja executado como um executável.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>ENV</code></td>
+<td style="text-align: left;">Define variáveis de ambiente dentro do contêiner.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>VOLUME</code></td>
+<td style="text-align: left;">Cria um ponto de montagem para persistência de dados.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>ARG</code></td>
+<td style="text-align: left;">Define variáveis de construção que podem ser passadas durante a construção da imagem.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>LABEL</code></td>
+<td style="text-align: left;">Adiciona metadados à imagem, como autor, versão, etc.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>ADD</code></td>
+<td style="text-align: left;">Copia arquivos e diretórios do host para o contêiner, com suporte a URLs e extração de arquivos tar.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>USER</code></td>
+<td style="text-align: left;">Define o usuário a ser usado ao executar o contêiner.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>HEALTHCHECK</code></td>
+<td style="text-align: left;">Define um comando para verificar a saúde do contêiner.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>ONBUILD</code></td>
+<td style="text-align: left;">Adiciona instruções que serão executadas quando a imagem for usada como base para outra imagem.</td>
+</tr>
+</tbody>
+</table>
+<p>A complexidade de um Dockerfile pode variar dependendo do aplicativo que você está criando. À medida que você se familiariza com o Docker, você aprenderá a usar esses comandos de forma mais eficaz.</p>
+<p>A ordem dos comandos no Dockerfile é importante, pois cada comando cria uma nova camada na imagem. O Docker tenta otimizar o processo de construção, armazenando em cache as camadas que não mudaram. Portanto, é uma boa prática colocar os comandos que mudam com menos frequência (como a instalação de dependências) antes dos que mudam com mais frequência (como a cópia do código-fonte).</p>
+<p>Note que, ao gerar uma imagem, o Docker executa cada comando do Dockerfile em uma nova camada. Isso significa que, se você modificar um comando no Dockerfile, todas as camadas subsequentes também serão reconstruídas, o que pode aumentar o tempo de construção da imagem. Para otimizar isso, é recomendável agrupar comandos relacionados e minimizar o número de camadas criadas.</p>
+<h3 id="a-imagem-docker">A imagem Docker<a class="headerlink" href="#a-imagem-docker" title="Permanent link">&para;</a></h3>
+<p>Uma imagem Docker é um arquivo leve, independente e executável que contém tudo o que é necessário para executar um aplicativo, incluindo o código-fonte, bibliotecas, dependências e arquivos de configuração. As imagens são criadas a partir de um Dockerfile fe podem ser armazenadas em um registro, como o Docker Hub.</p>
+<p>As imagens Docker são compostas por várias camadas, cada uma representando uma instrução no Dockerfile. Essas camadas são empilhadas para formar a imagem final. Quando você executa um contêiner a partir de uma imagem, o Docker cria uma camada de leitura e gravação em cima da imagem, permitindo que você faça alterações no contêiner sem afetar a imagem original.</p>
+<p>Por isso, as imagens Docker são imutáveis, o que significa que, uma vez criadas, não podem ser alteradas. Se você precisar fazer alterações em uma imagem, precisará criar uma nova imagem a partir do Dockerfile. As alterações que são feitas em um contêiner em execução não afetam a imagem original, e são armazenadas numa camada sobreposta à imagem original.</p>
+<p>As imagens Docker são identificadas por um nome e uma tag, que geralmente seguem o formato <code>nome:tag</code>. Por exemplo, <code>meuapp:1.0</code> refere-se à imagem chamada <code>meuapp</code> com a tag <code>1.0</code>. Se você não especificar uma tag, o Docker usará a tag <code>latest</code> por padrão.</p>
+<p>Você pode verificar a listagem de imagens disponíveis em sua máquina local usando o seguinte comando:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>docker<span class="w"> </span>image<span class="w"> </span>ls
+</span></code></pre></div>
+<p>Vamos supor que você não tenha ainda nenhuma imagem instalada. Você pode baixar uma imagem do Docker Hub usando o comando <code>docker pull</code>. Por exemplo, para baixar a imagem oficial do Nginx, você pode usar o seguinte comando:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>docker<span class="w"> </span>pull<span class="w"> </span>nginx
+</span></code></pre></div>
+<p>Isso fará o download da imagem do Nginx e a armazenará localmente. Você pode verificar se a imagem foi baixada com sucesso executando novamente o comando <code>docker image ls</code>. Você verá uma saída semelhante a esta:</p>
+<table>
+<thead>
+<tr>
+<th>REPOSITORY</th>
+<th>TAG</th>
+<th>IMAGE ID</th>
+<th>CREATED</th>
+<th>SIZE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>nginx</td>
+<td>latest</td>
+<td>4cad75abc83d</td>
+<td>2 weeks ago</td>
+<td>192MB</td>
+</tr>
+</tbody>
+</table>
+<p>A imagem <code>nginx</code> foi baixada e está disponível localmente. Você pode usar essa imagem para criar contêineres Nginx em sua máquina.</p>
+<h3 id="o-conteiner-docker">O contêiner Docker<a class="headerlink" href="#o-conteiner-docker" title="Permanent link">&para;</a></h3>
+<p>Um contêiner Docker é uma instância em execução de uma imagem Docker. Como já estudamos, os contêineres são isolados uns dos outros e do host, o que significa que eles têm seu próprio sistema de arquivos, rede e processos. Isso permite que você execute vários contêineres em um único host sem conflitos.</p>
+<p>Os contêineres são criados a partir de imagens Docker e podem ser iniciados, parados e removidos conforme necessário. Quando você executa um contêiner, o Docker cria uma camada de leitura e gravação em cima da imagem, permitindo que você faça alterações no contêiner sem afetar a imagem original.</p>
+<p>Os contêineres são efêmeros por natureza, o que significa que eles podem ser iniciados e parados rapidamente. Quando um contêiner é parado, ele pode ser removido ou reiniciado a partir da imagem original. Isso torna os contêineres ideais para ambientes de desenvolvimento e produção, onde você pode precisar criar e destruir instâncias rapidamente.</p>
+<p>Os contêineres podem ser executados em segundo plano (modo "detached") ou em primeiro plano (modo "foreground"). Quando um contêiner é executado em segundo plano, ele continua em execução mesmo depois que o terminal é fechado. Para executar um contêiner em segundo plano, você pode usar a opção <code>-d</code> com o comando <code>docker run</code>. Por exemplo:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>-p<span class="w"> </span><span class="m">8001</span>:80<span class="w"> </span>nginx
+</span></code></pre></div>
+<p>Isso executará um contêiner Nginx em segundo plano, mapeando a porta 80 do contêiner para a porta 8001 do host. Você pode acessar o Nginx no seu navegador em <code>http://localhost:8001</code>.</p>
+<p>Se você quiser ver uma lista dos contêineres em execução, pode usar o seguinte comando:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>docker<span class="w"> </span>container<span class="w"> </span>ls
+</span></code></pre></div>
+<p>Isso exibirá uma tabela com informações sobre os contêineres em execução, incluindo o ID do contêiner, o nome da imagem, o status e as portas mapeadas.</p>
+<p>Se você quiser ver todos os contêineres, incluindo os parados, pode usar o seguinte comando:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>docker<span class="w"> </span>container<span class="w"> </span>ls<span class="w"> </span>-a
+</span></code></pre></div>
+<p>Isso exibirá uma tabela com informações sobre todos os contêineres, incluindo os que estão parados.</p>
+<p>Para parar um contêiner em execução, você pode usar o seguinte comando:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>docker<span class="w"> </span>container<span class="w"> </span>stop<span class="w"> </span>&lt;container_id&gt;
+</span></code></pre></div>
+<p>Substitua <code>&lt;container_id&gt;</code> pelo ID do contêiner que você deseja parar. Você pode encontrar o ID do contêiner na saída do comando <code>docker container ls</code>.</p>
+<h2 id="comandos-do-docker">Comandos do Docker<a class="headerlink" href="#comandos-do-docker" title="Permanent link">&para;</a></h2>
+<p>Abaixo estão alguns comandos essenciais do Docker que você usará com frequência:</p>
+<ul>
+<li><code>docker pull &lt;image&gt;</code>: Baixar uma imagem de um registro, como o Docker Hub.</li>
+<li><code>docker build -t &lt;image_name&gt; &lt;path&gt;</code>: Criar uma imagem a partir de um Dockerfile, onde <code>&lt;path&gt;</code> é o diretório que contém o Dockerfile.</li>
+<li><code>docker image ls</code>: Listar todas as imagens disponíveis em sua máquina local.</li>
+<li><code>docker run -d -p &lt;host_port&gt;:&lt;container_port&gt; --name &lt;container_name&gt; &lt;image&gt;</code>: Executar um contêiner a partir de uma imagem, mapeando portas do host para portas do contêiner.</li>
+<li><code>docker container ls</code>: Listar todos os contêineres em execução.</li>
+<li><code>docker container stop &lt;container&gt;</code>: Parar um contêiner em execução.</li>
+<li><code>docker container rm &lt;container&gt;</code>: Remover um contêiner parado.</li>
+<li><code>docker image rm &lt;image&gt;</code>: Remover uma imagem de sua máquina local.</li>
+</ul>
+<h2 id="persistencia-de-dados">Persistência de dados<a class="headerlink" href="#persistencia-de-dados" title="Permanent link">&para;</a></h2>
+<p>Por padrão, o armazenamento dentro de um contêiner Docker é efêmero, o que significa que qualquer alteração ou modificação de dados feita dentro de um contêiner só está disponível enquanto o contêiner estiver em execução. Uma vez que o contêiner é parado e removido, todos os dados associados a ele serão perdidos. Esse armazenamento temporário ou de curta duração é chamado de "sistema de arquivos efêmero do contêiner".</p>
+<p>Em linhas gerais, quanto um contêiner inicia, ele usa os arquivos e a configuração fornecidos pela imagem. Cada contêiner é capaz de criar, modificar e excluir arquivos, fazendo isso sem afetar nenhum outro contêiner. Quando o contêiner é excluído, essas alterações de arquivo também são excluídas.</p>
+<p>Embora essa natureza efêmera dos contêineres seja ótima para desenvolvimento e testes, ela pode ser um desafio quando você deseja persistir dados entre reinicializações de contêineres. Por exemplo, se você reiniciar um contêiner de banco de dados, pode não querer começar com um banco de dados vazio. Portanto, como persistir arquivos?</p>
+<p>Existem duas abordagens principais para persistir dados em contêineres Docker:</p>
+<ol>
+<li>
+<p><strong>Bind mounts</strong>: Os bind mounts permitem que você monte um diretório do host dentro de um contêiner.</p>
+</li>
+<li>
+<p><strong>Volumes</strong>: Os volumes são a maneira recomendada de persistir dados em contêineres Docker. Eles são armazenados fora do sistema de arquivos do contêiner e podem ser compartilhados entre vários contêineres.</p>
+</li>
+</ol>
+<h3 id="bind-mounts">Bind mounts<a class="headerlink" href="#bind-mounts" title="Permanent link">&para;</a></h3>
+<p>Os bind mounts, por sua vez, permitem que você monte um diretório do host dentro de um contêiner. Isso significa que qualquer alteração feita no diretório do host será refletida no contêiner e vice-versa. Para usar um bind mount, você pode usar a opção <code>-v</code> com o caminho do diretório do host:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>-p<span class="w"> </span><span class="m">8001</span>:80<span class="w"> </span>-v<span class="w"> </span>/path/to/host/directory:/usr/share/nginx/html<span class="w"> </span>nginx
+</span></code></pre></div>
+<p>Isso montará o diretório <code>/path/to/host/directory</code> do host no diretório <code>/usr/share/nginx/html</code> dentro do contêiner Nginx. Qualquer arquivo criado ou modificado nesse diretório será persistido no diretório do host, mesmo que o contêiner seja removido.</p>
+<p>É importante notar que os bind mounts não são gerenciados pelo Docker e podem ser mais difíceis de gerenciar do que os volumes. Além disso, os bind mounts podem apresentar problemas de portabilidade, pois dependem do caminho do diretório no host.</p>
+<div class="admonition example annotate">
+<p class="admonition-title">Bind mounts na prática</p>
+<p>Vamos fazer um exemplo de modificação no Nginx. Siga os seguintes passos:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Vamos criar uma pasta para o nosso projeto, por exemplo <code>docker-nginx</code></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Abra esse diretório no Visual Studio Code ou no editor de sua preferência.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Crie um sub-diretório com o nome <code>html</code> dentro de <code>docker-nginx</code>:</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Crie um arquivo <code>index.html</code> dentro do diretório <code>html</code> com o seguinte conteúdo:</li>
+</ul>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="cp">&lt;!DOCTYPE html&gt;</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;pt-BR&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;UTF-8&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;width=device-width, initial-scale=1.0&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Docker Nginx<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>    <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Bem-vindo ao Docker Nginx!<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Este é um exemplo de página servida pelo Nginx em um contêiner Docker.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a><span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Agora, execute o seguinte comando no terminal:</li>
+</ul>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>docker<span class="w"> </span>run<span class="w"> </span>-p<span class="w"> </span><span class="m">8001</span>:80<span class="w"> </span>-v<span class="w"> </span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/html:/usr/share/nginx/html<span class="w"> </span>nginx<span class="w"> </span><span class="c1"># (1)</span>
+</span></code></pre></div>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Agora, abra o navegador e acesse <code>http://localhost:8001</code>. Você verá a página HTML que você criou no diretório <code>html</code> do host.</p>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Agora, faça uma alteração no arquivo <code>index.html</code> e salve. Você verá que a página no navegador será atualizada automaticamente com as alterações feitas no arquivo <code>index.html</code> do host.</p>
+</li>
+</ul>
+</div>
+<ol>
+<li><img alt="🙋‍♂️" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/1f64b-200d-2642-fe0f.svg" title=":man_raising_hand:" /> Isso iniciará um contêiner Nginx, mapeando a porta 80 do contêiner para a porta 8001 do host e montando o diretório <code>html</code> do host no diretório <code>/usr/share/nginx/html</code> dentro do contêiner. Lembre-se que este diretório é onde o Nginx procura os arquivos HTML para servir.</li>
+</ol>
+<h3 id="volumes">Volumes<a class="headerlink" href="#volumes" title="Permanent link">&para;</a></h3>
+<p>Como citado anteriormente, os volumes são gerenciados pelo Docker e podem ser facilmente criados, removidos e compartilhados. Para criar um volume, você pode usar o seguinte comando:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>docker<span class="w"> </span>volume<span class="w"> </span>create<span class="w"> </span>&lt;volume_name&gt;
+</span></code></pre></div>
+<p>Para usar um volume ao executar um contêiner, você pode usar a opção <code>-v</code>:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>-p<span class="w"> </span><span class="m">8001</span>:80<span class="w"> </span>-v<span class="w"> </span>&lt;volume_name&gt;:/usr/share/nginx/html<span class="w"> </span>nginx
+</span></code></pre></div>
+<p>Isso montará o volume <code>&lt;volume_name&gt;</code> no diretório <code>/usr/share/nginx/html</code> dentro do contêiner Nginx. Qualquer arquivo criado ou modificado nesse diretório será persistido no volume, mesmo que o contêiner seja removido.</p>
+<p>Para colocar em prática, vamos usar o exemplo de um contêiner com um servidor de banco de dados PostgreSQL. Como comentado anteriormente, se você reiniciar um contêiner de banco de dados, pode não querer começar com um banco de dados vazio. Dessa forma, o uso de volumes pode ser uma boa solução.</p>
+<div class="admonition example annotate">
+<p class="admonition-title">Volumes na prática</p>
+<p>Vamos fazer um exemplo de persistência de dados com o PostgreSQL. Siga os seguintes passos:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Primeiro vamos criar um volume com o nome <code>pgdata</code>:</li>
+</ul>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>docker<span class="w"> </span>volume<span class="w"> </span>create<span class="w"> </span>pgdata
+</span></code></pre></div>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Agora vamos executar um contêiner PostgreSQL, mapeando o volume <code>pgdata</code> para o diretório <code>/var/lib/postgresql/data</code> dentro do contêiner:</li>
+</ul>
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="w">    </span>--name<span class="w"> </span>postgres<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="w">    </span>-e<span class="w"> </span><span class="nv">POSTGRES_USER</span><span class="o">=</span>postgres<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="w">    </span>-e<span class="w"> </span><span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span>postgres<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="w">    </span>-p<span class="w"> </span><span class="m">5432</span>:5432<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="w">    </span>-v<span class="w"> </span>pgdata:/var/lib/postgresql/data<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="w">    </span>postgres<span class="w"> </span><span class="c1"># (1)</span>
+</span></code></pre></div>
+- [x] Agora, você pode acessar o banco de dados PostgreSQL usando um cliente de banco de dados, como o DBeaver ou o pgAdmin, usando as seguintes credenciais:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>Host: localhost
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>Porta: 5432
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>Usuário: postgres
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>Senha: postgres
+</span></code></pre></div>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Todas as alterações que você fizer no banco de dados serão persistidas no volume <code>pgdata</code>, mesmo que o contêiner seja removido.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Para parar o contêiner, você pode usar o seguinte comando:</li>
+</ul>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>docker<span class="w"> </span>container<span class="w"> </span>stop<span class="w"> </span>postgres
+</span></code></pre></div>
+</div>
+<ol>
+<li>Note que estamos usando a imagem oficial do PostgreSQL e mapeando o volume <code>pgdata</code> para o diretório <code>/var/lib/postgresql/data</code> dentro do contêiner. Esse diretório é onde o PostgreSQL armazena os dados do banco de dados. Isso garante que os dados persistam mesmo que o contêiner seja removido. Também estamos mapeando a porta 5432 do contêiner para a porta 5432 do host, permitindo que você acesse o banco de dados a partir do host.</li>
+</ol>
+<p>Os volumes são administrados pelo Docker e podem ser facilmente criados, removidos e compartilhados entre contêineres. Você pode listar os volumes disponíveis em sua máquina local usando o seguinte comando:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>docker<span class="w"> </span>volume<span class="w"> </span>ls
+</span></code></pre></div>
+<p>Isso exibirá uma tabela com informações sobre os volumes disponíveis, incluindo o nome e o driver do volume.</p>
+<p>Uma informação importante é que os dados do volume não ficam armazenados dentro do contêiner, mas sim em um diretório específico no host. O Docker gerencia esse diretório e garante que os dados sejam persistidos mesmo que o contêiner seja removido. Isso significa que você pode remover um contêiner e ainda ter acesso aos dados armazenados no volume.</p>
+<p>Para visualizar o local dos dados do volume no host, você pode usar o seguinte comando:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>docker<span class="w"> </span>volume<span class="w"> </span>inspect<span class="w"> </span>&lt;volume_name&gt;
+</span></code></pre></div>
+<p>Isso exibirá informações detalhadas sobre o volume, incluindo o caminho no host onde os dados estão armazenados. O caminho pode variar dependendo do sistema operacional e da configuração do Docker.</p>
+<h2 id="docker-compose">Docker compose<a class="headerlink" href="#docker-compose" title="Permanent link">&para;</a></h2>
+<p>O Docker Compose é uma ferramenta que permite definir e executar aplicativos Docker compostos por vários contêineres. Com o Docker Compose, você pode usar um arquivo YAML para configurar os serviços, redes e volumes necessários para o seu aplicativo. Isso facilita a orquestração de contêineres e a criação de ambientes de desenvolvimento e produção consistentes.</p>
+<p>O formato YAML é uma linguagem de serialização de dados legível por humanos, que é amplamente utilizada para configuração de aplicativos, em especial no contexto de DevOps e infraestrutura como código. O arquivo de configuração do Docker Compose é chamado <code>docker-compose.yml</code> e deve estar localizado no diretório raiz do seu projeto.</p>
+<p>O Docker Compose é especialmente útil quando você tem um aplicativo que depende de vários serviços, como um banco de dados, um servidor web e um serviço de cache. Com o Docker Compose, você pode definir todos esses serviços em um único arquivo e iniciar todos eles com um único comando.</p>
+<p>Todas as configurações que são realizadas na configuração de um <code>docker-compose</code> podem ser realizadas diretamente na linha de comando, mas o uso do <code>docker-compose</code> é mais prático e organizado. Anteriormente, vimos como executar um contêiner Ngnix com persistência de dados usando <code>bind mounts</code>. Também vimos como executar um contêiner PostgreSQL com persistência de dados usando volumes.</p>
+<p class="annotate">Agora, vamos considerar o seguinte cenário: você executa um contêiner docker com o PostgreSQL e um outro contêiner com a ferramenta <code>PgAdmin</code> (1). Contudo, você não quer que o banco de dados PostgreSQL fique exposto na rede, mas sim que o <code>PgAdmin</code> tenha acesso a ele. Para isso, você deveria criar uma rede interna entre os dois contêineres. Isso pode ser feito facilmente com o Docker Compose, e veremos como fazer isso a seguir.</p>
+<ol>
+<li>O <code>PgAdmin</code> é uma ferramenta de gerenciamento e administração de banco de dados PostgreSQL. Ele fornece uma interface gráfica para interagir com o banco de dados, permitindo que você execute consultas SQL, visualize dados e gerencie objetos do banco de dados.</li>
+</ol>
+<div class="language-yaml highlight"><span class="filename">docker-compose.yml</span><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="nt">services</span><span class="p">:</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="w">  </span><span class="nt">db</span><span class="p">:</span>
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres</span>
+</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">POSTGRES_USER=postgres</span>
+</span><span id="__span-26-6"><a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">POSTGRES_PASSWORD=postgres</span>
+</span><span id="__span-26-7"><a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">POSTGRES_DB=sample_db</span>
+</span><span id="__span-26-8"><a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+</span><span id="__span-26-9"><a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db-postgres-data:/var/lib/postgresql/data</span>
+</span><span id="__span-26-10"><a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a><span class="w">    </span><span class="nt">networks</span><span class="p">:</span>
+</span><span id="__span-26-11"><a id="__codelineno-26-11" name="__codelineno-26-11" href="#__codelineno-26-11"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">internal-network</span>
+</span><span id="__span-26-12"><a id="__codelineno-26-12" name="__codelineno-26-12" href="#__codelineno-26-12"></a><span class="w">  </span><span class="nt">pgadmin</span><span class="p">:</span>
+</span><span id="__span-26-13"><a id="__codelineno-26-13" name="__codelineno-26-13" href="#__codelineno-26-13"></a><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dpage/pgadmin4</span>
+</span><span id="__span-26-14"><a id="__codelineno-26-14" name="__codelineno-26-14" href="#__codelineno-26-14"></a><span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+</span><span id="__span-26-15"><a id="__codelineno-26-15" name="__codelineno-26-15" href="#__codelineno-26-15"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;5050:80&#39;</span>
+</span><span id="__span-26-16"><a id="__codelineno-26-16" name="__codelineno-26-16" href="#__codelineno-26-16"></a><span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+</span><span id="__span-26-17"><a id="__codelineno-26-17" name="__codelineno-26-17" href="#__codelineno-26-17"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGADMIN_DEFAULT_EMAIL=admin@admin.com</span>
+</span><span id="__span-26-18"><a id="__codelineno-26-18" name="__codelineno-26-18" href="#__codelineno-26-18"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGADMIN_DEFAULT_PASSWORD=admin</span>
+</span><span id="__span-26-19"><a id="__codelineno-26-19" name="__codelineno-26-19" href="#__codelineno-26-19"></a><span class="w">    </span><span class="nt">networks</span><span class="p">:</span>
+</span><span id="__span-26-20"><a id="__codelineno-26-20" name="__codelineno-26-20" href="#__codelineno-26-20"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">internal-network</span>
+</span><span id="__span-26-21"><a id="__codelineno-26-21" name="__codelineno-26-21" href="#__codelineno-26-21"></a>
+</span><span id="__span-26-22"><a id="__codelineno-26-22" name="__codelineno-26-22" href="#__codelineno-26-22"></a><span class="nt">networks</span><span class="p">:</span>
+</span><span id="__span-26-23"><a id="__codelineno-26-23" name="__codelineno-26-23" href="#__codelineno-26-23"></a><span class="w">  </span><span class="nt">internal-network</span><span class="p">:</span>
+</span><span id="__span-26-24"><a id="__codelineno-26-24" name="__codelineno-26-24" href="#__codelineno-26-24"></a><span class="w">    </span><span class="nt">driver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bridge</span>
+</span><span id="__span-26-25"><a id="__codelineno-26-25" name="__codelineno-26-25" href="#__codelineno-26-25"></a>
+</span><span id="__span-26-26"><a id="__codelineno-26-26" name="__codelineno-26-26" href="#__codelineno-26-26"></a><span class="nt">volumes</span><span class="p">:</span>
+</span><span id="__span-26-27"><a id="__codelineno-26-27" name="__codelineno-26-27" href="#__codelineno-26-27"></a><span class="w">  </span><span class="nt">db-postgres-data</span><span class="p">:</span>
+</span><span id="__span-26-28"><a id="__codelineno-26-28" name="__codelineno-26-28" href="#__codelineno-26-28"></a><span class="w">    </span><span class="nt">driver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">local</span>
+</span></code></pre></div>
+<p>Note que o arquivo está dividido em três seções principais: <code>services</code>, <code>networks</code> e <code>volumes</code>. A seção <code>services</code> define os serviços que serão executados, a seção <code>networks</code> define as redes que serão criadas e a seção <code>volumes</code> define os volumes que serão utilizados.</p>
+<p>Na seção <code>services</code>, temos dois serviços: <code>db</code> e <code>pgadmin</code>.</p>
+<ul>
+<li><strong>db</strong> - Esse serviço usa a imagem oficial do PostgreSQL e define algumas variáveis de ambiente para configurar o banco de dados. O banco de dados será criado com o nome <code>sample_db</code>, e as credenciais de acesso serão definidas como <code>postgres</code> para o usuário e senha. Note que o volume <code>db-postgres-data</code> é montado no diretório <code>/var/lib/postgresql/data</code> dentro do contêiner, garantindo que os dados do banco de dados sejam persistidos mesmo que o contêiner seja removido. O serviço <code>db</code> também está conectado à rede interna <code>internal-network</code>, o que significa que ele pode se comunicar com outros serviços na mesma rede.</li>
+<li><strong>pgadmin</strong> - Esse serviço usa a imagem oficial do PgAdmin e expõe a porta 80 do contêiner na porta 5050 do <code>host</code>. As variáveis de ambiente <code>PGADMIN_DEFAULT_EMAIL</code> e <code>PGADMIN_DEFAULT_PASSWORD</code> são usadas para definir as credenciais de acesso ao PgAdmin. O serviço <code>pgadmin</code> também está conectado à rede interna <code>internal-network</code>, permitindo que ele se comunique com o serviço <code>db</code>.</li>
+</ul>
+<div class="admonition abstract">
+<p class="admonition-title">Relembrando</p>
+<p>Os nomes dessas variáveis de ambiente foram definidos na documentação oficial do PgAdmin. Você pode consultar a <a href="https://www.pgadmin.org/docs/pgadmin4/latest/container_deployment.html">documentação oficial do PgAdmin</a> para mais informações sobre as variáveis de ambiente disponíveis. Cada imagem possui as suas variáveis de ambiente, e é importante consultar a documentação para entender como configurá-las corretamente.</p>
+</div>
+<p>Note que, pela configuração de <code>networks</code>, os dois serviços estão conectados à mesma rede interna chamada <code>internal-network</code>. Isso significa que eles podem se comunicar entre si, mas não estarão acessíveis diretamente a partir do host. O PgAdmin poderá acessar o banco de dados PostgreSQL usando o nome do serviço <code>db</code> como hostname. O próprio Docker irá resolver o nome do serviço para o endereço IP do contêiner correspondente na rede interna, e também gerenciará a atribuição de endereços IP para os contêineres na rede criada.</p>
+<p>Para iniciar os serviços definidos no arquivo <code>docker-compose.yml</code>, você pode usar o seguinte comando:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span><span class="c1"># (1) (2)</span>
+</span></code></pre></div>
+<ol>
+<li>Você também pode usar a opção <code>-d</code> para executar os serviços em segundo plano (modo "detached").</li>
+<li>Também você pode definir apenas um serviço específico para iniciar. O comando <code>docker compose up db</code> iniciará apenas o serviço <code>db</code>.</li>
+</ol>
+<p>Depois de iniciado os serviços, você pode acessar o PgAdmin no seu navegador em <code>http://localhost:5050</code>. Use as credenciais definidas no arquivo <code>docker-compose.yml</code> para fazer login. Depois de autenticado, você pode adicionar uma nova conexão ao banco de dados PostgreSQL usando o nome do serviço <code>db</code> como hostname e as credenciais definidas no arquivo <code>docker-compose.yml</code>.</p>
+<p>Com isso, o seu contêiner <code>pgadmin</code> poderá acessar o banco de dados PostgreSQL, que está em outro contêiner, e você poderá gerenciar o banco de dados através da interface gráfica do PgAdmin.</p>
+<h3 id="comandos-do-docker-compose">Comandos do Docker Compose<a class="headerlink" href="#comandos-do-docker-compose" title="Permanent link">&para;</a></h3>
+<p>Abaixo estão alguns comandos essenciais do Docker Compose que você usará com maior frequência:</p>
+<table>
+<thead>
+<tr>
+<th>Comando</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>docker compose up</code></td>
+<td>Cria e inicia os serviços definidos no arquivo <code>docker-compose.yml</code>.</td>
+</tr>
+<tr>
+<td><code>docker compose down</code></td>
+<td>Para e remove os serviços definidos no arquivo <code>docker-compose.yml</code>.</td>
+</tr>
+<tr>
+<td><code>docker compose ps</code></td>
+<td>Lista os serviços em execução definidos no arquivo <code>docker-compose.yml</code>.</td>
+</tr>
+<tr>
+<td><code>docker compose logs</code></td>
+<td>Exibe os logs dos serviços em execução definidos no arquivo <code>docker-compose.yml</code>.</td>
+</tr>
+<tr>
+<td><code>docker compose build</code></td>
+<td>Constrói as imagens dos serviços definidos no arquivo <code>docker-compose.yml</code>.</td>
+</tr>
+<tr>
+<td><code>docker compose exec &lt;service&gt; &lt;command&gt;</code></td>
+<td>Executa um comando em um contêiner em execução de um serviço definido no arquivo <code>docker-compose.yml</code>.</td>
+</tr>
+<tr>
+<td><code>docker compose run &lt;service&gt;</code></td>
+<td>Executa um comando em um novo contêiner de um serviço definido no arquivo <code>docker-compose.yml</code>.</td>
+</tr>
+<tr>
+<td><code>docker compose config</code></td>
+<td>Valida e exibe a configuração do arquivo <code>docker-compose.yml</code>.</td>
+</tr>
+<tr>
+<td><code>docker compose pull</code></td>
+<td>Faz o download das imagens dos serviços definidos no arquivo <code>docker-compose.yml</code>.</td>
+</tr>
+<tr>
+<td><code>docker compose rm</code></td>
+<td>Remove os contêineres parados dos serviços definidos no arquivo <code>docker-compose.yml</code>.</td>
+</tr>
+<tr>
+<td><code>docker compose restart</code></td>
+<td>Reinicia os serviços definidos no arquivo <code>docker-compose.yml</code>.</td>
+</tr>
+<tr>
+<td><code>docker compose start</code></td>
+<td>Inicia os serviços definidos no arquivo <code>docker-compose.yml</code> que estão parados.</td>
+</tr>
+<tr>
+<td><code>docker compose stop</code></td>
+<td>Para os serviços definidos no arquivo <code>docker-compose.yml</code> que estão em execução.</td>
+</tr>
+<tr>
+<td><code>docker compose version</code></td>
+<td>Exibe a versão do Docker Compose instalada.</td>
+</tr>
+<tr>
+<td><code>docker compose help</code></td>
+<td>Exibe a ajuda para o Docker Compose.</td>
+</tr>
+<tr>
+<td><code>docker compose -f &lt;file&gt;</code></td>
+<td>Especifica um arquivo de configuração diferente do padrão <code>docker-compose.yml</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Existem muitos outros comandos e opções disponíveis no Docker Compose, mas esses são os mais comuns e úteis para começar. Você pode consultar a <a href="https://docs.docker.com/compose/">documentação oficial do Docker Compose</a> para obter mais informações sobre os comandos e as opções disponíveis.</p>
+<h2 id="redes-docker">Redes Docker<a class="headerlink" href="#redes-docker" title="Permanent link">&para;</a></h2>
+<p>No exemplo que apresentamos, foi criada uma rede interna chamada <code>internal-network</code>, que permite que os contêineres se comuniquem entre si. O Docker cria automaticamente uma rede bridge padrão chamada <code>bridge</code> quando o Docker é instalado. Essa rede é usada para conectar contêineres em execução no mesmo host.</p>
+<p>Em geral, o docker permite a criação de diversos tipos de redes (<code>drivers</code>). Aqui, falaremos de três:</p>
+<ul>
+<li><strong>Bridge</strong>: A rede bridge padrão é criada automaticamente pelo Docker e é usada para conectar contêineres em execução no mesmo host. Essa rede permite que os contêineres se comuniquem entre si usando endereços IP internos.</li>
+<li><strong>Host</strong>: A rede host conecta o contêiner diretamente à rede do host. Isso significa que o contêiner compartilha o mesmo espaço de rede que o host, permitindo acesso direto às interfaces de rede do host. Essa rede é útil quando você precisa de desempenho máximo e não se importa com o isolamento do contêiner.</li>
+<li><strong>Overlay</strong>: A rede overlay permite que você conecte contêineres em diferentes hosts Docker. Essa rede é útil para criar aplicativos distribuídos que precisam se comunicar entre diferentes hosts. O Docker Swarm usa redes overlay para conectar serviços em diferentes nós do cluster.</li>
+</ul>
+<p>Na maioria das vezes você usará a rede bridge padrão, que permitem que os contêineres se comuniquem entre si usando nomes de serviço, o que facilita a configuração e o gerenciamento de aplicativos compostos por vários contêineres.</p>
+<p>Para listar as redes disponíveis em sua máquina local, você pode usar o seguinte comando:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>docker<span class="w"> </span>network<span class="w"> </span>ls
+</span></code></pre></div>
+<p>Também é possível inspecionar uma rede específica para obter mais informações sobre ela, como os contêineres conectados a ela e as configurações de rede. Para isso, você pode usar o seguinte comando:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>docker<span class="w"> </span>network<span class="w"> </span>inspect<span class="w"> </span>&lt;network_name&gt;
+</span></code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar para o topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Rodapé" >
+        
+          
+          <a href="../containers/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Contêineres">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                Contêineres
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../orquestracao/" class="md-footer__link md-footer__link--next" aria-label="Próximo: Orquestração">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Próximo
+              </span>
+              <div class="md-ellipsis">
+                Orquestração
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 Eduardo da Silva
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["announce.dismiss", "content.code.annotate", "content.code.copy", "content.code.select", "content.tooltips", "navigation.footer", "navigation.indexes", "navigation.instant.progress", "navigation.sections", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  </body>
+</html>
