@@ -50,8 +50,8 @@ Vamos fazer um laboratório de integração do Packer com o Vagrant e o VirtualB
 
     ```bash
     packer init .
-    packer install plugin github.com/hashicorp/virtualbox
-    packer install plugin github.com/hashicorp/vagrant
+    packer plugin install github.com/hashicorp/virtualbox
+    packer plugin install github.com/hashicorp/vagrant
     ```
 
 3.  **Crie um arquivo de configuração do Packer**
