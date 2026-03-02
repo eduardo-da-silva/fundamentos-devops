@@ -20,21 +20,21 @@ A disciplina fornece uma base sólida para que os estudantes possam automatizar 
 
 ## Conteúdo programático e cronograma
 
-**Semana 1-2: Introdução ao DevOps e Versionamento de Código**
+**Semana 1: Introdução ao DevOps e Versionamento de Código**
 
 - Fundamentos de DevOps e sua importância
 - Práticas de versionamento de código
 - Git básico: instalação, configuração e comandos essenciais
 - Conventional commits
 
-**Semana 3-4: Gestão de Repositórios e Colaboração**
+**Semana 2: Gestão de Repositórios e Colaboração**
 
 - Plataformas de hospedagem de repositórios Git (GitHub, GitLab, Bitbucket)
 - Estratégias de branching
 - Pull requests e code review
 - Projetos práticos em equipe
 
-**Semana 5-6: Integração Contínua**
+**Semana 3-6: Integração Contínua**
 
 - Introdução à integração contínua
 - Configuração de pipelines CI/CD
