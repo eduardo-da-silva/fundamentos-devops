@@ -102,7 +102,10 @@ nav:
   - Introdução: intro.md
   - Gestão de repositórios e colaboração: collaboration.md
   - Integração Contínua: ci/index.md
-  - Contêineres:  containers/index.md
+  - Contêineres:
+    - containers/index.md
+    - Namespaces: containers/namespaces.md
+    - CGroups: containers/cgroups.md
   - Docker:
     - docker/index.md
     - Persistência de dados: docker/persistencia.md
