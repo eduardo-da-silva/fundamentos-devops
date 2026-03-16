@@ -101,7 +101,11 @@ markdown_extensions:
 nav:
   - Introdução: intro.md
   - Gestão de repositórios e colaboração: collaboration.md
-  - Integração Contínua: ci/index.md
+  - Integração Contínua:
+    - ci/index.md
+    - Criando o projeto: ci/criando-projeto.md
+    - Configurando o GitHub Actions: ci/configurando-github-actions.md
+    - Deploy para o DockerHub: ci/configurando-deploy-dockerhub.md
   - Contêineres:
     - containers/index.md
     - Namespaces: containers/namespaces.md

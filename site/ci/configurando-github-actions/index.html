@@ -13,6 +13,10 @@
         <link rel="canonical" href="https://eduardo-da-silva.github.io/fundamentos-devops/ci/configurando-github-actions/">
       
       
+        <link rel="prev" href="../criando-projeto/">
+      
+      
+        <link rel="next" href="../configurando-deploy-dockerhub/">
       
       
         
@@ -23,7 +27,7 @@
     
     
       
-        <title>Configurando github actions - Fundamentos de DevOps</title>
+        <title>Configurando o GitHub Actions - Fundamentos de DevOps</title>
       
     
     
@@ -74,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#configuracao-do-github-actions" class="md-skip">
+        <a href="#configurando-o-github-actions" class="md-skip">
           Pular para conteúdo
         </a>
       
@@ -110,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Configurando github actions
+              Configurando o GitHub Actions
             
           </span>
         </div>
@@ -314,11 +318,42 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../" class="md-nav__link">
+  
+    
+    
+      
         
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
   
   
   <span class="md-ellipsis">
@@ -332,7 +367,201 @@
   
   
 
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Integração Contínua
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../criando-projeto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Criando o projeto
+  
+
+    
+  </span>
+  
+  
+
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configurando o GitHub Actions
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configurando o GitHub Actions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#primeiro-workflow-executando-testes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Primeiro workflow: executando testes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Primeiro workflow: executando testes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#testando-o-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testando o workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adicionando-a-criacao-da-imagem-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adicionando a criação da imagem Docker
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configurando-deploy-dockerhub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy para o DockerHub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -343,9 +572,36 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../../containers/" class="md-nav__link">
+    
+    
+      
         
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../containers/" class="md-nav__link ">
+              
   
   
   <span class="md-ellipsis">
@@ -359,7 +615,87 @@
   
   
 
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Contêineres
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../containers/namespaces/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Namespaces
+  
+
+    
+  </span>
+  
+  
+
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../containers/cgroups/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CGroups
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -596,6 +932,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -604,22 +942,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#configuracao-do-github-actions" class="md-nav__link">
+  <a href="#primeiro-workflow-executando-testes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Configuração do GitHub Actions
+        Primeiro workflow: executando testes
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Configuração do GitHub Actions">
+    <nav class="md-nav" aria-label="Primeiro workflow: executando testes">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#executando-o-github-actions" class="md-nav__link">
+  <a href="#testando-o-workflow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Executando o GitHub Actions
+        Testando o workflow
       
     </span>
   </a>
@@ -628,6 +966,17 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adicionando-a-criacao-da-imagem-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adicionando a criação da imagem Docker
+      
+    </span>
+  </a>
   
 </li>
       
@@ -651,49 +1000,241 @@
   
 
 
-  <h1>Configurando github actions</h1>
-
-<h2 id="configuracao-do-github-actions">Configuração do GitHub Actions<a class="headerlink" href="#configuracao-do-github-actions" title="Permanent link">&para;</a></h2>
-<p>O GitHub Actions permite a criação de pipelines de CI/CD diretamente no repositório, facilitando a automação de tarefas como testes, compilação, análise de código e implantação. Para configurar o GitHub Actions, crie um arquivo chamado <code>.github/workflows/ci.yml</code> na raiz do projeto com o seguinte conteúdo:</p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ci-python</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nt">on</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">push</span><span class="p p-Indicator">]</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nt">jobs</span><span class="p">:</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="nt">check-application</span><span class="p">:</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v5</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">        </span><span class="nt">with</span><span class="p">:</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.13&#39;</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">          </span><span class="nt">cache</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;pip&#39;</span>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pip install -r requirements.txt</span>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pytest</span>
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Set up QEMU</span>
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker/setup-qemu-action@v1</span>
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Set up Docker Buildx</span>
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker/setup-buildx-action@v1</span>
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Build</span>
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">        </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker_build</span>
-</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker/build-push-action@v2</span>
-</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="w">        </span><span class="nt">with</span><span class="p">:</span>
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">          </span><span class="nt">push</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<h1 id="configurando-o-github-actions">Configurando o GitHub Actions<a class="headerlink" href="#configurando-o-github-actions" title="Permanent link">&para;</a></h1>
+<p>Nesta etapa, vamos criar o pipeline de CI no GitHub Actions. Começaremos com um workflow mínimo que executa apenas os testes, e depois o expandiremos para incluir a construção de uma imagem Docker.</p>
+<h2 id="primeiro-workflow-executando-testes">Primeiro workflow: executando testes<a class="headerlink" href="#primeiro-workflow-executando-testes" title="Permanent link">&para;</a></h2>
+<p>Crie a estrutura de diretórios e o arquivo de workflow:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>.github/workflows
 </span></code></pre></div>
-<p>Neste arquivo de configuração, definimos um job chamado <code>check-application</code> que executa as seguintes etapas:</p>
+<p>Crie o arquivo <code>.github/workflows/ci.yml</code> com o seguinte conteúdo:</p>
+<div class="language-yaml highlight"><span class="filename">.github/workflows/ci.yml</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ci-python</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nt">on</span><span class="p">:</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">push</span><span class="p">:</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">main</span><span class="p p-Indicator">]</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">main</span><span class="p p-Indicator">]</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="nt">jobs</span><span class="p">:</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="nt">tests</span><span class="p">:</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v5</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.13&#39;</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">          </span><span class="nt">cache</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;pip&#39;</span><span class="w"> </span><span class="c1"># (1)</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pip install -r requirements.txt</span>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pytest</span>
+</span></code></pre></div>
 <ol>
-<li><code>actions/checkout@v4</code>: Faz o checkout do código fonte do repositório.</li>
-<li><code>actions/setup-python@v5</code>: Configura o ambiente Python com a versão 3.13 e o cache do <code>pip</code>.</li>
-<li><code>pip install -r requirements.txt</code>: Instala as dependências do projeto.</li>
-<li><code>pytest</code>: Executa os testes unitários do projeto.</li>
-<li><code>docker/setup-qemu-action@v1</code>: Configura o QEMU para execução de imagens multiplataforma.</li>
-<li><code>docker/setup-buildx-action@v1</code>: Configura o Buildx para construção de imagens Docker.</li>
-<li><code>docker/build-push-action@v2</code>: Constrói a imagem Docker a partir do <code>Dockerfile</code>.</li>
+<li>A opção <code>cache: 'pip'</code> instrui a action <code>setup-python</code> a armazenar em cache os pacotes baixados pelo <code>pip</code>. Nas execuções seguintes, em vez de baixar todos os pacotes novamente, o pipeline reutiliza o cache — o que reduz significativamente o tempo de execução. O cache é invalidado automaticamente quando o arquivo <code>requirements.txt</code> muda.</li>
 </ol>
-<p>Note que o job <code>check-application</code> é acionado sempre que ocorre um push no repositório. Você pode personalizar as etapas de acordo com as necessidades do seu projeto, adicionando mais comandos, testes e ações específicas.</p>
-<p>Também, na última etapa, foi configurada a opção <code>push</code> como <code>false</code>, o que significa que a imagem Docker será construída, mas não será enviada para um registro de contêiner. Você pode alterar essa opção para <code>true</code> e adicionar as credenciais necessárias para fazer o push da imagem para um registro de contêiner. Nesta etapa, estamos apenas construindo a imagem para fins de demonstração.</p>
-<h3 id="executando-o-github-actions">Executando o GitHub Actions<a class="headerlink" href="#executando-o-github-actions" title="Permanent link">&para;</a></h3>
-<p>Para executar o GitHub Actions, faça um push das alterações no arquivo <code>.github/workflows/ci.yml</code> para o repositório remoto. Após o push, o GitHub Actions será acionado automaticamente e você poderá visualizar o status da execução na aba "Actions" do repositório.</p>
+<p>Vamos analisar a estrutura desse workflow, aplicando os conceitos que estudamos na página anterior:</p>
+<ul>
+<li><strong><code>name: ci-python</code></strong>: Nome do workflow, exibido na aba Actions do GitHub.</li>
+<li><strong><code>on:</code></strong>: Define os <strong>triggers</strong> — este workflow é disparado em pushes para <code>main</code> e em pull requests direcionados a <code>main</code>. Note que adicionamos o trigger <code>pull_request</code>: isso garante que o código de qualquer PR seja validado antes do merge.</li>
+<li><strong><code>jobs:</code></strong>: Contém os jobs do workflow. Por enquanto, temos apenas o job <code>tests</code>.</li>
+<li><strong><code>runs-on: ubuntu-latest</code></strong>: Define o <strong>runner</strong> — uma máquina virtual Ubuntu fornecida pelo GitHub.</li>
+<li><strong><code>steps:</code></strong>: A sequência de etapas que compõem o job:<ol>
+<li><strong><code>actions/checkout@v4</code></strong>: Clona o repositório no runner.</li>
+<li><strong><code>actions/setup-python@v5</code></strong>: Instala o Python 3.13 e configura o cache do pip.</li>
+<li><strong><code>pip install</code></strong>: Instala as dependências do projeto.</li>
+<li><strong><code>pytest</code></strong>: Executa os testes.</li>
+</ol>
+</li>
+</ul>
+<h3 id="testando-o-workflow">Testando o workflow<a class="headerlink" href="#testando-o-workflow" title="Permanent link">&para;</a></h3>
+<p>Faça o commit e o push das alterações:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>git<span class="w"> </span>add<span class="w"> </span>.github/workflows/ci.yml
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Adiciona workflow de CI com testes&quot;</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>git<span class="w"> </span>push
+</span></code></pre></div>
+<p>Após o push, acesse a aba <strong>Actions</strong> do seu repositório no GitHub. Você verá o workflow <code>ci-python</code> em execução. Clique nele para acompanhar os logs de cada step em tempo real.</p>
+<p>Se os testes passarem, você verá um check verde ao lado do commit. Se falharem, o check será vermelho e os logs mostrarão exatamente qual teste falhou — esse é o <strong>feedback rápido</strong> que a CI proporciona.</p>
+<h2 id="adicionando-a-criacao-da-imagem-docker">Adicionando a criação da imagem Docker<a class="headerlink" href="#adicionando-a-criacao-da-imagem-docker" title="Permanent link">&para;</a></h2>
+<p>Agora que temos os testes rodando automaticamente, vamos expandir o pipeline para também construir uma imagem Docker do projeto. Essa é uma prática comum em pipelines CI: após validar que os testes passam, empacotamos a aplicação em uma imagem pronta para distribuição.</p>
+<p>cat &gt; "/home/eduardo/Documentos/Aulas/Fundamentos DevOps/notas-aula-site/docs/ci/criando-projeto.md" &lt;&lt; 'ENDOFFILE'</p>
+<h1 id="criando-o-projeto">Criando o projeto<a class="headerlink" href="#criando-o-projeto" title="Permanent link">&para;</a></h1>
+<p>Neste guia, vamos criar um projeto simples em Python para demonstrar a integração contínua com o GitHub Actions. O projeto consistirá em um script Python que realiza a soma de dois números e exibe o resultado.</p>
+<h2 id="passo-a-passo">Passo a passo<a class="headerlink" href="#passo-a-passo" title="Permanent link">&para;</a></h2>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Crie um diretório para o projeto.</li>
+</ul>
+<p>Crie um diretório para o projeto em sua máquina local e abra-o com o Visual Studio Code ou outro editor de sua preferência.</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Inicialize um repositório Git</li>
+</ul>
+<p>Dentro do diretório do projeto, inicialize um repositório Git com o comando:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>git<span class="w"> </span>init
+</span></code></pre></div>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Crie um ambiente virtual</li>
+</ul>
+<p>Crie um ambiente virtual para o projeto com o comando:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv
+</span></code></pre></div>
+<p>Em seguida, ative o ambiente virtual:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="passo-a-passo-linux-e-macos" name="__tabbed_1" type="radio" /><input id="passo-a-passo-windows" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="passo-a-passo-linux-e-macos">Linux e macOS</label><label for="passo-a-passo-windows">Windows</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">.</span><span class="n">venv</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">activate</span>
+</span></code></pre></div>
+</div>
+</div>
+</div>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Configure o .gitignore</li>
+</ul>
+<p>Crie um arquivo <code>.gitignore</code> na raiz do projeto e adicione o seguinte conteúdo para ignorar o ambiente virtual e os arquivos <code>.pyc</code>:</p>
+<div class="language-text highlight"><span class="filename">.gitignore</span><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>.venv
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>*.pyc
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>__pycache__/
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>.pytest_cache/
+</span></code></pre></div>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Instale o <code>pytest</code></li>
+</ul>
+<p>Instale o <code>pytest</code> para realizar os testes unitários do projeto:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>pip<span class="w"> </span>install<span class="w"> </span>pytest
+</span></code></pre></div>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Crie um arquivo de testes</li>
+</ul>
+<p>Crie um arquivo Python chamado <code>test_app.py</code> com o seguinte conteúdo:</p>
+<div class="language-py highlight"><span class="filename">test_app.py</span><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">app</span><span class="w"> </span><span class="kn">import</span> <span class="n">sumF</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_sum</span><span class="p">():</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>    <span class="k">assert</span> <span class="n">sumF</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>    <span class="k">assert</span> <span class="n">sumF</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>    <span class="k">assert</span> <span class="n">sumF</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">5</span>
+</span></code></pre></div>
+<p>Note que estamos escrevendo os <strong>testes antes da implementação</strong>. Essa abordagem é conhecida como <strong>TDD</strong> (<em>Test-Driven Development</em>): primeiro definimos o comportamento esperado através de testes, e só depois escrevemos o código que os satisfaz. O ciclo do TDD segue três passos: (1) escrever um teste que falha, (2) implementar o código mínimo para fazê-lo passar, e (3) refatorar se necessário.</p>
+<p>Se rodarmos os testes agora, eles devem falhar, pois ainda não implementamos a função <code>sumF</code>. Para testar, execute o comando:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>pytest
+</span></code></pre></div>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Crie um arquivo Python</li>
+</ul>
+<p>Crie um arquivo Python chamado <code>app.py</code> com o seguinte conteúdo:</p>
+<div class="language-python highlight"><span class="filename">app.py</span><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">sumF</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">sumF</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+</span></code></pre></div>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Execute os testes</li>
+</ul>
+<p>Execute os testes novamente com o comando <code>pytest</code>. Eles devem passar agora, pois a função <code>sumF</code> foi implementada e está correta.</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Crie um arquivo <code>requirements.txt</code></li>
+</ul>
+<p>Crie um arquivo <code>requirements.txt</code> com as dependências do projeto:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>pip<span class="w"> </span>freeze<span class="w"> </span>&gt;<span class="w"> </span>requirements.txt
+</span></code></pre></div>
+<h2 id="publicando-no-github">Publicando no GitHub<a class="headerlink" href="#publicando-no-github" title="Permanent link">&para;</a></h2>
+<p>Neste momento, precisamos publicar o projeto no GitHub para que possamos configurar o GitHub Actions na próxima etapa.</p>
+<p><strong>Passo 1</strong>: Crie um novo repositório no GitHub (pela interface web ou pelo CLI <code>gh</code>). Não inicialize com README ou <code>.gitignore</code> — já temos esses arquivos localmente.</p>
+<p><strong>Passo 2</strong>: Adicione o repositório remoto e faça o push:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>git<span class="w"> </span>add<span class="w"> </span>.
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Projeto inicial com testes&quot;</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>git<span class="w"> </span>branch<span class="w"> </span>-M<span class="w"> </span>main
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>origin<span class="w"> </span>https://github.com/seu-usuario/ci-sum-python.git
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>origin<span class="w"> </span>main
+</span></code></pre></div>
+<p>Substitua <code>seu-usuario</code> pelo seu nome de usuário no GitHub e <code>ci-sum-python</code> pelo nome que você escolheu para o repositório.</p>
+<p>Após o push, verifique na interface do GitHub que todos os arquivos (<code>app.py</code>, <code>test_app.py</code>, <code>requirements.txt</code>, <code>.gitignore</code>) estão presentes no repositório. Na próxima página, vamos configurar o GitHub Actions para executar os testes automaticamente a cada push.
+ENDOFFILE! info "Sobre Docker"
+    Se ainda não conhece Docker, trate o Dockerfile abaixo como uma "receita" que empacota a aplicação. Os detalhes serão aprofundados nos capítulos de Contêineres e Docker.</p>
+<h3 id="criando-o-dockerfile">Criando o Dockerfile<a class="headerlink" href="#criando-o-dockerfile" title="Permanent link">&para;</a></h3>
+<p>Crie um arquivo <code>Dockerfile</code> na raiz do projeto:</p>
+<div class="language-Dockerfile highlight"><span class="filename">Dockerfile</span><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">FROM</span><span class="w"> </span><span class="s">python:3.13-slim</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="k">COPY</span><span class="w"> </span>requirements.txt<span class="w"> </span>requirements.txt
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="k">COPY</span><span class="w"> </span>app.py<span class="w"> </span>app.py
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;python&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;app.py&quot;</span><span class="p">]</span>
+</span></code></pre></div>
+<p>Esse arquivo define como construir uma imagem Docker para a aplicação:</p>
+<ul>
+<li><code>FROM python:3.13-slim</code>: Usa uma imagem Python compacta como base.</li>
+<li><code>WORKDIR /app</code>: Define o diretório de trabalho dentro do contêiner.</li>
+<li><code>COPY requirements.txt</code> + <code>RUN pip install</code>: Copia e instala as dependências (antes do código-fonte, para aproveitar o cache de camadas).</li>
+<li><code>COPY app.py app.py</code>: Copia o código da aplicação.</li>
+<li><code>CMD ["python", "app.py"]</code>: Define o comando executado ao iniciar o contêiner.</li>
+</ul>
+<p>Note que não incluímos o <code>pytest</code> no contêiner — os testes são executados no pipeline CI, antes do build da imagem.</p>
+<h3 id="testando-localmente-opcional">Testando localmente (opcional)<a class="headerlink" href="#testando-localmente-opcional" title="Permanent link">&para;</a></h3>
+<p>Se já tiver o Docker instalado, você pode testar a imagem localmente:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>ci-sum-python<span class="w"> </span>.
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>ci-sum-python
+</span></code></pre></div>
+<p>O comando <code>docker run</code> deve exibir a saída <code>20</code> (resultado de <code>sumF(10, 10)</code>).</p>
+<h3 id="adicionando-o-build-ao-workflow">Adicionando o build ao workflow<a class="headerlink" href="#adicionando-o-build-ao-workflow" title="Permanent link">&para;</a></h3>
+<p>Agora, vamos adicionar um <strong>segundo job</strong> ao workflow para construir a imagem Docker. Esse job só será executado após o job de testes passar — essa dependência é declarada com a palavra-chave <code>needs</code>:</p>
+<p>Edite o arquivo <code>.github/workflows/ci.yml</code>:</p>
+<div class="language-yaml highlight"><span class="filename">.github/workflows/ci.yml</span><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ci-python</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="nt">on</span><span class="p">:</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">  </span><span class="nt">push</span><span class="p">:</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">main</span><span class="p p-Indicator">]</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">main</span><span class="p p-Indicator">]</span>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="nt">jobs</span><span class="p">:</span>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="w">  </span><span class="nt">tests</span><span class="p">:</span>
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
+</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>
+</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v5</span>
+</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+</span><span id="__span-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a><span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.13&#39;</span>
+</span><span id="__span-16-16"><a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a><span class="w">          </span><span class="nt">cache</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;pip&#39;</span>
+</span><span id="__span-16-17"><a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a><span class="hll">
+</span></span><span id="__span-16-18"><a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a><span class="hll"><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pip install -r requirements.txt</span>
+</span></span><span id="__span-16-19"><a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a><span class="hll">
+</span></span><span id="__span-16-20"><a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a><span class="hll"><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pytest</span>
+</span></span><span id="__span-16-21"><a id="__codelineno-16-21" name="__codelineno-16-21" href="#__codelineno-16-21"></a><span class="hll">
+</span></span><span id="__span-16-22"><a id="__codelineno-16-22" name="__codelineno-16-22" href="#__codelineno-16-22"></a><span class="hll"><span class="w">  </span><span class="nt">build</span><span class="p">:</span>
+</span></span><span id="__span-16-23"><a id="__codelineno-16-23" name="__codelineno-16-23" href="#__codelineno-16-23"></a><span class="hll"><span class="w">    </span><span class="nt">needs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tests</span><span class="w"> </span><span class="c1"># (1)</span>
+</span></span><span id="__span-16-24"><a id="__codelineno-16-24" name="__codelineno-16-24" href="#__codelineno-16-24"></a><span class="hll"><span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+</span></span><span id="__span-16-25"><a id="__codelineno-16-25" name="__codelineno-16-25" href="#__codelineno-16-25"></a><span class="hll"><span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+</span></span><span id="__span-16-26"><a id="__codelineno-16-26" name="__codelineno-16-26" href="#__codelineno-16-26"></a><span class="hll"><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
+</span></span><span id="__span-16-27"><a id="__codelineno-16-27" name="__codelineno-16-27" href="#__codelineno-16-27"></a><span class="hll">
+</span></span><span id="__span-16-28"><a id="__codelineno-16-28" name="__codelineno-16-28" href="#__codelineno-16-28"></a><span class="hll"><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Set up QEMU</span>
+</span></span><span id="__span-16-29"><a id="__codelineno-16-29" name="__codelineno-16-29" href="#__codelineno-16-29"></a><span class="hll"><span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker/setup-qemu-action@v3</span><span class="w"> </span><span class="c1"># (2)</span>
+</span></span><span id="__span-16-30"><a id="__codelineno-16-30" name="__codelineno-16-30" href="#__codelineno-16-30"></a><span class="hll">
+</span></span><span id="__span-16-31"><a id="__codelineno-16-31" name="__codelineno-16-31" href="#__codelineno-16-31"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Set up Docker Buildx</span>
+</span><span id="__span-16-32"><a id="__codelineno-16-32" name="__codelineno-16-32" href="#__codelineno-16-32"></a><span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker/setup-buildx-action@v3</span>
+</span><span id="__span-16-33"><a id="__codelineno-16-33" name="__codelineno-16-33" href="#__codelineno-16-33"></a>
+</span><span id="__span-16-34"><a id="__codelineno-16-34" name="__codelineno-16-34" href="#__codelineno-16-34"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Build</span>
+</span><span id="__span-16-35"><a id="__codelineno-16-35" name="__codelineno-16-35" href="#__codelineno-16-35"></a><span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker/build-push-action@v6</span><span class="w"> </span><span class="c1"># (3)</span>
+</span><span id="__span-16-36"><a id="__codelineno-16-36" name="__codelineno-16-36" href="#__codelineno-16-36"></a><span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+</span><span id="__span-16-37"><a id="__codelineno-16-37" name="__codelineno-16-37" href="#__codelineno-16-37"></a><span class="w">          </span><span class="nt">push</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</span></code></pre></div>
+<ol>
+<li><code>needs: tests</code> declara que o job <code>build</code> depende do job <code>tests</code>. Ele só será executado se <code>tests</code> terminar com sucesso. Sem essa declaração, os jobs rodariam em paralelo.</li>
+<li>O QEMU permite a construção de imagens para múltiplas arquiteturas (ex: <code>arm64</code>, <code>amd64</code>). O Buildx é uma extensão do Docker que habilita builds avançados.</li>
+<li>A opção <code>push: false</code> indica que a imagem será apenas construída, sem ser enviada a nenhum registro. Configuraremos o push para o DockerHub na próxima página.</li>
+</ol>
+<h3 id="testando-o-pipeline-expandido">Testando o pipeline expandido<a class="headerlink" href="#testando-o-pipeline-expandido" title="Permanent link">&para;</a></h3>
+<p>Faça o commit e o push:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>git<span class="w"> </span>add<span class="w"> </span>Dockerfile<span class="w"> </span>.github/workflows/ci.yml
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Adiciona build Docker ao pipeline CI&quot;</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>git<span class="w"> </span>push
+</span></code></pre></div>
+<p>Na aba Actions, você verá agora <strong>dois jobs</strong>: <code>tests</code> e <code>build</code>. O job <code>build</code> ficará aguardando até que <code>tests</code> termine com sucesso. Essa separação em jobs distintos traz duas vantagens: (1) fica claro qual etapa falhou em caso de erro, e (2) os jobs podem usar runners diferentes se necessário.</p>
+<pre class="mermaid"><code>flowchart LR
+    A["Push / PR"] --&gt; B["Job: tests\n(pytest)"]
+    B -- "sucesso" --&gt; C["Job: build\n(docker build)"]
+    B -- "falha" --&gt; D["Pipeline para ✗"]</code></pre>
 
 
 
@@ -724,6 +1265,44 @@
       
         <footer class="md-footer">
   
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Rodapé" >
+        
+          
+          <a href="../criando-projeto/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Criando o projeto">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                Criando o projeto
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../configurando-deploy-dockerhub/" class="md-footer__link md-footer__link--next" aria-label="Próximo: Deploy para o DockerHub">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Próximo
+              </span>
+              <div class="md-ellipsis">
+                Deploy para o DockerHub
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
     
   
   <div class="md-footer-meta md-typeset">

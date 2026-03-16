@@ -1,102 +1,141 @@
-## Automatizando o upload da imagem Docker para o DockerHub
+# Deploy para o DockerHub
 
-Nesta etapa, vamos automatizar o upload da imagem Docker para o DockerHub sempre que houver um push no repositório. Isso é útil para garantir que a imagem mais recente esteja sempre disponível em um registro de contêiner, facilitando a implantação em diferentes ambientes.
+Até agora, nosso pipeline constrói a imagem Docker mas não a publica em lugar nenhum. Nesta etapa, vamos configurar o push automático da imagem para o **DockerHub**, um registro público de imagens Docker. Dessa forma, a cada push na branch `main`, a imagem será construída, testada e publicada automaticamente.
 
-Para isso, vamos usar o GitHub Actions para criar um pipeline de CI/CD que constrói a imagem Docker e faz o upload para o DockerHub. O pipeline será acionado sempre que houver um push no repositório, garantindo que a imagem mais recente esteja sempre disponível.
+## Configurando o DockerHub
 
-### Configurando o DockerHub
+O DockerHub é um serviço de registro de contêineres que permite armazenar e compartilhar imagens Docker. No fluxo de DevOps, após validar o código com testes automatizados, é comum fazer o upload da imagem para um registro — tornando-a disponível para implantação em qualquer ambiente.
 
-O DockerHub é um serviço de registro de contêineres que permite armazenar e compartilhar imagens Docker. Depois que temos um container gerado, no processo de DevOps, é comum fazer o upload da imagem para um registro de contêineres, como o DockerHub, para facilitar a distribuição e implantação da aplicação em diferentes ambientes.
+### Criando um token de acesso
 
-Para isso, é necessário que tenhamos uma conta no DockerHub. Caso não tenha, você pode criar uma conta gratuita em [DockerHub](https://hub.docker.com/). Como a conta criada, você poderia fazer o upload da imagem usando o comando `docker push`, mas como o objetivo é fazer isso de forma automatizada, vamos configurar o GitHub Actions para fazer o upload da imagem Docker para o DockerHub sempre que houver um push no repositório.
+Para que o GitHub Actions consiga fazer login no DockerHub de forma segura, precisamos gerar um **token de acesso** (em vez de usar a senha da conta):
 
-Então, precisamos gerar um token de acesso no DockerHub para permitir que o GitHub Actions faça o upload da imagem. Para isso, siga os passos abaixo:
+1. Acesse sua conta no [DockerHub](https://hub.docker.com/). Crie uma conta gratuita caso ainda não tenha.
+2. Clique na sua foto de perfil → **Account Settings**.
+3. Na seção **Personal Access Tokens**, clique em **Generate New Token**.
+4. Dê um nome descritivo (ex: `github-actions-ci`), defina as permissões como **Read, Write, and Delete** e clique em **Generate**.
+5. **Copie o token** e guarde-o em local seguro — ele não será exibido novamente.
 
-1. Acesse sua conta no DockerHub.
-2. Clique na sua foto de perfil no canto superior direito e selecione "Account Settings".
-3. Na seção "Personal Access Tokens", clique em "Generate New Token".
-4. Dê um nome para o token, defina um prazo de expiração e as permissões de acesso (recomendado "Read, Write, and Delete").
-5. Clique em "Generate" e copie o token gerado. Guarde-o em um local seguro, pois você não poderá vê-lo novamente.
+### Armazenando credenciais como secrets no GitHub
 
-Nas próximas etapas, vamos configurar o GitHub Actions para fazer o upload da imagem Docker para o DockerHub usando esse token de acesso.
+Agora precisamos armazenar o token e o nome de usuário do DockerHub como **secrets** no repositório do GitHub. Secrets são variáveis criptografadas que ficam acessíveis nos workflows sem ficarem visíveis nos logs.
 
-### Guardando o token no GitHub
+1. No repositório do GitHub, acesse **Settings** → **Secrets and variables** → **Actions**.
+2. Clique em **New repository secret** e crie os dois secrets abaixo:
 
-Agora que temos o token de acesso do DockerHub, precisamos armazená-lo como um segredo no repositório do GitHub. Isso permitirá que o GitHub Actions acesse o token de forma segura durante a execução do pipeline.
+| Nome do secret | Valor |
+|---|---|
+| `DOCKERHUB_TOKEN` | O token de acesso gerado no passo anterior |
+| `DOCKERHUB_USERNAME` | Seu nome de usuário do DockerHub |
 
-Para armazenar o token como um segredo no GitHub, siga os passos abaixo:
+Os secrets ficam disponíveis nos workflows através da sintaxe `${{ secrets.NOME }}`.
 
-1. Acesse o repositório do GitHub onde você configurou o GitHub Actions.
-2. Clique na aba "Settings" (Configurações) do repositório.
-3. No menu lateral, clique em "Secrets and variables" e depois em "Actions".
-4. Clique no botão "New repository secret" (Novo segredo do repositório).
-5. Dê um nome para o segredo, como `DOCKERHUB_TOKEN`, e cole o token de acesso que você gerou no DockerHub.
-6. Clique em "Add secret" (Adicionar segredo) para salvar o token.
-7. Agora, o token estará disponível como um segredo no GitHub Actions e poderá ser usado no pipeline de CI/CD.
+## Atualizando o workflow
 
-Sugiro também que você crie um segredo para o seu usuário do DockerHub, que será usado para fazer o login no DockerHub. Para isso, siga os passos abaixo:
+Com os secrets configurados, vamos editar o job `build` do arquivo `.github/workflows/ci.yml` para fazer login no DockerHub e publicar a imagem. O job `tests` permanece inalterado:
 
-1. Acesse o repositório do GitHub onde você configurou o GitHub Actions.
-2. Clique na aba "Settings" (Configurações) do repositório.
-3. No menu lateral, clique em "Secrets and variables" e depois em "Actions".
-4. Clique no botão "New repository secret" (Novo segredo do repositório).
-5. Dê um nome para o segredo, como `DOCKERHUB_USERNAME`, e cole o seu nome de usuário do DockerHub.
-6. Clique em "Add secret" (Adicionar segredo) para salvar o token.
-7. Agora, o token estará disponível como um segredo no GitHub Actions e poderá ser usado no pipeline de CI/CD.
-
-Com isso, você já tem os segredos necessários para fazer o upload da imagem Docker para o DockerHub. Agora, vamos configurar o GitHub Actions para fazer isso automaticamente sempre que houver um push no repositório.
-
-### Configurando o GitHub Actions para fazer o upload da imagem Docker
-
-Agora que temos os segredos armazenados no GitHub, precisamos configurar o GitHub Actions para fazer o upload da imagem Docker para o DockerHub. Para isso, vamos editar o arquivo `.github/workflows/ci.yml` que criamos anteriormente e adicionar as etapas necessárias para fazer o upload da imagem.
-
-Aqui está um exemplo de como o arquivo `.github/workflows/ci.yml` pode ficar após as alterações:
-
-```yaml title=".github/workflows/ci.yml" linenums="1" hl_lines="20-24 30"
+```yaml title=".github/workflows/ci.yml" hl_lines="24-30 36"
 name: ci-python
-on: [push]
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 jobs:
-  check-application:
+  tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
           cache: 'pip'
-      - run: pip install -r requirements.txt
-      - run: pytest
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+      - run: pip install -r requirements.txt
+
+      - run: pytest
+
+  build:
+    needs: tests
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' # (1)
+    steps:
+      - uses: actions/checkout@v4
 
       - name: Login to DockerHub
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }} # (1)
-          password: ${{ secrets.DOCKERHUB_TOKEN }} # (2)
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
       - name: Build and Push to DockerHub
-        id: docker_build_push
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v6
         with:
-          push: true # (3)
-          tags: your-dockerhub-username/ci-sum-python:${{ github.sha }} # (4)
+          push: true
+          tags: | # (2)
+            ${{ secrets.DOCKERHUB_USERNAME }}/ci-sum-python:${{ github.sha }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/ci-sum-python:latest
 ```
 
-1. A expressão `${{ secrets.DOCKERHUB_USERNAME }}` indica o segredo que você criou para o seu nome de usuário do DockerHub.
-2. A expressão `${{ secrets.DOCKERHUB_TOKEN }}` indica o segredo que você criou para o token de acesso do DockerHub.
-3. A linha `push: true` indica que a imagem deve ser enviada para o DockerHub após a construção.
-4. Aqui você deve substituir `your-dockerhub-username` pelo seu nome de usuário do DockerHub, como configurado nos segredos, usando `${{ secrets.DOCKERHUB_USERNAME }}`. O `ci-sum-python` é o nome da imagem que você deseja usar no DockerHub, e `${{ github.sha }}` é a tag da imagem que será gerada.
+1. A condição `if: github.event_name == 'push'` garante que o push da imagem só aconteça em pushes diretos para a branch `main`, e **não** em pull requests. Isso evita publicar imagens de código que ainda não foi aprovado.
+2. Usamos `${{ secrets.DOCKERHUB_USERNAME }}` na tag em vez de hardcodar o nome de usuário. Também adicionamos duas tags: uma com o hash do commit (`github.sha`) para identificar a versão exata, e `latest` para facilitar o acesso à versão mais recente.
 
-Note que usamos a variável `${{ github.sha }}` para gerar uma tag única para cada commit, o que é útil para identificar a versão da imagem correspondente ao commit. Você pode personalizar essa tag de acordo com suas necessidades, como usar um número de versão específico ou uma tag mais amigável. Também pode ser usada a palavra `latest`, mas somente isso não é recomendado, pois pode causar confusão ao identificar qual versão da imagem está sendo usada.
+### Estratégia de tags
 
-### Executando o GitHub Actions
+A escolha de como nomear as tags das imagens é uma decisão importante em projetos reais:
 
-Para executar o GitHub Actions, faça um push das alterações no arquivo `.github/workflows/ci.yml` para o repositório remoto. Após o push, o GitHub Actions será acionado automaticamente e você poderá visualizar o status da execução na aba "Actions" do repositório.
+| Estratégia | Exemplo | Quando usar |
+|---|---|---|
+| Hash do commit | `app:a1b2c3d` | Rastreabilidade exata — cada imagem aponta para um commit específico |
+| `latest` | `app:latest` | Conveniência — sempre aponta para a versão mais recente. Não use sozinha em produção. |
+| Semântica | `app:1.2.3` | Versionamento formal com `MAJOR.MINOR.PATCH` ([semver.org](https://semver.org/)) |
 
-Se tudo estiver configurado corretamente, o GitHub Actions irá construir a imagem Docker e fazer o upload para o DockerHub automaticamente. Você pode verificar se a imagem foi enviada com sucesso acessando sua conta no DockerHub e verificando se a imagem `ci-sum-python` está disponível no seu repositório.
+No nosso exemplo, combinamos o hash do commit com `latest`. Em projetos maiores, é comum usar versionamento semântico automatizado com ferramentas como `semantic-release`.
 
-Em seguida, você pode usar a imagem Docker em qualquer lugar, como em um servidor de produção ou em um ambiente de desenvolvimento local, usando o comando `docker pull your-dockerhub-username/ci-sum-python:latest` ou `docker pull your-dockerhub-username/ci-sum-python:sha`, onde `sha` é o hash do commit que você deseja usar. Note que você deve estar atento ao nome que você deu para a imagem, na opção `tags`, e usar o mesmo nome para fazer o pull da imagem.
+## Executando o pipeline completo
+
+Faça o commit e o push das alterações:
+
+```bash
+git add .github/workflows/ci.yml
+git commit -m "Configura push da imagem para DockerHub"
+git push
+```
+
+Na aba **Actions** do GitHub, você verá o pipeline completo em execução:
+
+```mermaid
+flowchart LR
+    A["Push em main"] --> B["Job: tests\n(pytest)"]
+    B -- "sucesso" --> C["Job: build\n(login + build + push)"]
+    C --> D["Imagem disponível\nno DockerHub"]
+```
+
+Se tudo estiver configurado corretamente, a imagem será publicada no DockerHub. Você pode verificar acessando `https://hub.docker.com/r/seu-usuario/ci-sum-python`.
+
+Para baixar e executar a imagem publicada em qualquer máquina:
+
+```bash
+docker pull seu-usuario/ci-sum-python:latest
+docker run --rm seu-usuario/ci-sum-python:latest
+```
+
+## Resumo
+
+Ao longo deste capítulo, construímos um pipeline de integração contínua completo:
+
+1. **Criamos um projeto Python** com testes automatizados usando `pytest`.
+2. **Configuramos o GitHub Actions** para executar testes a cada push e pull request.
+3. **Separamos o pipeline em jobs** independentes (`tests` e `build`) com dependência explícita via `needs`.
+4. **Automatizamos a publicação** da imagem Docker no DockerHub com login via secrets.
+
+Esse fluxo é representativo do que encontramos em projetos profissionais: o código é validado automaticamente, e os artefatos (neste caso, a imagem Docker) são gerados apenas quando todas as verificações passam.
+
+No próximo capítulo, vamos explorar o que está por trás dos contêineres que usamos aqui — entenderemos os mecanismos do kernel Linux (namespaces e cgroups) que tornam o isolamento de processos possível.
