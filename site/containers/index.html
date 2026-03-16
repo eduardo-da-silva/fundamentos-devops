@@ -1,0 +1,1401 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Eduardo da Silva">
+      
+      
+        <link rel="canonical" href="https://eduardo-da-silva.github.io/fundamentos-devops/containers/">
+      
+      
+        <link rel="prev" href="../ci/">
+      
+      
+        <link rel="next" href="../docker/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+    
+    
+      
+        <title>Contêineres - Fundamentos de DevOps</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#conteineres" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href=".." title="Fundamentos de DevOps" class="md-header__button md-logo" aria-label="Fundamentos de DevOps" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Fundamentos de DevOps
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Contêineres
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Compartilhar" aria-label="Compartilhar" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/eduardo-da-silva/fundamentos-devops" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    eduardo-da-silva/fundamentos-devops
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Fundamentos de DevOps" class="md-nav__button md-logo" aria-label="Fundamentos de DevOps" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Fundamentos de DevOps
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/eduardo-da-silva/fundamentos-devops" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    eduardo-da-silva/fundamentos-devops
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introdução
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../collaboration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Gestão de repositórios e colaboração
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ci/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integração Contínua
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contêineres
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contêineres
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#o-que-sao-conteineres" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        O que são contêineres?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="O que são contêineres?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#por-que-usar-conteineres" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Por que usar contêineres?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bare-metal-vs-virtualizacao-vs-conteineres" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bare Metal vs Virtualização vs Contêineres
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#breve-historia-dos-conteineres" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Breve história dos contêineres
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#open-container-initiative-oci" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Open Container Initiative (OCI)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#as-tecnologias-que-dao-vida-aos-conteineres" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        As tecnologias que dão vida aos contêineres
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="As tecnologias que dão vida aos contêineres">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#namespaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Namespaces
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#criando-um-ambiente-isolado-com-namespace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criando um ambiente isolado com namespace
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercicio-opcional-isolando-o-hostname-com-uts-namespace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercício opcional: isolando o hostname com UTS namespace
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cgroups-ou-control-groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CGroups (ou Control Groups)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#criando-um-ambiente-isolado-com-cgroups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criando um ambiente isolado com cgroups
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Criando um ambiente isolado com cgroups">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fazendo-um-teste-de-stress" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fazendo um teste de stress
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testando-o-limite-de-memoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testando o limite de memória
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../docker/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docker
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Docker
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docker/persistencia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Persistência de dados
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docker/compose-e-redes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docker Compose e Redes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../orquestracao/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orquestração
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entrega Contínua
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../iac/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Infraestrutura como Código
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#o-que-sao-conteineres" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        O que são contêineres?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="O que são contêineres?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#por-que-usar-conteineres" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Por que usar contêineres?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bare-metal-vs-virtualizacao-vs-conteineres" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bare Metal vs Virtualização vs Contêineres
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#breve-historia-dos-conteineres" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Breve história dos contêineres
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#open-container-initiative-oci" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Open Container Initiative (OCI)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#as-tecnologias-que-dao-vida-aos-conteineres" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        As tecnologias que dão vida aos contêineres
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="As tecnologias que dão vida aos contêineres">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#namespaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Namespaces
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#criando-um-ambiente-isolado-com-namespace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criando um ambiente isolado com namespace
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercicio-opcional-isolando-o-hostname-com-uts-namespace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercício opcional: isolando o hostname com UTS namespace
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cgroups-ou-control-groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CGroups (ou Control Groups)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#criando-um-ambiente-isolado-com-cgroups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criando um ambiente isolado com cgroups
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Criando um ambiente isolado com cgroups">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fazendo-um-teste-de-stress" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fazendo um teste de stress
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testando-o-limite-de-memoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testando o limite de memória
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="conteineres">Contêineres<a class="headerlink" href="#conteineres" title="Permanent link">&para;</a></h1>
+<p>Nesta seção, abordaremos os conceitos básicos de contêineres, sem entrar nos detalhes de uso de ferramentas específicas como Docker e Kubernetes. O foco está nos conceitos fundamentais e na importância dos contêineres no desenvolvimento de software moderno.</p>
+<h2 id="o-que-sao-conteineres">O que são contêineres?<a class="headerlink" href="#o-que-sao-conteineres" title="Permanent link">&para;</a></h2>
+<p>Um contêiner (<em>container</em>) é um ambiente isolado que empacota uma aplicação junto com todas as suas dependências — bibliotecas, binários, arquivos de configuração — em um único pacote executável. Os contêineres são isolados uns dos outros e do sistema operacional host, o que significa que cada contêiner possui suas próprias configurações e dependências, sem interferir em outros contêineres ou no sistema operacional subjacente.</p>
+<p>Diferentemente das máquinas virtuais (VMs), que virtualizam todo o sistema operacional, os contêineres compartilham o mesmo núcleo (<em>kernel</em>) do sistema operacional host. Isso os torna mais leves e rápidos de iniciar, além de permitir que vários contêineres sejam executados simultaneamente em um único host.</p>
+<p>Ao criar um contêiner para uma aplicação e suas dependências, as diferenças entre distribuições de sistemas operacionais e camadas inferiores da infraestrutura são abstraídas. Com isso, os desenvolvedores podem se concentrar em escrever código, sem se preocupar com as diferenças entre os ambientes de desenvolvimento, teste e produção.</p>
+<h3 id="por-que-usar-conteineres">Por que usar contêineres?<a class="headerlink" href="#por-que-usar-conteineres" title="Permanent link">&para;</a></h3>
+<p>Os contêineres oferecem várias vantagens em relação aos métodos tradicionais de desenvolvimento e implantação de aplicativos. Algumas das principais razões para usar contêineres incluem:</p>
+<ul>
+<li><strong>Consistência</strong>: Os contêineres garantem que o aplicativo funcione da mesma forma em diferentes ambientes, eliminando problemas de "funciona na minha máquina". Isso é especialmente útil quando se trabalha em equipes grandes ou em projetos complexos.</li>
+<li><strong>Portabilidade</strong>: Os contêineres podem ser executados em qualquer lugar, desde o laptop do desenvolvedor até servidores em nuvem ou ambientes de produção. Isso facilita a migração de aplicativos entre diferentes ambientes e plataformas.</li>
+<li><strong>Isolamento</strong>: Os contêineres são isolados uns dos outros, o que significa que as dependências e configurações de um contêiner não afetam outros contêineres ou o sistema operacional host. Isso ajuda a evitar conflitos de dependência e facilita o gerenciamento de aplicativos complexos.</li>
+<li><strong>Eficiência</strong>: Os contêineres são mais leves e rápidos de iniciar do que as máquinas virtuais, permitindo que vários contêineres sejam executados simultaneamente em um único <code>host</code>. Isso reduz o uso de recursos e melhora a eficiência geral do sistema.</li>
+<li><strong>Escalabilidade</strong>: Os contêineres podem ser facilmente escalados para atender à demanda, permitindo que os desenvolvedores aumentem ou diminuam rapidamente a capacidade de um aplicativo conforme necessário. Isso é especialmente útil em ambientes de produção, onde a carga de trabalho pode variar significativamente.</li>
+<li><strong>Facilidade de gerenciamento</strong>: Os contêineres podem ser facilmente gerenciados e orquestrados usando ferramentas como Docker e Kubernetes, permitindo que os desenvolvedores automatizem tarefas comuns, como implantação, escalonamento e monitoramento de aplicativos.</li>
+</ul>
+<p>Os contêineres resolvem o problema de ambientes inconsistentes ao trabalhar em grandes equipes. Antes dos contêineres ou ambientes virtuais, muitos problemas e perda de tempo eram causados pela necessidade de instalar e configurar ambientes locais para construir projetos compartilhados por colegas de trabalho ou amigos.</p>
+<p>Dessa forma, os contêineres ajudam a reduzir o tempo de desenvolvimento e a aumentar a eficiência. O uso de contêineres também contribui para reduzir os conflitos entre as equipes de desenvolvimento e operações, separando as áreas de responsabilidade: os desenvolvedores podem se concentrar em seus aplicativos enquanto as equipes de operações cuidam da infraestrutura. No contexto de DevOps, essa separação clara de responsabilidades, aliada à padronização do ambiente de execução, é um dos pilares que viabiliza práticas como integração e entrega contínuas.</p>
+<p>Embora o Docker possa ser a ferramenta de contêiner mais conhecida, existem outras opções disponíveis, como Podman, Skopeo, Buildah e CRI-O. Essas ferramentas oferecem funcionalidades semelhantes ao Docker, mas podem ter diferenças em termos de arquitetura, desempenho e recursos específicos.</p>
+<h3 id="bare-metal-vs-virtualizacao-vs-conteineres">Bare Metal vs Virtualização vs Contêineres<a class="headerlink" href="#bare-metal-vs-virtualizacao-vs-conteineres" title="Permanent link">&para;</a></h3>
+<p><code>Bare Metal</code> é um termo usado para descrever um computador que está executando diretamente no hardware, sem nenhuma camada de virtualização. Esta é a maneira com maior desempenho para executar um aplicativo, mas também é a menos flexível. Você só pode executar um sistema operacional por servidor e não pode mover facilmente o aplicativo para outro servidor.</p>
+<p>Para resolver esse problema, a virtualização foi introduzida. A virtualização permite que você execute vários sistemas operacionais em um único servidor. A cada uma dessas instâncias de sistema operacional é chamada de máquina virtual (VM). Cada VM é executada em cima de um hipervisor, que é um pedaço de software que emula o hardware de um computador. O hipervisor permite que você execute vários sistemas operacionais em um único servidor e também fornece isolamento entre aplicativos executados em diferentes VMs.</p>
+<p>Isso é possível porque o hipervisor emula o hardware de um computador, permitindo que cada VM tenha seu próprio sistema operacional e recursos. Em linhas gerais, o hipervisor <code>engana</code> o sistema operacional convidado (VM) para pensar que está executando em um hardware físico, quando na verdade está sendo executado em cima de outro sistema operacional (o hipervisor). No entanto, isso pode levar a uma sobrecarga de desempenho, pois o hipervisor precisa gerenciar os recursos do hardware subjacente e alocar esses recursos para cada VM. Além disso, o hipervisor pode introduzir latência e reduzir o desempenho geral do sistema.</p>
+<p>Já os contêineres são uma maneira de executar vários aplicativos em um único servidor sem a sobrecarga de um hipervisor. Cada contêiner é executado em cima de um mecanismo de contêiner (software que gerencia o ciclo de vida dos contêineres), que supervisiona e isola processos usando os recursos do núcleo do sistema operacional host.</p>
+<p>Dessa forma, os contêineres compartilham o mesmo núcleo do sistema operacional host, mas cada contêiner tem seu próprio sistema de arquivos, rede e processos. Isso significa que os contêineres são mais leves e rápidos de iniciar do que as VMs, pois não precisam emular todo o hardware de um computador. Além disso, os contêineres podem ser facilmente movidos entre diferentes servidores e ambientes, tornando-os mais portáteis e flexíveis. Por outro lado, como todos os contêineres usam o mesmo núcleo do sistema operacionais, não é possível que cada contêiner tenha seu próprio sistema operacional. Isso pode levar a problemas de compatibilidade entre aplicativos que exigem diferentes versões do núcleo do sistema operacional.</p>
+<p>O diagrama abaixo ilustra as diferenças entre as três abordagens:</p>
+<pre class="mermaid"><code>flowchart TB
+  subgraph BM["Bare Metal"]
+    direction TB
+    HW1["Hardware"]
+    OS1["Sistema Operacional"]
+    A1["App A"]
+    A2["App B"]
+    HW1 --&gt; OS1 --&gt; A1
+    OS1 --&gt; A2
+  end
+  subgraph VM["Máquinas Virtuais"]
+    direction TB
+    HW2["Hardware"]
+    HV["Hipervisor"]
+    subgraph VM1["VM 1"]
+      GOS1["SO Convidado"]
+      VA1["App A"]
+    end
+    subgraph VM2["VM 2"]
+      GOS2["SO Convidado"]
+      VA2["App B"]
+    end
+    HW2 --&gt; HV --&gt; VM1
+    HV --&gt; VM2
+  end
+  subgraph CT["Contêineres"]
+    direction TB
+    HW3["Hardware"]
+    OS3["Sistema Operacional"]
+    CE["Container Engine"]
+    subgraph C1["Container 1"]
+      CA1["App A"]
+    end
+    subgraph C2["Container 2"]
+      CA2["App B"]
+    end
+    HW3 --&gt; OS3 --&gt; CE --&gt; C1
+    CE --&gt; C2
+  end</code></pre>
+<h3 id="breve-historia-dos-conteineres">Breve história dos contêineres<a class="headerlink" href="#breve-historia-dos-conteineres" title="Permanent link">&para;</a></h3>
+<p>A ideia de isolar processos não é nova. A evolução até os contêineres modernos passou por vários marcos importantes:</p>
+<ul>
+<li><strong>1979 — <code>chroot</code></strong>: O Unix V7 introduziu a chamada de sistema <code>chroot</code>, que permite alterar o diretório raiz de um processo, criando um ambiente de sistema de arquivos isolado. Foi a primeira forma de isolamento de processos.</li>
+<li><strong>2000 — FreeBSD Jails</strong>: O FreeBSD estendeu o conceito de <code>chroot</code> para criar "jails" — ambientes completamente isolados com seus próprios usuários, rede e sistema de arquivos.</li>
+<li><strong>2006 — cgroups</strong>: O Google desenvolveu os <em>control groups</em> (cgroups) para o kernel Linux, permitindo limitar e monitorar o uso de recursos (CPU, memória, I/O) por grupos de processos.</li>
+<li><strong>2008 — LXC (Linux Containers)</strong>: O LXC combinou namespaces e cgroups do kernel Linux para criar contêineres completos, sem a necessidade de um hipervisor.</li>
+<li><strong>2013 — Docker</strong>: A dotCloud (posteriormente renomeada Docker, Inc.) lançou o Docker, que tornou os contêineres acessíveis a desenvolvedores comuns ao simplificar a criação, distribuição e execução de contêineres com Dockerfiles e o Docker Hub.</li>
+<li><strong>2015 — OCI</strong>: A criação da Open Container Initiative padronizou os formatos de imagem e runtime, garantindo interoperabilidade entre diferentes ferramentas.</li>
+<li><strong>2014-2015 — Kubernetes</strong>: O Google abriu o código do Kubernetes, um sistema para orquestrar contêineres em escala, que se tornou o padrão da indústria.</li>
+</ul>
+<p>Essa linha do tempo mostra que os contêineres são resultado de décadas de evolução em técnicas de isolamento de processos no Unix e no Linux.</p>
+<h3 id="open-container-initiative-oci">Open Container Initiative (OCI)<a class="headerlink" href="#open-container-initiative-oci" title="Permanent link">&para;</a></h3>
+<p>A Open Container Initiative (OCI) é uma organização que visa criar padrões abertos para contêineres. A OCI foi criada em 2015 como parte da Linux Foundation e tem como objetivo promover a interoperabilidade entre diferentes ferramentas e plataformas de contêineres.</p>
+<p>A OCI define dois padrões principais:</p>
+<ul>
+<li><strong>Runtime Specification</strong>: Define como os contêineres devem ser executados em um ambiente de contêiner. Isso inclui detalhes sobre como os contêineres devem ser iniciados, parados e gerenciados, bem como como os recursos do sistema devem ser alocados para os contêineres.</li>
+<li><strong>Image Specification</strong>: Define como as imagens de contêiner devem ser formatadas e armazenadas. Isso inclui detalhes sobre como as imagens devem ser empacotadas, versionadas e distribuídas.</li>
+</ul>
+<p>Esses padrões ajudam a garantir que diferentes ferramentas e plataformas de contêineres possam trabalhar juntas de forma interoperável. Isso significa que os desenvolvedores podem usar diferentes ferramentas para criar, executar e gerenciar contêineres, sem se preocupar com problemas de compatibilidade.</p>
+<p>A Docker foi uma das primeiras empresas a adotar os padrões da OCI e tem trabalhado em estreita colaboração com a OCI para promover a interoperabilidade entre diferentes ferramentas de contêineres. Outras empresas, como Red Hat, Google e Microsoft, também estão envolvidas na OCI e apoiam seus esforços para criar padrões abertos para contêineres.</p>
+<p>Na prática, isso significa que uma imagem construída com Docker pode ser executada com Podman (e vice-versa), pois ambas as ferramentas seguem a OCI Image Specification. Da mesma forma, o <em>runtime</em> <code>runc</code> pode ser substituído por outro <em>runtime</em> compatível com a OCI, sem alterar a imagem ou o fluxo de trabalho.</p>
+<h2 id="as-tecnologias-que-dao-vida-aos-conteineres">As tecnologias que dão vida aos contêineres<a class="headerlink" href="#as-tecnologias-que-dao-vida-aos-conteineres" title="Permanent link">&para;</a></h2>
+<p>O conceito de contêineres é suportado por várias tecnologias que permitem a criação, execução e gerenciamento de contêineres. Entre essas tecnologias, podemos citar as duas principais, que são:</p>
+<ul>
+<li><strong>Namespaces</strong>: Os namespaces são uma característica do núcleo do Linux que permite isolar processos e recursos em diferentes contêineres. Cada contêiner tem seu próprio namespace, o que significa que os processos em um contêiner não podem ver ou interagir com os processos em outro contêiner.</li>
+<li><strong>Cgroups</strong>: Os cgroups (control groups) são outra característica do núcleo do Linux que permite limitar e monitorar o uso de recursos (como CPU, memória e disco) por processos em um contêiner. Isso ajuda a garantir que os contêineres não consumam mais recursos do que o necessário e permite que os desenvolvedores definam limites para cada contêiner.</li>
+</ul>
+<p>Outras tecnologias também são importantes para o funcionamento dos contêineres, como:</p>
+<ul>
+<li><strong>UnionFS</strong>: O UnionFS é um sistema de arquivos que permite empilhar vários sistemas de arquivos em um único sistema de arquivos. Isso é útil para criar imagens de contêiner, pois permite que os desenvolvedores empilhem diferentes camadas de arquivos e dependências em uma única imagem.</li>
+<li><strong>Containerd</strong>: O Containerd é um daemon de contêiner que fornece uma API para criar, executar e gerenciar contêineres. Ele é usado por várias ferramentas de contêiner, incluindo o Docker, e fornece uma interface comum para trabalhar com contêineres.</li>
+<li><strong>runc</strong>: O runc é um runtime de contêiner que implementa os padrões da OCI. Ele é usado pelo Docker e outras ferramentas de contêiner para executar contêineres. O runc é responsável por criar e gerenciar os namespaces, cgroups e sistemas de arquivos necessários para executar um contêiner.</li>
+</ul>
+<h3 id="namespaces">Namespaces<a class="headerlink" href="#namespaces" title="Permanent link">&para;</a></h3>
+<p>Os namespaces são uma característica do núcleo do Linux que permite isolar processos e recursos em diferentes contêineres. Cada contêiner tem seu próprio namespace, o que significa que os processos em um contêiner não podem ver ou interagir com os processos em outro contêiner. Isso é fundamental para garantir o isolamento entre contêineres e evitar conflitos de dependência.</p>
+<p>Os namespaces são usados para isolar diferentes recursos do sistema, como:</p>
+<ul>
+<li><strong>PID namespace</strong>: Isola os IDs de processo (PIDs) entre contêineres, permitindo que cada contêiner tenha seu próprio conjunto de processos.</li>
+<li><strong>Network namespace</strong>: Isola as interfaces de rede entre contêineres, permitindo que cada contêiner tenha sua própria pilha de rede e endereços IP.</li>
+<li><strong>Mount namespace</strong>: Isola os pontos de montagem entre contêineres, permitindo que cada contêiner tenha seu próprio sistema de arquivos.</li>
+<li><strong>User namespace</strong>: Isola os IDs de usuário e grupo entre contêineres, permitindo que cada contêiner tenha seu próprio conjunto de usuários e permissões.</li>
+<li><strong>IPC namespace</strong>: Isola os recursos de comunicação entre processos (IPC) entre contêineres, permitindo que cada contêiner tenha seu próprio conjunto de recursos IPC.</li>
+<li><strong>UTS namespace</strong>: Isola os nomes de host e domínio entre contêineres, permitindo que cada contêiner tenha seu próprio nome de host e domínio. O nome UTS vem de <em>UNIX Time-Sharing System</em>, uma referência histórica à estrutura <code>utsname</code> do kernel.</li>
+<li><strong>Cgroup namespace</strong>: Isola os grupos de controle (cgroups) entre contêineres, permitindo que cada contêiner tenha seu próprio conjunto de cgroups.</li>
+<li><strong>Time namespace</strong>: Isola o tempo entre contêineres, permitindo que cada contêiner tenha seu próprio relógio e fuso horário.
+  Além dos namespaces listados acima, é comum mencionar o <strong>Seccomp</strong> (<em>Secure Computing Mode</em>) ao discutir o isolamento de contêineres. Contudo, o Seccomp <strong>não é um namespace</strong> — trata-se de um mecanismo do kernel Linux para filtrar chamadas de sistema (<em>syscalls</em>), restringindo quais operações um processo pode executar. Ele atua como uma camada adicional de segurança, complementando o isolamento proporcionado pelos namespaces.</li>
+</ul>
+<p>A imagem abaixo ilustra como esses recursos estão isolados dentro de um namespace:</p>
+<pre class="mermaid"><code>flowchart TB
+  subgraph Host["Sistema Operacional Host"]
+    direction LR
+    Kernel["Kernel Linux"]
+    subgraph C1["Contêiner A"]
+      PID1["PID"]
+      NET1["NET"]
+      MNT1["MNT"]
+      USER1["USER"]
+    end
+    subgraph C2["Contêiner B"]
+      PID2["PID"]
+      NET2["NET"]
+      MNT2["MNT"]
+      USER2["USER"]
+    end
+    C1 --- Kernel
+    C2 --- Kernel
+  end</code></pre>
+<h3 id="criando-um-ambiente-isolado-com-namespace">Criando um ambiente isolado com namespace<a class="headerlink" href="#criando-um-ambiente-isolado-com-namespace" title="Permanent link">&para;</a></h3>
+<p>No Linux, você pode criar um ambiente isolado usando namespaces com o comando <code>unshare</code>. O comando <code>unshare</code> permite que você execute um comando em um novo namespace, isolando-o do restante do sistema. Isso é útil para testar e desenvolver aplicativos em um ambiente isolado.</p>
+<p>Neste exemplo, criaremos um novo namespace de PID, rede e sistema de montagem, e iniciaremos um bash dentro desse ambiente isolado.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>sudo<span class="w"> </span>unshare<span class="w"> </span>-p<span class="w"> </span>-m<span class="w"> </span>-n<span class="w"> </span>-f<span class="w"> </span>--mount-proc<span class="w"> </span>bash
+</span></code></pre></div>
+<p>Vamos analisar os parâmetros usados:</p>
+<ul>
+<li><code>-p</code>: Cria um novo namespace de PID, onde os processos terão IDs independentes do sistema principal.</li>
+<li><code>-m</code>: Cria um novo namespace de montagem, isolando o sistema de arquivos.</li>
+<li><code>-n</code>: Cria um novo namespace de rede, isolando as interfaces de rede.</li>
+<li><code>-f</code>: Força a criação do novo processo no namespace.</li>
+<li><code>--mount-proc</code>: Monta o sistema de arquivos <code>/proc</code> dentro do namespace, permitindo visualizar apenas os processos do ambiente isolado.</li>
+<li><code>bash</code>: O comando a ser executado dentro do novo namespace.</li>
+</ul>
+<p>Após executar o comando, você terá um shell bash dentro de um novo namespace de PID, rede e sistema de montagem. Isso significa que qualquer processo iniciado dentro desse shell não terá acesso aos processos ou recursos do sistema principal.</p>
+<p>Para verificar o isolamento, execute o comando <code>ps aux</code> <strong>dentro</strong> do namespace:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>ps<span class="w"> </span>aux
+</span></code></pre></div>
+<p>Você verá que apenas o processo <code>bash</code> (PID 1) e o próprio <code>ps</code> aparecem listados. Compare essa saída abrindo outro terminal (fora do namespace) e executando o mesmo <code>ps aux</code> — a lista de processos será significativamente maior.</p>
+<p>Outra forma de observar o isolamento é verificar a rede. Dentro do namespace, execute:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>ip<span class="w"> </span>link<span class="w"> </span>show
+</span></code></pre></div>
+<p>Você verá apenas a interface <code>lo</code> (loopback), pois o namespace de rede está isolado e não possui acesso às interfaces de rede do host.</p>
+<p>Para sair do namespace, basta executar:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">exit</span>
+</span></code></pre></div>
+<p>Da parte externa do namespace, você pode verificar os processos em execução usando o comando <code>ps</code>. Nesse caso, queremos identificar o PID do bash que foi iniciado dentro do namespace. Para isso, você pode usar o comando <code>ps</code> com a opção <code>-ef</code> para listar todos os processos em execução:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="w"> </span>ps<span class="w"> </span>-ef<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>unshare
+</span></code></pre></div>
+<p>Com esse comando, você verá uma lista de processos em execução e poderá identificar o PID do processo <code>unshare</code>. O PID do bash iniciado dentro do namespace será um filho desse processo. Uma forma de visualizar isso é usando o comando <code>pstree</code>, que exibe a árvore de processos:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>pstree<span class="w"> </span>-p<span class="w"> </span>&lt;PID_IDENTIFICADO_AO_COMANDO_UNSHARE&gt;<span class="w"> </span><span class="c1"># (1)</span>
+</span></code></pre></div>
+<ol>
+<li>Substitua <code>&lt;PID_IDENTIFICADO_AO_COMANDO_UNSHARE&gt;</code> pelo PID do processo <code>unshare</code> que você encontrou na etapa anterior. O PID do bash será listado como um filho do processo <code>unshare</code>.</li>
+</ol>
+<h3 id="exercicio-opcional-isolando-o-hostname-com-uts-namespace">Exercício opcional: isolando o hostname com UTS namespace<a class="headerlink" href="#exercicio-opcional-isolando-o-hostname-com-uts-namespace" title="Permanent link">&para;</a></h3>
+<p>O UTS namespace permite que cada contêiner tenha seu próprio nome de host, independente do host real. Vamos experimentar isso na prática.</p>
+<p><strong>Passo 1</strong>: Crie um novo namespace de UTS junto com os demais:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>sudo<span class="w"> </span>unshare<span class="w"> </span>-p<span class="w"> </span>-m<span class="w"> </span>-n<span class="w"> </span>-u<span class="w"> </span>-f<span class="w"> </span>--mount-proc<span class="w"> </span>bash
+</span></code></pre></div>
+<p>O parâmetro <code>-u</code> cria um novo UTS namespace. Dentro do namespace, verifique o hostname atual:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>hostname
+</span></code></pre></div>
+<p>Você verá o mesmo hostname do host, pois o namespace herda o valor original no momento da criação.</p>
+<p><strong>Passo 2</strong>: Altere o hostname dentro do namespace:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>hostname<span class="w"> </span>meu-container
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>hostname
+</span></code></pre></div>
+<p>A saída agora mostrará <code>meu-container</code>.</p>
+<p><strong>Passo 3</strong>: Em outro terminal (fora do namespace), verifique que o hostname do host <strong>não foi alterado</strong>:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>hostname
+</span></code></pre></div>
+<p>Ele continuará com o nome original do host. Isso demonstra o isolamento do UTS namespace — a alteração do hostname dentro do namespace não afeta o sistema host.</p>
+<p>Esse é exatamente o comportamento que ferramentas como o Docker usam internamente: cada contêiner recebe seu próprio UTS namespace, e o Docker define o hostname do contêiner como o ID curto do contêiner (ou o valor passado pela opção <code>--hostname</code>).</p>
+<h2 id="cgroups-ou-control-groups">CGroups (ou Control Groups)<a class="headerlink" href="#cgroups-ou-control-groups" title="Permanent link">&para;</a></h2>
+<p>Os cgroups (control groups) são uma característica do núcleo do Linux que permite limitar e monitorar o uso de recursos (como CPU, memória e disco) por processos em um contêiner. Isso ajuda a garantir que os contêineres não consumam mais recursos do que o necessário e permite que os desenvolvedores definam limites para cada contêiner.</p>
+<p>Os cgroups são organizados em hierarquias, onde cada hierarquia pode conter vários grupos de controle. Cada grupo de controle pode ter suas próprias configurações de limite de recursos, permitindo que os desenvolvedores definam diferentes limites para diferentes grupos de processos.</p>
+<p>Os cgroups são usados para controlar o uso de recursos em várias áreas, incluindo:</p>
+<ul>
+<li><strong>Limitação de CPU</strong>: Permite definir limites de uso de CPU para grupos de processos, garantindo que um contêiner não consuma mais CPU do que o necessário.</li>
+<li><strong>Limitação de memória</strong>: Permite definir limites de uso de memória para grupos de processos, garantindo que um contêiner não consuma mais memória do que o necessário.</li>
+<li><strong>Limitação de disco</strong>: Permite definir limites de uso de disco para grupos de processos, garantindo que um contêiner não consuma mais espaço em disco do que o necessário.</li>
+<li><strong>Limitação de rede</strong>: Permite definir limites de uso de rede para grupos de processos, garantindo que um contêiner não consuma mais largura de banda do que o necessário.</li>
+<li><strong>Limitação de I/O</strong>: Permite definir limites de uso de entrada/saída (I/O) para grupos de processos, garantindo que um contêiner não consuma mais recursos de I/O do que o necessário.</li>
+</ul>
+<pre class="mermaid"><code>flowchart LR
+  subgraph CGroup
+    CPU
+    cpuset
+    memory
+    device
+    I/O
+    network
+  end</code></pre>
+<p>Os cgroups são uma parte fundamental da tecnologia de contêineres, pois permitem que os desenvolvedores definam limites e monitorem o uso de recursos em contêineres. Isso é especialmente importante em ambientes de produção, onde vários contêineres podem estar sendo executados simultaneamente e o uso excessivo de recursos por um contêiner pode afetar o desempenho de outros contêineres ou do sistema host.
+Por isso, junto com os namespaces, os cgroups são fundamentais para garantir o isolamento e o controle de recursos em contêineres. Eles permitem que os desenvolvedores definam limites e monitorem o uso de recursos, garantindo que os contêineres não afetem o desempenho do sistema host ou de outros contêineres.</p>
+<h2 id="criando-um-ambiente-isolado-com-cgroups">Criando um ambiente isolado com cgroups<a class="headerlink" href="#criando-um-ambiente-isolado-com-cgroups" title="Permanent link">&para;</a></h2>
+<p>Nós vamos limitar os recursos do namespace criado anteriormente e, em seguida, rodar um teste de estresse para verificar se os limites estão funcionando corretamente.</p>
+<p>Inicialmente, vamos criar alguns arquivos com as definições do cgroup que iremos associar ao processo bash que criamos anteriormente. Para isso, vamos criar um diretório para o cgroup e configurar os limites de CPU e memória.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>sudo<span class="w"> </span>mkdir<span class="w"> </span>/sys/fs/cgroup/meu-namespace<span class="w"> </span><span class="c1"># (1)</span>
+</span></code></pre></div>
+<ol>
+<li>O nome <code>meu-namespace</code> pode ser alterado para qualquer nome que você preferir. O importante é que o diretório seja criado dentro de <code>/sys/fs/cgroup/</code>, que é onde os cgroups são montados no sistema.</li>
+</ol>
+<p>Agora vamos limitar os recursos do cgroup. Para isso, vamos criar dois arquivos: <code>cpu.max</code> e <code>memory.max</code>. O arquivo <code>cpu.max</code> define o limite de uso de CPU, enquanto o arquivo <code>memory.max</code> define o limite de uso de memória.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;50000 100000&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/sys/fs/cgroup/meu-namespace/cpu.max<span class="w"> </span><span class="c1"># (1)</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;100M&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/sys/fs/cgroup/meu-namespace/memory.max<span class="w"> </span><span class="c1"># (2)</span>
+</span></code></pre></div>
+<ol>
+<li>O valor <code>50000 100000</code> significa que o cgroup pode usar até 50% de um núcleo de CPU (50.000 microssegundos em 100.000 microssegundos).</li>
+<li>O valor <code>100M</code> significa que o cgroup pode usar até 100 MB de memória.</li>
+</ol>
+<p>No exemplo acima, foram criados os dois arquivos <code>cpu.max</code> e <code>memory.max</code> dentro do diretório <code>/sys/fs/cgroup/meu-namespace/</code>. Esses arquivos são usados para definir os limites de CPU e memória do cgroup. Você pode confirmar o conteúdo dos arquivos usando o comando <code>cat</code>:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>cat<span class="w"> </span>/sys/fs/cgroup/meu-namespace/cpu.max
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>cat<span class="w"> </span>/sys/fs/cgroup/meu-namespace/memory.max
+</span></code></pre></div>
+<p>Agora que temos o <code>cgroup</code> criado e os limites definidos, precisamos associar o processo bash que criamos anteriormente a esse cgroup. Para obter o PID do processo bash dentro do namespace, execute o seguinte comando <strong>dentro do namespace</strong>:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$$</span>
+</span></code></pre></div>
+<p>Esse comando exibirá o PID do processo bash dentro do namespace. Contudo, como o namespace de PID é isolado, o PID visto de dentro do namespace (geralmente <code>1</code>) é diferente do PID real no host. Para encontrar o PID real, use o <code>pstree</code> ou <code>ps</code> conforme demonstrado na seção anterior.</p>
+<p>Para associar esse processo ao cgroup <code>meu-namespace</code>, adicione o PID (real, visto do host) ao arquivo <code>cgroup.procs</code>:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nb">echo</span><span class="w"> </span>&lt;PID_REAL&gt;<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/sys/fs/cgroup/meu-namespace/cgroup.procs<span class="w"> </span><span class="c1"># (1)</span>
+</span></code></pre></div>
+<ol>
+<li>Substitua <code>&lt;PID_REAL&gt;</code> pelo PID do processo bash que você encontrou usando <code>pstree</code> ou <code>ps -ef | grep unshare</code> na etapa anterior.</li>
+</ol>
+<p>Agora, o processo bash e todos os seus filhos estarão associados ao cgroup <code>meu-namespace</code>, e estarão limitados pelos recursos definidos nos arquivos <code>cpu.max</code> e <code>memory.max</code>.</p>
+<h3 id="fazendo-um-teste-de-stress">Fazendo um teste de stress<a class="headerlink" href="#fazendo-um-teste-de-stress" title="Permanent link">&para;</a></h3>
+<p>O Linux fornece uma ferramenta chamada <code>stress</code> que pode ser usada para gerar carga em CPU, memória e disco. Essa ferramenta é útil para testar os limites de recursos definidos em um cgroup.</p>
+<p>Vamos considerar o comando abaixo:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>stress<span class="w"> </span>--cpu<span class="w"> </span><span class="m">2</span><span class="w"> </span>--vm<span class="w"> </span><span class="m">1</span><span class="w"> </span>--vm-bytes<span class="w"> </span>80M<span class="w"> </span>--timeout<span class="w"> </span><span class="m">30</span>
+</span></code></pre></div>
+<p>Esse comando faz o seguinte:</p>
+<ul>
+<li><code>--cpu 2</code>: Cria dois processos que consomem CPU.</li>
+<li><code>--vm 1</code>: Cria um processo que consome memória.</li>
+<li><code>--vm-bytes 80M</code>: O processo de memória consome 80 MB de memória.</li>
+<li>'--timeout 30': O comando será executado por 30 segundos.</li>
+</ul>
+<p>Como a gente pode ver, o comando <code>stress</code> vai tentar consumir 80 MB de memória e 2 núcleos de CPU. No entanto, como definimos um limite de 100 MB de memória e 50% de CPU no cgroup, o comando <code>stress</code> deve ser limitado a esses valores. Por outro lado, se o comando for executado fora do cgroup, ele não terá esses limites e poderá consumir mais recursos do que o esperado.</p>
+<p>Para que possamos verificar os limites que foram impostos pelo cgroup, é possível analisar os registros do arquivo <code>cpu.stat</code> do cgroup. Esse arquivo contém informações sobre o uso de CPU e o número de vezes que o cgroup foi limitado (<em>throttled</em>).</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>cat<span class="w"> </span>/sys/fs/cgroup/meu-namespace/cpu.stat
+</span></code></pre></div>
+<p>Após executar o teste de estresse, a saída esperada será semelhante a:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>usage_usec 14837292
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>user_usec 14767292
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>system_usec 70000
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>nr_periods 298
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>nr_throttled 147
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>throttled_usec 13269498
+</span></code></pre></div>
+<p>Os campos mais relevantes são:</p>
+<ul>
+<li><code>usage_usec</code>: Tempo total de CPU usado pelo cgroup (em microssegundos).</li>
+<li><code>nr_throttled</code>: Quantas vezes o cgroup foi limitado (<em>throttled</em>). Um valor maior que zero indica que o limite de CPU está sendo aplicado.</li>
+<li><code>throttled_usec</code>: Tempo total durante o qual o cgroup ficou impedido de usar CPU (em microssegundos).</li>
+</ul>
+<p>Se <code>nr_throttled</code> for zero, o limite de CPU não foi atingido durante o teste.</p>
+<h3 id="testando-o-limite-de-memoria">Testando o limite de memória<a class="headerlink" href="#testando-o-limite-de-memoria" title="Permanent link">&para;</a></h3>
+<p>Para verificar o limite de memória, execute o comando <code>stress</code> com um valor de memória que ultrapasse o limite definido no cgroup:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>stress<span class="w"> </span>--vm<span class="w"> </span><span class="m">1</span><span class="w"> </span>--vm-bytes<span class="w"> </span>150M<span class="w"> </span>--timeout<span class="w"> </span><span class="m">30</span>
+</span></code></pre></div>
+<p>Como o limite de memória do cgroup é 100 MB, o kernel irá encerrar o processo que ultrapassar esse limite (<em>OOM Kill</em> — Out of Memory Kill). Você verá uma mensagem de erro indicando que o processo foi encerrado. Para confirmar, verifique o log do sistema:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>dmesg<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-20
+</span></code></pre></div>
+<p>Você deverá encontrar uma mensagem semelhante a <code>Memory cgroup out of memory: Killed process ...</code>, confirmando que o cgroup está aplicando o limite de memória corretamente.</p>
+<div class="admonition note">
+<p class="admonition-title">Importante</p>
+<ol>
+<li>
+<p>Crie um novo cgroup para cada teste, para garantir que não haja valores acumulados no <code>cpu.stat</code> de execuções anteriores</p>
+</li>
+<li>
+<p>Remova o cgroup após o teste e o encerramento do namespace:</p>
+</li>
+</ol>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>sudo<span class="w"> </span>rmdir<span class="w"> </span>/sys/fs/cgroup/mycontainer
+</span></code></pre></div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar para o topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Rodapé" >
+        
+          
+          <a href="../ci/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Integração Contínua">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                Integração Contínua
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../docker/" class="md-footer__link md-footer__link--next" aria-label="Próximo: Docker">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Próximo
+              </span>
+              <div class="md-ellipsis">
+                Docker
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 Eduardo da Silva
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["announce.dismiss", "content.code.annotate", "content.code.copy", "content.code.select", "content.tooltips", "navigation.footer", "navigation.indexes", "navigation.instant.progress", "navigation.sections", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -103,7 +103,10 @@ nav:
   - Gestão de repositórios e colaboração: collaboration.md
   - Integração Contínua: ci/index.md
   - Contêineres:  containers/index.md
-  - Docker: docker/index.md
+  - Docker:
+    - docker/index.md
+    - Persistência de dados: docker/persistencia.md
+    - Docker Compose e Redes: docker/compose-e-redes.md
   - Orquestração: orquestracao/index.md
   - Entrega Contínua: cd/index.md
   - Infraestrutura como Código: iac/index.md

@@ -8,7 +8,9 @@ O Docker trabalha com uma virtualização a nível do sistema operacional, onde 
 
 Em resumo, o Docker simplifica o processo de desenvolvimento, teste, empacotamento, homologação e implantação de aplicativos em contêineres portáteis e leves. O Docker é amplamente utilizado em ambientes de desenvolvimento e produção, permitindo que os desenvolvedores criem aplicativos de forma mais rápida e eficiente, minimizando impactos no processo de desenvolvimento e entrega de software.
 
-Como já discutido anteriormente, existem diversos runtimes de contêineres e até é possível utilizar contêineres sem Docker. Contudo, atualmente o Docker é o runtime de container mais utilizada no mercado, sendo uma tecnologia fundamental no mundo do DevOps.
+Como já discutido anteriormente, existem diversos runtimes de contêineres e até é possível utilizar contêineres sem Docker. Contudo, atualmente o Docker é o runtime de container mais utilizado no mercado, sendo uma tecnologia fundamental no mundo do DevOps.
+
+No capítulo anterior, estudamos os fundamentos de isolamento (namespaces) e controle de recursos (cgroups) que tornam os contêineres possíveis. O Docker abstrai toda essa complexidade, oferecendo uma interface de linha de comando e um conjunto de ferramentas para criar, distribuir e executar contêineres de forma prática.
 
 ## Instalação do Docker
 
@@ -124,23 +126,6 @@ Isso deve baixar uma imagem de teste do Docker Hub e executar um contêiner a pa
 
 ## Os componentes do Docker
 
-<!-- ```mermaid
-architecture-beta
-    group client[Cliente]
-    service pull(database)[Docker Pull] in client
-    service build(disk)[Docker Build] in client
-    service run(disk)[Docker Run] in client
-
-    group host[Docker Host]
-    service daemon(database)[Docker Docker Daemon] in host
-    service disk3(disk)[Docker Build] in host
-    service disk4(disk)[Docker Push] in host
-
-    pull{group}:R -- L:daemon{group}
-    build{group}:R -- L:daemon{group}
-    run{group}:R -- L:daemon{group}
-``` -->
-
 Existem três componentes principais no ecossistema Docker:
 
 - **Dockerfile**: Um arquivo de texto contendo instruções (comandos) para construir uma imagem Docker.
@@ -152,7 +137,7 @@ Existem três componentes principais no ecossistema Docker:
 Um Dockerfile é um arquivo de texto que contém uma série de instruções para criar uma imagem Docker. Cada instrução no Dockerfile cria uma camada na imagem, e essas camadas são empilhadas para formar a imagem final. Aqui está um exemplo básico de um Dockerfile:
 
 ```dockerfile
-FROM ubuntu:20.04 # (1)
+FROM ubuntu:20.04
 RUN apt-get update && \
     apt-get install -y nodejs npm
 WORKDIR /app
@@ -162,12 +147,15 @@ EXPOSE 3000
 CMD ["npm", "start"]
 ```
 
-1. `FROM`: Especifica a imagem base a ser usada. Neste caso, estamos usando a imagem oficial do Ubuntu 20.04.
-2. `RUN`: Executa comandos no contêiner durante a construção da imagem. Aqui, estamos atualizando o sistema e instalando o Node.js e o npm.
-3. `WORKDIR`: Define o diretório de trabalho dentro do contêiner. Todos os comandos subsequentes serão executados a partir desse diretório.
-4. `COPY`: Copia arquivos do diretório atual (no host) para o contêiner.
-5. `EXPOSE`: Informa ao Docker que o contêiner escutará na porta especificada em tempo de execução. Isso não publica a porta, mas é uma boa prática documentar quais portas o contêiner usará.
-6. `CMD`: Especifica o comando a ser executado quando o contêiner é iniciado. Neste caso, estamos iniciando o aplicativo Node.js com `npm start`.
+Vamos analisar cada instrução utilizada nesse exemplo:
+
+- `FROM ubuntu:20.04`: Especifica a imagem base a ser usada. Neste caso, estamos usando a imagem oficial do Ubuntu 20.04.
+- `RUN apt-get update && apt-get install -y nodejs npm`: Executa comandos no contêiner durante a construção da imagem. Aqui, estamos atualizando o sistema e instalando o Node.js e o npm.
+- `WORKDIR /app`: Define o diretório de trabalho dentro do contêiner. Todos os comandos subsequentes serão executados a partir desse diretório.
+- `COPY . .`: Copia os arquivos do diretório atual (no host) para o diretório de trabalho do contêiner.
+- `RUN npm install`: Instala as dependências do projeto Node.js.
+- `EXPOSE 3000`: Informa ao Docker que o contêiner escutará na porta 3000 em tempo de execução. Isso não publica a porta, mas é uma boa prática documentar quais portas o contêiner usará.
+- `CMD ["npm", "start"]`: Especifica o comando a ser executado quando o contêiner é iniciado.
 
 O quadro abaixo resume os principais comandos do Dockerfile:
 
@@ -195,9 +183,67 @@ A ordem dos comandos no Dockerfile é importante, pois cada comando cria uma nov
 
 Note que, ao gerar uma imagem, o Docker executa cada comando do Dockerfile em uma nova camada. Isso significa que, se você modificar um comando no Dockerfile, todas as camadas subsequentes também serão reconstruídas, o que pode aumentar o tempo de construção da imagem. Para otimizar isso, é recomendável agrupar comandos relacionados e minimizar o número de camadas criadas.
 
+### Exercício: construindo sua primeira imagem
+
+Vamos criar um projeto mínimo para praticar a construção de uma imagem Docker. Neste exercício, criaremos uma aplicação Node.js simples e a empacotaremos em um contêiner.
+
+**Passo 1**: Crie um diretório para o projeto e inicialize um projeto Node.js:
+
+```bash
+mkdir meu-app-docker && cd meu-app-docker
+npm init -y
+npm install express
+```
+
+**Passo 2**: Crie o arquivo `index.js` com uma aplicação web mínima:
+
+```javascript
+const express = require('express');
+const app = express();
+const PORT = 3000;
+
+app.get('/', (req, res) => {
+  res.send('Hello DevOps! Esta aplicação está rodando em um contêiner Docker.');
+});
+
+app.listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
+});
+```
+
+**Passo 3**: Crie o `Dockerfile` na raiz do projeto:
+
+```dockerfile
+FROM node:20-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+EXPOSE 3000
+CMD ["node", "index.js"]
+```
+
+Note que, seguindo a boa prática mencionada anteriormente, copiamos primeiro os arquivos `package*.json` e instalamos as dependências _antes_ de copiar o restante do código-fonte. Dessa forma, se apenas o código-fonte mudar, a camada de instalação de dependências será reutilizada do cache.
+
+**Passo 4**: Construa a imagem e execute o contêiner:
+
+```bash
+docker build -t meu-app:1.0 .
+docker run -d -p 3000:3000 --name meu-app meu-app:1.0
+```
+
+**Passo 5**: Acesse `http://localhost:3000` no navegador. Você verá a mensagem "Hello DevOps!".
+
+Para encerrar o contêiner após o teste:
+
+```bash
+docker container stop meu-app
+docker container rm meu-app
+```
+
 ### A imagem Docker
 
-Uma imagem Docker é um arquivo leve, independente e executável que contém tudo o que é necessário para executar um aplicativo, incluindo o código-fonte, bibliotecas, dependências e arquivos de configuração. As imagens são criadas a partir de um Dockerfile fe podem ser armazenadas em um registro, como o Docker Hub.
+Uma imagem Docker é um arquivo leve, independente e executável que contém tudo o que é necessário para executar um aplicativo, incluindo o código-fonte, bibliotecas, dependências e arquivos de configuração. As imagens são criadas a partir de um Dockerfile e podem ser armazenadas em um registro, como o Docker Hub.
 
 As imagens Docker são compostas por várias camadas, cada uma representando uma instrução no Dockerfile. Essas camadas são empilhadas para formar a imagem final. Quando você executa um contêiner a partir de uma imagem, o Docker cria uma camada de leitura e gravação em cima da imagem, permitindo que você faça alterações no contêiner sem afetar a imagem original.
 
@@ -211,7 +257,7 @@ Você pode verificar a listagem de imagens disponíveis em sua máquina local us
 docker image ls
 ```
 
-Vamos supor que você não tenha ainda nenhuma imagem instalada. Você pode baixar uma imagem do Docker Hub usando o comando `docker pull`. Por exemplo, para baixar a imagem oficial do Nginx, você pode usar o seguinte comando:
+Vamos supor que você não tenha ainda nenhuma imagem baixada. Você pode baixar uma imagem do Docker Hub usando o comando `docker pull`. Por exemplo, para baixar a imagem oficial do Nginx, você pode usar o seguinte comando:
 
 ```bash
 docker pull nginx
@@ -278,261 +324,166 @@ Abaixo estão alguns comandos essenciais do Docker que você usará com frequên
 - `docker container rm <container>`: Remover um contêiner parado.
 - `docker image rm <image>`: Remover uma imagem de sua máquina local.
 
-## Persistência de dados
+## Docker Hub e registros de imagens
 
-Por padrão, o armazenamento dentro de um contêiner Docker é efêmero, o que significa que qualquer alteração ou modificação de dados feita dentro de um contêiner só está disponível enquanto o contêiner estiver em execução. Uma vez que o contêiner é parado e removido, todos os dados associados a ele serão perdidos. Esse armazenamento temporário ou de curta duração é chamado de "sistema de arquivos efêmero do contêiner".
+Até agora, usamos imagens como `nginx`, `postgres` e `node` sem nos preocupar de onde elas vieram. Essas imagens são baixadas de um **registro de imagens** (_container registry_) — um repositório centralizado onde imagens Docker são armazenadas e distribuídas.
 
-Em linhas gerais, quanto um contêiner inicia, ele usa os arquivos e a configuração fornecidos pela imagem. Cada contêiner é capaz de criar, modificar e excluir arquivos, fazendo isso sem afetar nenhum outro contêiner. Quando o contêiner é excluído, essas alterações de arquivo também são excluídas.
+O registro mais conhecido é o [Docker Hub](https://hub.docker.com/), que funciona como o "GitHub das imagens Docker". Nele, você encontra:
 
-Embora essa natureza efêmera dos contêineres seja ótima para desenvolvimento e testes, ela pode ser um desafio quando você deseja persistir dados entre reinicializações de contêineres. Por exemplo, se você reiniciar um contêiner de banco de dados, pode não querer começar com um banco de dados vazio. Portanto, como persistir arquivos?
+- **Imagens oficiais**: mantidas pela Docker ou pelos mantenedores do projeto (ex: `nginx`, `postgres`, `node`, `python`). São identificadas pelo selo "Docker Official Image".
+- **Imagens da comunidade**: publicadas por desenvolvedores e organizações, no formato `usuario/imagem` (ex: `dpage/pgadmin4`).
+- **Imagens privadas**: repositórios com acesso restrito, disponíveis em planos pagos.
 
-Existem duas abordagens principais para persistir dados em contêineres Docker:
-
-1. **Bind mounts**: Os bind mounts permitem que você monte um diretório do host dentro de um contêiner.
-
-2. **Volumes**: Os volumes são a maneira recomendada de persistir dados em contêineres Docker. Eles são armazenados fora do sistema de arquivos do contêiner e podem ser compartilhados entre vários contêineres.
-
-### Bind mounts
-
-Os bind mounts, por sua vez, permitem que você monte um diretório do host dentro de um contêiner. Isso significa que qualquer alteração feita no diretório do host será refletida no contêiner e vice-versa. Para usar um bind mount, você pode usar a opção `-v` com o caminho do diretório do host:
+Quando você executa `docker pull nginx`, o Docker busca a imagem no Docker Hub por padrão. Você também pode especificar outro registro:
 
 ```bash
-docker run -d -p 8001:80 -v /path/to/host/directory:/usr/share/nginx/html nginx
+# Puxar do Docker Hub (padrão)
+docker pull nginx
+
+# Puxar de um registro alternativo (ex: GitHub Container Registry)
+docker pull ghcr.io/usuario/minha-imagem:1.0
 ```
 
-Isso montará o diretório `/path/to/host/directory` do host no diretório `/usr/share/nginx/html` dentro do contêiner Nginx. Qualquer arquivo criado ou modificado nesse diretório será persistido no diretório do host, mesmo que o contêiner seja removido.
+Para enviar suas próprias imagens ao Docker Hub, você precisa:
 
-É importante notar que os bind mounts não são gerenciados pelo Docker e podem ser mais difíceis de gerenciar do que os volumes. Além disso, os bind mounts podem apresentar problemas de portabilidade, pois dependem do caminho do diretório no host.
+1. Criar uma conta em [hub.docker.com](https://hub.docker.com/)
+2. Fazer login via terminal: `docker login`
+3. Nomear a imagem com seu usuário: `docker tag meu-app:1.0 seuusuario/meu-app:1.0`
+4. Enviar: `docker push seuusuario/meu-app:1.0`
 
-!!!example annotate "Bind mounts na prática"
+Existem outros registros populares além do Docker Hub, como o **GitHub Container Registry** (ghcr.io), o **Amazon ECR**, o **Google Artifact Registry** e o **Azure Container Registry**. Em ambientes corporativos, é comum usar registros privados para armazenar imagens internas da organização.
 
-    Vamos fazer um exemplo de modificação no Nginx. Siga os seguintes passos:
+## Boas práticas para Dockerfile
 
+À medida que você cria mais imagens Docker, alguns padrões se destacam como boas práticas que melhoram a segurança, o tamanho e o desempenho das suas imagens:
 
-    - [x] Vamos criar uma pasta para o nosso projeto, por exemplo `docker-nginx`
-    - [x] Abra esse diretório no Visual Studio Code ou no editor de sua preferência.
-    - [x] Crie um sub-diretório com o nome `html` dentro de `docker-nginx`:
-    - [x] Crie um arquivo `index.html` dentro do diretório `html` com o seguinte conteúdo:
+### Use imagens base mínimas
 
-    ```html
-    <!DOCTYPE html>
-    <html lang="pt-BR">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Docker Nginx</title>
-    </head>
-    <body>
-        <h1>Bem-vindo ao Docker Nginx!</h1>
-        <p>Este é um exemplo de página servida pelo Nginx em um contêiner Docker.</p>
-    </body>
-    </html>
-    ```
+Prefira imagens baseadas em Alpine ou variantes `-slim` em vez de imagens completas. Elas são significativamente menores:
 
-    - [x] Agora, execute o seguinte comando no terminal:
+```dockerfile
+# Ruim: imagem completa (~1GB)
+FROM node:20
 
-    ```bash
-    docker run -p 8001:80 -v $(pwd)/html:/usr/share/nginx/html nginx # (1)
-    ```
+# Bom: imagem Alpine (~150MB)
+FROM node:20-alpine
+```
 
-    - [x] Agora, abra o navegador e acesse `http://localhost:8001`. Você verá a página HTML que você criou no diretório `html` do host.
+### Copie dependências antes do código
 
-    - [x] Agora, faça uma alteração no arquivo `index.html` e salve. Você verá que a página no navegador será atualizada automaticamente com as alterações feitas no arquivo `index.html` do host.
+Já vimos essa prática no exercício anterior, mas vale reforçar: copie os arquivos de dependência (`package.json`, `requirements.txt`, etc.) e instale-as **antes** de copiar o código-fonte. Isso maximiza o uso do cache de camadas:
 
-1. :man_raising_hand: Isso iniciará um contêiner Nginx, mapeando a porta 80 do contêiner para a porta 8001 do host e montando o diretório `html` do host no diretório `/usr/share/nginx/html` dentro do contêiner. Lembre-se que este diretório é onde o Nginx procura os arquivos HTML para servir.
+```dockerfile
+COPY package*.json ./
+RUN npm install
+# Só depois copie o código — se ele mudar, as dependências não serão reinstaladas
+COPY . .
+```
 
-### Volumes
+### Combine comandos RUN
 
-Como citado anteriormente, os volumes são gerenciados pelo Docker e podem ser facilmente criados, removidos e compartilhados. Para criar um volume, você pode usar o seguinte comando:
+Cada instrução `RUN` cria uma nova camada na imagem. Combine comandos relacionados para reduzir o número de camadas e o tamanho final:
+
+```dockerfile
+# Ruim: 3 camadas
+RUN apt-get update
+RUN apt-get install -y curl
+RUN rm -rf /var/lib/apt/lists/*
+
+# Bom: 1 camada
+RUN apt-get update && \
+    apt-get install -y curl && \
+    rm -rf /var/lib/apt/lists/*
+```
+
+### Use `.dockerignore`
+
+Assim como o `.gitignore` para o Git, o arquivo `.dockerignore` impede que arquivos desnecessários sejam copiados para a imagem durante o `COPY . .`:
+
+```dockerignore title='.dockerignore'
+node_modules
+.git
+.env
+*.md
+```
+
+### Não execute como root
+
+Por padrão, processos dentro do contêiner rodam como `root`. Para maior segurança, crie um usuário não-privilegiado:
+
+```dockerfile
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+USER appuser
+```
+
+## Interagindo com contêineres: `docker exec`
+
+Muitas vezes, é necessário executar comandos dentro de um contêiner que já está em execução — seja para depurar problemas, inspecionar arquivos ou executar tarefas administrativas. O comando `docker exec` permite exatamente isso.
+
+A sintaxe básica é:
 
 ```bash
-docker volume create <volume_name>
+docker exec [opções] <container> <comando>
 ```
 
-Para usar um volume ao executar um contêiner, você pode usar a opção `-v`:
+As opções mais comuns são `-i` (interativo) e `-t` (aloca um terminal), geralmente combinadas como `-it` para obter um terminal interativo:
 
 ```bash
-docker run -d -p 8001:80 -v <volume_name>:/usr/share/nginx/html nginx
+# Abrir um shell dentro de um contêiner em execução
+docker exec -it meu-container /bin/bash
+
+# Em contêineres Alpine (que não têm bash):
+docker exec -it meu-container /bin/sh
+
+# Executar um comando único (sem modo interativo):
+docker exec meu-container ls /app
+
+# Ver variáveis de ambiente do contêiner:
+docker exec meu-container env
 ```
 
-Isso montará o volume `<volume_name>` no diretório `/usr/share/nginx/html` dentro do contêiner Nginx. Qualquer arquivo criado ou modificado nesse diretório será persistido no volume, mesmo que o contêiner seja removido.
+### Exercício: explorando um contêiner por dentro
 
-Para colocar em prática, vamos usar o exemplo de um contêiner com um servidor de banco de dados PostgreSQL. Como comentado anteriormente, se você reiniciar um contêiner de banco de dados, pode não querer começar com um banco de dados vazio. Dessa forma, o uso de volumes pode ser uma boa solução.
+Vamos praticar o uso do `docker exec` para entender como é o ambiente interno de um contêiner.
 
-!!!example annotate "Volumes na prática"
-
-    Vamos fazer um exemplo de persistência de dados com o PostgreSQL. Siga os seguintes passos:
-
-    - [x] Primeiro vamos criar um volume com o nome `pgdata`:
-
-    ```bash
-    docker volume create pgdata
-    ```
-
-    - [x] Agora vamos executar um contêiner PostgreSQL, mapeando o volume `pgdata` para o diretório `/var/lib/postgresql/data` dentro do contêiner:
-
-    ```bash
-    docker run -d \
-        --name postgres \
-        -e POSTGRES_USER=postgres \
-        -e POSTGRES_PASSWORD=postgres \
-        -p 5432:5432 \
-        -v pgdata:/var/lib/postgresql/data \
-        postgres # (1)
-    ```
-    - [x] Agora, você pode acessar o banco de dados PostgreSQL usando um cliente de banco de dados, como o DBeaver ou o pgAdmin, usando as seguintes credenciais:
-
-    ```
-    Host: localhost
-    Porta: 5432
-    Usuário: postgres
-    Senha: postgres
-    ```
-
-    - [x] Todas as alterações que você fizer no banco de dados serão persistidas no volume `pgdata`, mesmo que o contêiner seja removido.
-    - [x] Para parar o contêiner, você pode usar o seguinte comando:
-
-    ```bash
-    docker container stop postgres
-    ```
-
-1. Note que estamos usando a imagem oficial do PostgreSQL e mapeando o volume `pgdata` para o diretório `/var/lib/postgresql/data` dentro do contêiner. Esse diretório é onde o PostgreSQL armazena os dados do banco de dados. Isso garante que os dados persistam mesmo que o contêiner seja removido. Também estamos mapeando a porta 5432 do contêiner para a porta 5432 do host, permitindo que você acesse o banco de dados a partir do host.
-
-Os volumes são administrados pelo Docker e podem ser facilmente criados, removidos e compartilhados entre contêineres. Você pode listar os volumes disponíveis em sua máquina local usando o seguinte comando:
+**Passo 1**: Inicie um contêiner Nginx:
 
 ```bash
-docker volume ls
+docker run -d --name nginx-teste nginx
 ```
 
-Isso exibirá uma tabela com informações sobre os volumes disponíveis, incluindo o nome e o driver do volume.
-
-Uma informação importante é que os dados do volume não ficam armazenados dentro do contêiner, mas sim em um diretório específico no host. O Docker gerencia esse diretório e garante que os dados sejam persistidos mesmo que o contêiner seja removido. Isso significa que você pode remover um contêiner e ainda ter acesso aos dados armazenados no volume.
-
-Para visualizar o local dos dados do volume no host, você pode usar o seguinte comando:
+**Passo 2**: Abra um shell interativo dentro do contêiner:
 
 ```bash
-docker volume inspect <volume_name>
+docker exec -it nginx-teste /bin/bash
 ```
 
-Isso exibirá informações detalhadas sobre o volume, incluindo o caminho no host onde os dados estão armazenados. O caminho pode variar dependendo do sistema operacional e da configuração do Docker.
-
-## Docker compose
-
-O Docker Compose é uma ferramenta que permite definir e executar aplicativos Docker compostos por vários contêineres. Com o Docker Compose, você pode usar um arquivo YAML para configurar os serviços, redes e volumes necessários para o seu aplicativo. Isso facilita a orquestração de contêineres e a criação de ambientes de desenvolvimento e produção consistentes.
-
-O formato YAML é uma linguagem de serialização de dados legível por humanos, que é amplamente utilizada para configuração de aplicativos, em especial no contexto de DevOps e infraestrutura como código. O arquivo de configuração do Docker Compose é chamado `docker-compose.yml` e deve estar localizado no diretório raiz do seu projeto.
-
-O Docker Compose é especialmente útil quando você tem um aplicativo que depende de vários serviços, como um banco de dados, um servidor web e um serviço de cache. Com o Docker Compose, você pode definir todos esses serviços em um único arquivo e iniciar todos eles com um único comando.
-
-Todas as configurações que são realizadas na configuração de um `docker-compose` podem ser realizadas diretamente na linha de comando, mas o uso do `docker-compose` é mais prático e organizado. Anteriormente, vimos como executar um contêiner Ngnix com persistência de dados usando `bind mounts`. Também vimos como executar um contêiner PostgreSQL com persistência de dados usando volumes.
-
-Agora, vamos considerar o seguinte cenário: você executa um contêiner docker com o PostgreSQL e um outro contêiner com a ferramenta `PgAdmin` (1). Contudo, você não quer que o banco de dados PostgreSQL fique exposto na rede, mas sim que o `PgAdmin` tenha acesso a ele. Para isso, você deveria criar uma rede interna entre os dois contêineres. Isso pode ser feito facilmente com o Docker Compose, e veremos como fazer isso a seguir.
-{ .annotate }
-
-1. O `PgAdmin` é uma ferramenta de gerenciamento e administração de banco de dados PostgreSQL. Ele fornece uma interface gráfica para interagir com o banco de dados, permitindo que você execute consultas SQL, visualize dados e gerencie objetos do banco de dados.
-
-```yaml title='docker-compose.yml'
-services:
-  db:
-    image: postgres
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=sample_db
-    volumes:
-      - db-postgres-data:/var/lib/postgresql/data
-    networks:
-      - internal-network
-  pgadmin:
-    image: dpage/pgadmin4
-    ports:
-      - '5050:80'
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
-      - PGADMIN_DEFAULT_PASSWORD=admin
-    networks:
-      - internal-network
-
-networks:
-  internal-network:
-    driver: bridge
-
-volumes:
-  db-postgres-data:
-    driver: local
-```
-
-Note que o arquivo está dividido em três seções principais: `services`, `networks` e `volumes`. A seção `services` define os serviços que serão executados, a seção `networks` define as redes que serão criadas e a seção `volumes` define os volumes que serão utilizados.
-
-Na seção `services`, temos dois serviços: `db` e `pgadmin`.
-
-- **db** - Esse serviço usa a imagem oficial do PostgreSQL e define algumas variáveis de ambiente para configurar o banco de dados. O banco de dados será criado com o nome `sample_db`, e as credenciais de acesso serão definidas como `postgres` para o usuário e senha. Note que o volume `db-postgres-data` é montado no diretório `/var/lib/postgresql/data` dentro do contêiner, garantindo que os dados do banco de dados sejam persistidos mesmo que o contêiner seja removido. O serviço `db` também está conectado à rede interna `internal-network`, o que significa que ele pode se comunicar com outros serviços na mesma rede.
-- **pgadmin** - Esse serviço usa a imagem oficial do PgAdmin e expõe a porta 80 do contêiner na porta 5050 do `host`. As variáveis de ambiente `PGADMIN_DEFAULT_EMAIL` e `PGADMIN_DEFAULT_PASSWORD` são usadas para definir as credenciais de acesso ao PgAdmin. O serviço `pgadmin` também está conectado à rede interna `internal-network`, permitindo que ele se comunique com o serviço `db`.
-
-!!!abstract "Relembrando"
-
-    Os nomes dessas variáveis de ambiente foram definidos na documentação oficial do PgAdmin. Você pode consultar a [documentação oficial do PgAdmin](https://www.pgadmin.org/docs/pgadmin4/latest/container_deployment.html) para mais informações sobre as variáveis de ambiente disponíveis. Cada imagem possui as suas variáveis de ambiente, e é importante consultar a documentação para entender como configurá-las corretamente.
-
-Note que, pela configuração de `networks`, os dois serviços estão conectados à mesma rede interna chamada `internal-network`. Isso significa que eles podem se comunicar entre si, mas não estarão acessíveis diretamente a partir do host. O PgAdmin poderá acessar o banco de dados PostgreSQL usando o nome do serviço `db` como hostname. O próprio Docker irá resolver o nome do serviço para o endereço IP do contêiner correspondente na rede interna, e também gerenciará a atribuição de endereços IP para os contêineres na rede criada.
-
-Para iniciar os serviços definidos no arquivo `docker-compose.yml`, você pode usar o seguinte comando:
+**Passo 3**: Dentro do contêiner, explore o ambiente:
 
 ```bash
-docker compose up # (1) (2)
+# Veja o sistema operacional base
+cat /etc/os-release
+
+# Liste os processos em execução
+ps aux
+
+# Veja os arquivos de configuração do Nginx
+ls /etc/nginx/
+
+# Veja o conteúdo servido pelo Nginx
+cat /usr/share/nginx/html/index.html
+
+# Saia do contêiner
+exit
 ```
 
-1. Você também pode usar a opção `-d` para executar os serviços em segundo plano (modo "detached").
-2. Também você pode definir apenas um serviço específico para iniciar. O comando `docker compose up db` iniciará apenas o serviço `db`.
+Note que o contêiner tem seu próprio sistema de arquivos, seus próprios processos e sua própria configuração — exatamente o isolamento que estudamos no capítulo de Contêineres.
 
-Depois de iniciado os serviços, você pode acessar o PgAdmin no seu navegador em `http://localhost:5050`. Use as credenciais definidas no arquivo `docker-compose.yml` para fazer login. Depois de autenticado, você pode adicionar uma nova conexão ao banco de dados PostgreSQL usando o nome do serviço `db` como hostname e as credenciais definidas no arquivo `docker-compose.yml`.
-
-Com isso, o seu contêiner `pgadmin` poderá acessar o banco de dados PostgreSQL, que está em outro contêiner, e você poderá gerenciar o banco de dados através da interface gráfica do PgAdmin.
-
-### Comandos do Docker Compose
-
-Abaixo estão alguns comandos essenciais do Docker Compose que você usará com maior frequência:
-
-| Comando                                   | Descrição                                                                                              |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| `docker compose up`                       | Cria e inicia os serviços definidos no arquivo `docker-compose.yml`.                                   |
-| `docker compose down`                     | Para e remove os serviços definidos no arquivo `docker-compose.yml`.                                   |
-| `docker compose ps`                       | Lista os serviços em execução definidos no arquivo `docker-compose.yml`.                               |
-| `docker compose logs`                     | Exibe os logs dos serviços em execução definidos no arquivo `docker-compose.yml`.                      |
-| `docker compose build`                    | Constrói as imagens dos serviços definidos no arquivo `docker-compose.yml`.                            |
-| `docker compose exec <service> <command>` | Executa um comando em um contêiner em execução de um serviço definido no arquivo `docker-compose.yml`. |
-| `docker compose run <service>`            | Executa um comando em um novo contêiner de um serviço definido no arquivo `docker-compose.yml`.        |
-| `docker compose config`                   | Valida e exibe a configuração do arquivo `docker-compose.yml`.                                         |
-| `docker compose pull`                     | Faz o download das imagens dos serviços definidos no arquivo `docker-compose.yml`.                     |
-| `docker compose rm`                       | Remove os contêineres parados dos serviços definidos no arquivo `docker-compose.yml`.                  |
-| `docker compose restart`                  | Reinicia os serviços definidos no arquivo `docker-compose.yml`.                                        |
-| `docker compose start`                    | Inicia os serviços definidos no arquivo `docker-compose.yml` que estão parados.                        |
-| `docker compose stop`                     | Para os serviços definidos no arquivo `docker-compose.yml` que estão em execução.                      |
-| `docker compose version`                  | Exibe a versão do Docker Compose instalada.                                                            |
-| `docker compose help`                     | Exibe a ajuda para o Docker Compose.                                                                   |
-| `docker compose -f <file>`                | Especifica um arquivo de configuração diferente do padrão `docker-compose.yml`.                        |
-
-Existem muitos outros comandos e opções disponíveis no Docker Compose, mas esses são os mais comuns e úteis para começar. Você pode consultar a [documentação oficial do Docker Compose](https://docs.docker.com/compose/) para obter mais informações sobre os comandos e as opções disponíveis.
-
-## Redes Docker
-
-No exemplo que apresentamos, foi criada uma rede interna chamada `internal-network`, que permite que os contêineres se comuniquem entre si. O Docker cria automaticamente uma rede bridge padrão chamada `bridge` quando o Docker é instalado. Essa rede é usada para conectar contêineres em execução no mesmo host.
-
-Em geral, o docker permite a criação de diversos tipos de redes (`drivers`). Aqui, falaremos de três:
-
-- **Bridge**: A rede bridge padrão é criada automaticamente pelo Docker e é usada para conectar contêineres em execução no mesmo host. Essa rede permite que os contêineres se comuniquem entre si usando endereços IP internos.
-- **Host**: A rede host conecta o contêiner diretamente à rede do host. Isso significa que o contêiner compartilha o mesmo espaço de rede que o host, permitindo acesso direto às interfaces de rede do host. Essa rede é útil quando você precisa de desempenho máximo e não se importa com o isolamento do contêiner.
-- **Overlay**: A rede overlay permite que você conecte contêineres em diferentes hosts Docker. Essa rede é útil para criar aplicativos distribuídos que precisam se comunicar entre diferentes hosts. O Docker Swarm usa redes overlay para conectar serviços em diferentes nós do cluster.
-
-Na maioria das vezes você usará a rede bridge padrão, que permitem que os contêineres se comuniquem entre si usando nomes de serviço, o que facilita a configuração e o gerenciamento de aplicativos compostos por vários contêineres.
-
-Para listar as redes disponíveis em sua máquina local, você pode usar o seguinte comando:
+**Passo 4**: Limpe o contêiner de teste:
 
 ```bash
-docker network ls
+docker container stop nginx-teste
+docker container rm nginx-teste
 ```
 
-Também é possível inspecionar uma rede específica para obter mais informações sobre ela, como os contêineres conectados a ela e as configurações de rede. Para isso, você pode usar o seguinte comando:
-
-```bash
-docker network inspect <network_name>
-```
+Nos próximos capítulos, veremos como o `docker exec` é usado em conjunto com o Docker Compose (`docker compose exec`) para interagir com serviços específicos em ambientes multi-contêiner.

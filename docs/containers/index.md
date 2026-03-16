@@ -1,20 +1,14 @@
 # Contêineres
 
-Nesta seção, abordaremos os conceitos básicos de containers, sem entrar nos detalhes de uso dos famosos Docker e Kubernetes. Vamos nos concentrar nos conceitos fundamentais e na importância dos containers no desenvolvimento de software moderno.
+Nesta seção, abordaremos os conceitos básicos de contêineres, sem entrar nos detalhes de uso de ferramentas específicas como Docker e Kubernetes. O foco está nos conceitos fundamentais e na importância dos contêineres no desenvolvimento de software moderno.
 
-## Fundamentos dos contêineres
+## O que são contêineres?
 
-O uso de `containers` (ou contêineres) é uma prática comum no desenvolvimento de software moderno, permitindo que os desenvolvedores criem, testem e implantem aplicativos de forma consistente em diferentes ambientes. Os containers são unidades leves e portáteis que empacotam o código-fonte, bibliotecas e dependências necessárias para executar um aplicativo, garantindo que ele funcione da mesma forma em qualquer lugar.
+Um contêiner (_container_) é um ambiente isolado que empacota uma aplicação junto com todas as suas dependências — bibliotecas, binários, arquivos de configuração — em um único pacote executável. Os contêineres são isolados uns dos outros e do sistema operacional host, o que significa que cada contêiner possui suas próprias configurações e dependências, sem interferir em outros contêineres ou no sistema operacional subjacente.
 
-De forma resumida, um contêiner é um ambiente completo, composto por uma aplicação e todas suas dependências, bibliotecas, binários, arquivos de configuração, em um único pacote. Os containers são baseados na tecnologia de virtualização, mas diferentemente das máquinas virtuais, que virtualizam todo o sistema operacional, os containers compartilham o mesmo núcleo do sistema operacional host. Isso torna os containers mais leves e rápidos de iniciar, além de permitir que vários containers sejam executados simultaneamente em um único host.
+Diferentemente das máquinas virtuais (VMs), que virtualizam todo o sistema operacional, os contêineres compartilham o mesmo núcleo (_kernel_) do sistema operacional host. Isso os torna mais leves e rápidos de iniciar, além de permitir que vários contêineres sejam executados simultaneamente em um único host.
 
-Ao criar um contêiner para uma aplicação e suas dependências, as diferenças entre distribuições de sistemas operacionais e camadas inferiores da infraestrutura são abstraídas. Com isso, os desenvolvedores podem se concentrar em escrever código e aplicações, sem se preocupar com as diferenças entre os ambientes de desenvolvimento, teste e produção.
-
-### O que são contêineres?
-
-Os contêineres são unidades de software que empacotam o código-fonte, bibliotecas e dependências necessárias para executar um aplicativo. Eles são isolados uns dos outros e do sistema operacional host, o que significa que cada contêiner pode ter suas próprias configurações e dependências, sem interferir em outros contêineres ou no sistema operacional subjacente.
-
-Os contêineres são ambientes de leves, portáteis, consistentes e isolados que permitem aos desenvolvedores executar e empacotar aplicativos com suas dependências de forma consistente em diferentes plataformas. Eles ajudam a simplificar os processos de desenvolvimento, implantação e gerenciamento de aplicativos, garantindo que os aplicativos sejam executados de forma consistente, independentemente da infraestrutura subjacente.
+Ao criar um contêiner para uma aplicação e suas dependências, as diferenças entre distribuições de sistemas operacionais e camadas inferiores da infraestrutura são abstraídas. Com isso, os desenvolvedores podem se concentrar em escrever código, sem se preocupar com as diferenças entre os ambientes de desenvolvimento, teste e produção.
 
 ### Por que usar contêineres?
 
@@ -29,13 +23,13 @@ Os contêineres oferecem várias vantagens em relação aos métodos tradicionai
 
 Os contêineres resolvem o problema de ambientes inconsistentes ao trabalhar em grandes equipes. Antes dos contêineres ou ambientes virtuais, muitos problemas e perda de tempo eram causados pela necessidade de instalar e configurar ambientes locais para construir projetos compartilhados por colegas de trabalho ou amigos.
 
-Dessa forma, os contêineres ajudam a reduzir o tempo de desenvolvimento e a aumentar a eficiência, permitindo que os desenvolvedores se concentrem no que realmente importa: escrever código e criar aplicativos incríveis. Ainda, de forma geral, o uso de contêineres ajudar a reduzir os conflitos entre as equipes de desenvolvimento e operações, separando as áreas de responsabilidade. Os desenvolvedores podem se concentrar em seus aplicativos e as equipes de operações podem se concentrar na infraestrutura. E, como os contêineres são baseados em tecnologia de código aberto, você obtém os mais recentes avanços assim que estão disponíveis.
+Dessa forma, os contêineres ajudam a reduzir o tempo de desenvolvimento e a aumentar a eficiência. O uso de contêineres também contribui para reduzir os conflitos entre as equipes de desenvolvimento e operações, separando as áreas de responsabilidade: os desenvolvedores podem se concentrar em seus aplicativos enquanto as equipes de operações cuidam da infraestrutura. No contexto de DevOps, essa separação clara de responsabilidades, aliada à padronização do ambiente de execução, é um dos pilares que viabiliza práticas como integração e entrega contínuas.
 
 Embora o Docker possa ser a ferramenta de contêiner mais conhecida, existem outras opções disponíveis, como Podman, Skopeo, Buildah e CRI-O. Essas ferramentas oferecem funcionalidades semelhantes ao Docker, mas podem ter diferenças em termos de arquitetura, desempenho e recursos específicos.
 
 ### Bare Metal vs Virtualização vs Contêineres
 
-`Bare Metal` é um termo usado para descrever um computador que está executando diretamente no hardware sem nenhuma virtualização. Esta é a maneira com maior desempenho para executar um aplicativo, mas também é a menos flexível. Você só pode executar um aplicativo por servidor e não pode mover facilmente o aplicativo para outro servidor.
+`Bare Metal` é um termo usado para descrever um computador que está executando diretamente no hardware, sem nenhuma camada de virtualização. Esta é a maneira com maior desempenho para executar um aplicativo, mas também é a menos flexível. Você só pode executar um sistema operacional por servidor e não pode mover facilmente o aplicativo para outro servidor.
 
 Para resolver esse problema, a virtualização foi introduzida. A virtualização permite que você execute vários sistemas operacionais em um único servidor. A cada uma dessas instâncias de sistema operacional é chamada de máquina virtual (VM). Cada VM é executada em cima de um hipervisor, que é um pedaço de software que emula o hardware de um computador. O hipervisor permite que você execute vários sistemas operacionais em um único servidor e também fornece isolamento entre aplicativos executados em diferentes VMs.
 
@@ -44,6 +38,64 @@ Isso é possível porque o hipervisor emula o hardware de um computador, permiti
 Já os contêineres são uma maneira de executar vários aplicativos em um único servidor sem a sobrecarga de um hipervisor. Cada contêiner é executado em cima de um mecanismo de contêiner (software que gerencia o ciclo de vida dos contêineres), que supervisiona e isola processos usando os recursos do núcleo do sistema operacional host.
 
 Dessa forma, os contêineres compartilham o mesmo núcleo do sistema operacional host, mas cada contêiner tem seu próprio sistema de arquivos, rede e processos. Isso significa que os contêineres são mais leves e rápidos de iniciar do que as VMs, pois não precisam emular todo o hardware de um computador. Além disso, os contêineres podem ser facilmente movidos entre diferentes servidores e ambientes, tornando-os mais portáteis e flexíveis. Por outro lado, como todos os contêineres usam o mesmo núcleo do sistema operacionais, não é possível que cada contêiner tenha seu próprio sistema operacional. Isso pode levar a problemas de compatibilidade entre aplicativos que exigem diferentes versões do núcleo do sistema operacional.
+
+O diagrama abaixo ilustra as diferenças entre as três abordagens:
+
+```mermaid
+flowchart TB
+  subgraph BM["Bare Metal"]
+    direction TB
+    HW1["Hardware"]
+    OS1["Sistema Operacional"]
+    A1["App A"]
+    A2["App B"]
+    HW1 --> OS1 --> A1
+    OS1 --> A2
+  end
+  subgraph VM["Máquinas Virtuais"]
+    direction TB
+    HW2["Hardware"]
+    HV["Hipervisor"]
+    subgraph VM1["VM 1"]
+      GOS1["SO Convidado"]
+      VA1["App A"]
+    end
+    subgraph VM2["VM 2"]
+      GOS2["SO Convidado"]
+      VA2["App B"]
+    end
+    HW2 --> HV --> VM1
+    HV --> VM2
+  end
+  subgraph CT["Contêineres"]
+    direction TB
+    HW3["Hardware"]
+    OS3["Sistema Operacional"]
+    CE["Container Engine"]
+    subgraph C1["Container 1"]
+      CA1["App A"]
+    end
+    subgraph C2["Container 2"]
+      CA2["App B"]
+    end
+    HW3 --> OS3 --> CE --> C1
+    CE --> C2
+  end
+```
+
+### Breve história dos contêineres
+
+A ideia de isolar processos não é nova. A evolução até os contêineres modernos passou por vários marcos importantes:
+
+- **1979 — `chroot`**: O Unix V7 introduziu a chamada de sistema `chroot`, que permite alterar o diretório raiz de um processo, criando um ambiente de sistema de arquivos isolado. Foi a primeira forma de isolamento de processos.
+- **2000 — FreeBSD Jails**: O FreeBSD estendeu o conceito de `chroot` para criar "jails" — ambientes completamente isolados com seus próprios usuários, rede e sistema de arquivos.
+- **2006 — cgroups**: O Google desenvolveu os _control groups_ (cgroups) para o kernel Linux, permitindo limitar e monitorar o uso de recursos (CPU, memória, I/O) por grupos de processos.
+- **2008 — LXC (Linux Containers)**: O LXC combinou namespaces e cgroups do kernel Linux para criar contêineres completos, sem a necessidade de um hipervisor.
+- **2013 — Docker**: A dotCloud (posteriormente renomeada Docker, Inc.) lançou o Docker, que tornou os contêineres acessíveis a desenvolvedores comuns ao simplificar a criação, distribuição e execução de contêineres com Dockerfiles e o Docker Hub.
+- **2015 — OCI**: A criação da Open Container Initiative padronizou os formatos de imagem e runtime, garantindo interoperabilidade entre diferentes ferramentas.
+- **2014-2015 — Kubernetes**: O Google abriu o código do Kubernetes, um sistema para orquestrar contêineres em escala, que se tornou o padrão da indústria.
+
+Essa linha do tempo mostra que os contêineres são resultado de décadas de evolução em técnicas de isolamento de processos no Unix e no Linux.
 
 ### Open Container Initiative (OCI)
 
@@ -57,6 +109,8 @@ A OCI define dois padrões principais:
 Esses padrões ajudam a garantir que diferentes ferramentas e plataformas de contêineres possam trabalhar juntas de forma interoperável. Isso significa que os desenvolvedores podem usar diferentes ferramentas para criar, executar e gerenciar contêineres, sem se preocupar com problemas de compatibilidade.
 
 A Docker foi uma das primeiras empresas a adotar os padrões da OCI e tem trabalhado em estreita colaboração com a OCI para promover a interoperabilidade entre diferentes ferramentas de contêineres. Outras empresas, como Red Hat, Google e Microsoft, também estão envolvidas na OCI e apoiam seus esforços para criar padrões abertos para contêineres.
+
+Na prática, isso significa que uma imagem construída com Docker pode ser executada com Podman (e vice-versa), pois ambas as ferramentas seguem a OCI Image Specification. Da mesma forma, o _runtime_ `runc` pode ser substituído por outro _runtime_ compatível com a OCI, sem alterar a imagem ou o fluxo de trabalho.
 
 ## As tecnologias que dão vida aos contêineres
 
@@ -82,22 +136,32 @@ Os namespaces são usados para isolar diferentes recursos do sistema, como:
 - **Mount namespace**: Isola os pontos de montagem entre contêineres, permitindo que cada contêiner tenha seu próprio sistema de arquivos.
 - **User namespace**: Isola os IDs de usuário e grupo entre contêineres, permitindo que cada contêiner tenha seu próprio conjunto de usuários e permissões.
 - **IPC namespace**: Isola os recursos de comunicação entre processos (IPC) entre contêineres, permitindo que cada contêiner tenha seu próprio conjunto de recursos IPC.
-- **UTS namespace**: Isola os nomes de host e domínio entre contêineres, permitindo que cada contêiner tenha seu próprio nome de host e domínio.
+- **UTS namespace**: Isola os nomes de host e domínio entre contêineres, permitindo que cada contêiner tenha seu próprio nome de host e domínio. O nome UTS vem de _UNIX Time-Sharing System_, uma referência histórica à estrutura `utsname` do kernel.
 - **Cgroup namespace**: Isola os grupos de controle (cgroups) entre contêineres, permitindo que cada contêiner tenha seu próprio conjunto de cgroups.
 - **Time namespace**: Isola o tempo entre contêineres, permitindo que cada contêiner tenha seu próprio relógio e fuso horário.
-- **Seccomp namespace**: Isola os filtros de segurança entre contêineres, permitindo que cada contêiner tenha seu próprio conjunto de regras de segurança.
+  Além dos namespaces listados acima, é comum mencionar o **Seccomp** (_Secure Computing Mode_) ao discutir o isolamento de contêineres. Contudo, o Seccomp **não é um namespace** — trata-se de um mecanismo do kernel Linux para filtrar chamadas de sistema (_syscalls_), restringindo quais operações um processo pode executar. Ele atua como uma camada adicional de segurança, complementando o isolamento proporcionado pelos namespaces.
 
-A imagem abaixo ilustra como esses recurso estão isolados dentro de um namespace:
+A imagem abaixo ilustra como esses recursos estão isolados dentro de um namespace:
 
 ```mermaid
-flowchart LR
-  subgraph Namespace
-    PID
-    NET
-    MNT
-    USER
-    IPC
-    UTS
+flowchart TB
+  subgraph Host["Sistema Operacional Host"]
+    direction LR
+    Kernel["Kernel Linux"]
+    subgraph C1["Contêiner A"]
+      PID1["PID"]
+      NET1["NET"]
+      MNT1["MNT"]
+      USER1["USER"]
+    end
+    subgraph C2["Contêiner B"]
+      PID2["PID"]
+      NET2["NET"]
+      MNT2["MNT"]
+      USER2["USER"]
+    end
+    C1 --- Kernel
+    C2 --- Kernel
   end
 ```
 
@@ -122,6 +186,28 @@ Vamos analisar os parâmetros usados:
 
 Após executar o comando, você terá um shell bash dentro de um novo namespace de PID, rede e sistema de montagem. Isso significa que qualquer processo iniciado dentro desse shell não terá acesso aos processos ou recursos do sistema principal.
 
+Para verificar o isolamento, execute o comando `ps aux` **dentro** do namespace:
+
+```bash
+ps aux
+```
+
+Você verá que apenas o processo `bash` (PID 1) e o próprio `ps` aparecem listados. Compare essa saída abrindo outro terminal (fora do namespace) e executando o mesmo `ps aux` — a lista de processos será significativamente maior.
+
+Outra forma de observar o isolamento é verificar a rede. Dentro do namespace, execute:
+
+```bash
+ip link show
+```
+
+Você verá apenas a interface `lo` (loopback), pois o namespace de rede está isolado e não possui acesso às interfaces de rede do host.
+
+Para sair do namespace, basta executar:
+
+```bash
+exit
+```
+
 Da parte externa do namespace, você pode verificar os processos em execução usando o comando `ps`. Nesse caso, queremos identificar o PID do bash que foi iniciado dentro do namespace. Para isso, você pode usar o comando `ps` com a opção `-ef` para listar todos os processos em execução:
 
 ```bash
@@ -135,6 +221,43 @@ pstree -p <PID_IDENTIFICADO_AO_COMANDO_UNSHARE> # (1)
 ```
 
 1. Substitua `<PID_IDENTIFICADO_AO_COMANDO_UNSHARE>` pelo PID do processo `unshare` que você encontrou na etapa anterior. O PID do bash será listado como um filho do processo `unshare`.
+
+### Exercício opcional: isolando o hostname com UTS namespace
+
+O UTS namespace permite que cada contêiner tenha seu próprio nome de host, independente do host real. Vamos experimentar isso na prática.
+
+**Passo 1**: Crie um novo namespace de UTS junto com os demais:
+
+```bash
+sudo unshare -p -m -n -u -f --mount-proc bash
+```
+
+O parâmetro `-u` cria um novo UTS namespace. Dentro do namespace, verifique o hostname atual:
+
+```bash
+hostname
+```
+
+Você verá o mesmo hostname do host, pois o namespace herda o valor original no momento da criação.
+
+**Passo 2**: Altere o hostname dentro do namespace:
+
+```bash
+hostname meu-container
+hostname
+```
+
+A saída agora mostrará `meu-container`.
+
+**Passo 3**: Em outro terminal (fora do namespace), verifique que o hostname do host **não foi alterado**:
+
+```bash
+hostname
+```
+
+Ele continuará com o nome original do host. Isso demonstra o isolamento do UTS namespace — a alteração do hostname dentro do namespace não afeta o sistema host.
+
+Esse é exatamente o comportamento que ferramentas como o Docker usam internamente: cada contêiner recebe seu próprio UTS namespace, e o Docker define o hostname do contêiner como o ID curto do contêiner (ou o valor passado pela opção `--hostname`).
 
 ## CGroups (ou Control Groups)
 
@@ -161,6 +284,7 @@ flowchart LR
     network
   end
 ```
+
 Os cgroups são uma parte fundamental da tecnologia de contêineres, pois permitem que os desenvolvedores definam limites e monitorem o uso de recursos em contêineres. Isso é especialmente importante em ambientes de produção, onde vários contêineres podem estar sendo executados simultaneamente e o uso excessivo de recursos por um contêiner pode afetar o desempenho de outros contêineres ou do sistema host.
 Por isso, junto com os namespaces, os cgroups são fundamentais para garantir o isolamento e o controle de recursos em contêineres. Eles permitem que os desenvolvedores definam limites e monitorem o uso de recursos, garantindo que os contêineres não afetem o desempenho do sistema host ou de outros contêineres.
 
@@ -193,13 +317,21 @@ cat /sys/fs/cgroup/meu-namespace/cpu.max
 cat /sys/fs/cgroup/meu-namespace/memory.max
 ```
 
-Agora que temos o `cgroup` criado e os limites definidos, precisamos associar o processo bash que criamos anteriormente a esse cgroup. Para isso, precisamos do PID do processo bash que está rodando no namespace. Vamos supor que o PID do bash seja `12345`. Para associar esse processo ao cgroup `meu-namespace`, precisamos adicionar o PID do processo ao arquivo `cgroup.procs` dentro do diretório do cgroup. Para isso, você pode usar o seguinte comando:
+Agora que temos o `cgroup` criado e os limites definidos, precisamos associar o processo bash que criamos anteriormente a esse cgroup. Para obter o PID do processo bash dentro do namespace, execute o seguinte comando **dentro do namespace**:
 
 ```bash
-echo 12345 | sudo tee /sys/fs/cgroup/meu-namespace/cgroup.procs # (1)
+echo $$
 ```
 
-1. Substitua `12345` pelo PID do processo bash que você encontrou anteriormente.
+Esse comando exibirá o PID do processo bash dentro do namespace. Contudo, como o namespace de PID é isolado, o PID visto de dentro do namespace (geralmente `1`) é diferente do PID real no host. Para encontrar o PID real, use o `pstree` ou `ps` conforme demonstrado na seção anterior.
+
+Para associar esse processo ao cgroup `meu-namespace`, adicione o PID (real, visto do host) ao arquivo `cgroup.procs`:
+
+```bash
+echo <PID_REAL> | sudo tee /sys/fs/cgroup/meu-namespace/cgroup.procs # (1)
+```
+
+1. Substitua `<PID_REAL>` pelo PID do processo bash que você encontrou usando `pstree` ou `ps -ef | grep unshare` na etapa anterior.
 
 Agora, o processo bash e todos os seus filhos estarão associados ao cgroup `meu-namespace`, e estarão limitados pelos recursos definidos nos arquivos `cpu.max` e `memory.max`.
 
@@ -222,19 +354,46 @@ Esse comando faz o seguinte:
 
 Como a gente pode ver, o comando `stress` vai tentar consumir 80 MB de memória e 2 núcleos de CPU. No entanto, como definimos um limite de 100 MB de memória e 50% de CPU no cgroup, o comando `stress` deve ser limitado a esses valores. Por outro lado, se o comando for executado fora do cgroup, ele não terá esses limites e poderá consumir mais recursos do que o esperado.
 
-Para que possamos verificar os limites que foram impostos pelo cgroup, é possível analisar os registros do arquivo `cpu.stat` do cgroup. Esse arquivo contém informações sobre o uso de CPU e o número de vezes que o cgroup foi limitado (throttled).
+Para que possamos verificar os limites que foram impostos pelo cgroup, é possível analisar os registros do arquivo `cpu.stat` do cgroup. Esse arquivo contém informações sobre o uso de CPU e o número de vezes que o cgroup foi limitado (_throttled_).
 
 ```bash
 cat /sys/fs/cgroup/meu-namespace/cpu.stat
 ```
 
-O arquivo `cpu.stat` contém, entre outras, as seguintes informações:
+Após executar o teste de estresse, a saída esperada será semelhante a:
+
+```
+usage_usec 14837292
+user_usec 14767292
+system_usec 70000
+nr_periods 298
+nr_throttled 147
+throttled_usec 13269498
+```
+
+Os campos mais relevantes são:
 
 - `usage_usec`: Tempo total de CPU usado pelo cgroup (em microssegundos).
-- `nr_throttled`: Quantas vezes o cgroup foi limitado (throttled).
-- `throttled_usec`: Tempo total durante o qual o cgroup foi limitado (em microssegundos).
+- `nr_throttled`: Quantas vezes o cgroup foi limitado (_throttled_). Um valor maior que zero indica que o limite de CPU está sendo aplicado.
+- `throttled_usec`: Tempo total durante o qual o cgroup ficou impedido de usar CPU (em microssegundos).
 
-Agora, podemos executar o comando `stress` dentro do cgroup e monitorar o arquivo `cpu.stat` para verificar se os limites estão funcionando corretamente.
+Se `nr_throttled` for zero, o limite de CPU não foi atingido durante o teste.
+
+### Testando o limite de memória
+
+Para verificar o limite de memória, execute o comando `stress` com um valor de memória que ultrapasse o limite definido no cgroup:
+
+```bash
+stress --vm 1 --vm-bytes 150M --timeout 30
+```
+
+Como o limite de memória do cgroup é 100 MB, o kernel irá encerrar o processo que ultrapassar esse limite (_OOM Kill_ — Out of Memory Kill). Você verá uma mensagem de erro indicando que o processo foi encerrado. Para confirmar, verifique o log do sistema:
+
+```bash
+dmesg | tail -20
+```
+
+Você deverá encontrar uma mensagem semelhante a `Memory cgroup out of memory: Killed process ...`, confirmando que o cgroup está aplicando o limite de memória corretamente.
 
 !!!note "Importante"
 
@@ -245,8 +404,3 @@ Agora, podemos executar o comando `stress` dentro do cgroup e monitorar o arquiv
     ```bash
     sudo rmdir /sys/fs/cgroup/mycontainer
     ```
-
-<!-- --8<-- "docs/ci/criando-projeto.md"
---8<-- "docs/ci/criando-docker.md"
---8<-- "docs/ci/configurando-github-actions.md"
---8<-- "docs/ci/configurando-deploy-dockerhub.md" -->
