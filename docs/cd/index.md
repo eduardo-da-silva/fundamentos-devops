@@ -8,9 +8,9 @@ Uma técnica muito comum na aplicação da entrega contínua é o GitOps, que é
 
 Ainda, podemos utilizar o GitOps para automatizar o processo de entrega contínua, permitindo que as alterações no código sejam automaticamente implantadas em ambientes de produção. Isso reduz o tempo e o esforço necessários para implantar novas funcionalidades e correções de bugs, além de aumentar a confiabilidade e a segurança do processo de entrega.
 
-Integrado ao ambiente de k8s que estamos utilizando, o GitOps pode ser utilizado para gerenciar a infraestrutura e as aplicações em contêineres. Isso permite que as equipes de desenvolvimento e operações trabalhem juntas de forma mais eficiente, utilizando práticas ágeis e automação para implantar novas funcionalidades e correções de bugs rapidamente.
+Integrado ao ambiente de Kubernetes que configuramos nos capítulos anteriores, o GitOps permite gerenciar a infraestrutura e as aplicações em contêineres de forma declarativa e versionada.
 
-Várias ferramentas podem ser utilizadas para implementar o GitOps, como o ArgoCD e o Flux. Essas ferramentas permitem que as equipes de desenvolvimento e operações trabalhem juntas de forma mais eficiente, utilizando práticas ágeis e automação para implantar novas funcionalidades e correções de bugs rapidamente. Nas nossas aulas faremos uso do ArgoCD, que é uma ferramenta de entrega contínua para Kubernetes que permite implantar aplicações de forma automatizada e segura, e utiliza o Git como a única fonte de verdade para a infraestrutura e as aplicações.
+Várias ferramentas implementam o GitOps, como o ArgoCD e o Flux. Nas nossas aulas, faremos uso do ArgoCD, que é uma ferramenta de entrega contínua para Kubernetes que monitora um repositório Git e aplica automaticamente as alterações no cluster.
 
 ## Instalação do ArgoCD
 
@@ -43,9 +43,9 @@ Mas, antes, vamos preparar o repositório do nosso projeto para que possamos uti
 
 ## Preparação do repositório
 
-Vamos continuar usando o projeto que criamos na aula anterior (orquestração de contêineres). Para isso, vamos criar um repositório no GitHub e adicionar os arquivos de configuração do ArgoCD.
+Vamos continuar usando o projeto que evoluímos ao longo da disciplina — a API de soma que começou na integração contínua, foi containerizada no capítulo de boas práticas de Docker, e implantada no Kubernetes nos capítulos de orquestração. O diretório `k8s/` já contém os manifests de Deployment, Service, ConfigMap e Secret.
 
-Para tal suba o seu projeto para o GitHub, e crie um repositório, por exemplo chamado `hello-fastapi-k8s` (esta é apenas uma sugestão). Após subir a primeira versão para o repostório do GitHub, já sugiro que você crie os dois segredos no GitHub para fazer o upload da imagem do Docker para o Docker Hub e do arquivo de configuração do ArgoCD para o repositório do GitHub.
+Suba o projeto para o GitHub, criando um repositório (por exemplo, `soma-api-k8s`). Após subir a primeira versão para o repostório do GitHub, já sugiro que você crie os dois segredos no GitHub para fazer o upload da imagem do Docker para o Docker Hub e do arquivo de configuração do ArgoCD para o repositório do GitHub.
 
 Para compatibilidade com o que mostraremos nos arquivos de configuração do _workflow_ do GitHub, sugiro que você crie esses dois segredos com os seguintes nomes:
 

@@ -1,33 +1,72 @@
 # Orquestração de contêineres
 
-A orquestração de containers automatiza o gerenciamento de containers, desde o provisionamento até o escalonamento e monitoramento, permitindo que as organizações implantem aplicações em grande escala de forma mais eficiente. A orquestração é especialmente útil em ambientes de microserviços, onde aplicações são divididas em pequenos serviços independentes que podem ser implantados e escalonados separadamente. Além disso, ela ajuda a manter a coesão e a resiliência das aplicações, garantindo que os serviços estejam sempre disponíveis e funcionando corretamente.
+Nos capítulos anteriores, utilizamos o Docker para construir imagens, gerenciar volumes, compor múltiplos serviços com o Docker Compose e preparar imagens com boas práticas para produção. Com o Compose, conseguimos definir e levantar ambientes com vários contêineres de forma declarativa e reproduzível. Isso funciona bem em um único servidor — mas o que acontece quando a aplicação precisa rodar em múltiplas máquinas, escalar sob demanda, ou se recuperar automaticamente de falhas?
 
-Quando levantamos um container, usando o Docker por exemplo, estamos criando uma instância isolada de um aplicativo ou serviço. No entanto, à medida que o número de containers aumenta, torna-se difícil gerenciá-los manualmente. A orquestração de containers resolve esse problema, permitindo que os desenvolvedores e operadores automatizem tarefas repetitivas e complexas.
+O Docker Compose não foi projetado para resolver esses problemas. Ele não distribui contêineres entre máquinas, não reinicia serviços automaticamente em caso de falha de hardware, e não gerencia balanceamento de carga entre réplicas. É aí que entra a orquestração de contêineres.
 
-A orquestração de containers é uma abordagem que permite gerenciar e automatizar o ciclo de vida de containers em ambientes de produção. Isso inclui tarefas como provisionamento, escalonamento, monitoramento e recuperação de falhas. Ferramentas de orquestração ajudam a garantir que os containers estejam sempre disponíveis, escaláveis e funcionando corretamente.
+## O que é orquestração
 
-Algumas características comuns de ferramentas de orquestração de containers incluem:
+Orquestrar contêineres significa automatizar o gerenciamento do ciclo de vida de contêineres em ambientes distribuídos: provisionamento, escalonamento, monitoramento, rede, recuperação de falhas e atualização de versões. Em vez de gerenciar cada contêiner individualmente, você declara o estado desejado — por exemplo, "quero 3 réplicas desse serviço" — e a ferramenta de orquestração se encarrega de manter esse estado.
 
-- **Gerenciamento de ciclo de vida**: Automatiza o provisionamento, escalonamento e monitoramento de containers.
-- **Escalonamento automático**: Ajusta automaticamente o número de containers em execução com base na carga de trabalho.
-- **Balanceamento de carga**: Distribui o tráfego entre os containers para garantir desempenho e disponibilidade.
-- **Recuperação automática**: Reinicia containers com falha ou substitui containers não saudáveis.
-- **Gerenciamento de configuração**: Permite a configuração centralizada de containers, facilitando a atualização e o gerenciamento de aplicações.
-- **Rede e armazenamento**: Facilita a comunicação entre containers e o gerenciamento de volumes de armazenamento.
-- **Segurança**: Fornece recursos de segurança, como autenticação, autorização e criptografia de dados.
-- **Monitoramento e registro**: Coleta métricas e logs dos containers para análise e solução de problemas.
-- **Integração com CI/CD**: Facilita a integração com pipelines de entrega contínua e implantação contínua.
-- **Multi-cloud e híbrido**: Suporte para implantações em ambientes de nuvem pública, privada e híbrida.
-- **Flexibilidade**: A capacidade de personalizar e estender a ferramenta para atender às necessidades específicas da organização.
-- **Gerenciamento de segredos**: Permite armazenar e gerenciar segredos, como senhas e chaves de API, de forma segura.
+As responsabilidades típicas de um orquestrador incluem:
 
-Nas nossas aulas, faremos uso da ferramenta "kind" para facilitar a criação e gerenciamento de clusters Kubernetes locais. O Kind (Kubernetes IN Docker) é uma ferramenta que permite executar clusters Kubernetes em containers Docker, tornando mais fácil o desenvolvimento e teste de aplicações em ambientes Kubernetes. Ele é especialmente útil para desenvolvedores que desejam experimentar o Kubernetes sem precisar configurar um cluster completo em uma máquina física ou virtual. Por isso, é amplamente utilizado em ambientes de desenvolvimento e teste, onde a criação rápida e fácil de clusters Kubernetes é essencial.
+- **Escalonamento**: ajustar o número de réplicas de um serviço com base na carga de trabalho.
+- **Balanceamento de carga**: distribuir o tráfego entre as réplicas disponíveis.
+- **Recuperação automática**: reiniciar ou substituir contêineres que falharam.
+- **Rede**: gerenciar a comunicação entre contêineres, mesmo em máquinas diferentes.
+- **Gerenciamento de configuração e segredos**: centralizar variáveis de ambiente, senhas e chaves.
+- **Atualizações graduais**: implantar novas versões sem interromper o serviço (rolling updates).
 
-## Instalação do Kind e comandos básicos
+## Kubernetes
 
-Primeiramente, para instalar o Kind é necessário ter o Docker instalado na máquina. Para isso, caso você ainda não tenha o Docker, pode consultar a aula referente aos contêineres.
+O Kubernetes (frequentemente abreviado como K8s) é a ferramenta de orquestração de contêineres mais adotada na indústria. Foi desenvolvido inicialmente pelo Google, baseado em mais de uma década de experiência interna com gerenciamento de contêineres (projeto Borg), e liberado como código aberto em 2014. Hoje é mantido pela Cloud Native Computing Foundation (CNCF).
 
-Com o Docker instalado, você pode instalar o Kind usando o comando abaixo, em um ambiente Linux:
+Existem outras ferramentas de orquestração — Docker Swarm, HashiCorp Nomad, Apache Mesos — mas o Kubernetes se consolidou como o padrão de mercado. A maioria dos provedores de nuvem oferece serviços gerenciados de Kubernetes (EKS na AWS, GKE no Google Cloud, AKS na Azure).
+
+### Arquitetura de um cluster
+
+Um cluster Kubernetes é composto por dois tipos de nós:
+
+- **Control plane** (plano de controle): responsável por gerenciar o cluster. Contém o servidor de API (`kube-apiserver`), o escalonador (`kube-scheduler`), o gerenciador de controladores (`kube-controller-manager`) e o banco de dados de estado (`etcd`). É nele que você envia comandos e declarações de recursos.
+
+- **Worker nodes** (nós de trabalho): onde os contêineres efetivamente executam. Cada worker node roda o `kubelet` (agente que se comunica com o control plane) e o `kube-proxy` (gerenciamento de rede).
+
+Em ambientes de produção, o control plane e os workers são máquinas separadas (físicas ou virtuais). Para desenvolvimento e estudo, podemos simular tudo em uma única máquina.
+
+### Recursos fundamentais
+
+Antes de colocar a mão na prática, é importante conhecer os recursos (objetos) que o Kubernetes gerencia. Veremos cada um em detalhes nas próximas páginas, mas segue uma visão inicial:
+
+| Recurso        | Descrição                                                                                                  |
+| -------------- | ---------------------------------------------------------------------------------------------------------- |
+| **Pod**        | Menor unidade de implantação. Contém um ou mais contêineres que compartilham rede e armazenamento.         |
+| **Deployment** | Gerencia a criação e atualização de pods. Garante que o número desejado de réplicas esteja sempre rodando. |
+| **Service**    | Expõe um conjunto de pods como um serviço de rede, com IP estável e DNS interno.                           |
+| **ConfigMap**  | Armazena configurações não sensíveis (variáveis de ambiente, arquivos de configuração).                    |
+| **Secret**     | Armazena dados sensíveis (senhas, tokens, chaves).                                                         |
+
+### kubectl
+
+O `kubectl` é a ferramenta de linha de comando para interagir com clusters Kubernetes. Todos os comandos que executaremos nas aulas passam por ele. Alguns comandos essenciais:
+
+```bash
+kubectl get nodes          # lista os nós do cluster
+kubectl get pods           # lista os pods em execução
+kubectl get deployments    # lista os deployments
+kubectl get services       # lista os services
+kubectl describe pod NOME  # detalhes de um pod específico
+kubectl logs NOME          # logs de um pod
+kubectl apply -f ARQ.yaml  # aplica uma configuração declarativa
+kubectl delete -f ARQ.yaml # remove os recursos declarados no arquivo
+```
+
+## Ambiente local com Kind
+
+Para as aulas, faremos uso do Kind (Kubernetes IN Docker), que permite criar clusters Kubernetes locais usando contêineres Docker como nós. É uma alternativa leve para o Minikube e não exige máquinas virtuais.
+
+### Instalação
+
+Pré-requisito: Docker instalado e funcionando.
 
 ```bash
 curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.28.0/kind-linux-amd64
@@ -35,60 +74,44 @@ chmod +x ./kind
 sudo mv ./kind /usr/local/bin/kind
 ```
 
-Depois, você pode criar um _cluster Kubernetes_ usando o Kind com o seguinte comando:
+Instale também o `kubectl`, caso ainda não tenha:
+
+```bash
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+chmod +x kubectl
+sudo mv kubectl /usr/local/bin/kubectl
+```
+
+### Criando um cluster simples
 
 ```bash
 kind create cluster
 ```
 
-Isso irá criar um cluster Kubernetes local em sua máquina usando containers Docker. Você pode verificar se o cluster foi criado com sucesso executando o seguinte comando:
+Verifique se o cluster está ativo:
 
 ```bash
 kubectl cluster-info --context kind-kind
 ```
 
-Se tudo estiver funcionando corretamente, você verá informações sobre o cluster Kubernetes em execução. O comando `kubectl` é a ferramenta de linha de comando do Kubernetes, que permite interagir com o cluster e gerenciar recursos. A instalação do `kubectl` é feita automaticamente quando você instala o Kind, portanto, não é necessário instalá-lo separadamente.
-
-Também, é possível informar o nome do _cluster_ com o seguinte comando:
+Você pode criar clusters com nomes específicos:
 
 ```bash
 kind create cluster --name devops
 ```
 
-Nesse caso, foi criado um cluster chamado "devops". Agora, você pode listar os cluster com o seguinte comando:
+E listar ou excluir:
 
 ```bash
 kind get clusters
-```
-
-O comando acima irá listar todos os clusters criados com o Kind e, nosso exemplo, deve retornar o seguinte resultado:
-
-```bash
-kind
-devops
-```
-
-O primeiro cluster criado com o Kind é chamado "kind". O segundo cluster que criamos é chamado "devops". Você pode usar esses nomes para gerenciar os clusters individualmente, como iniciar, parar ou excluir um cluster específico.
-
-Para excluir um cluster, você pode usar o seguinte comando:
-
-```bash
 kind delete cluster --name devops
 ```
 
-Isso irá remover o cluster "devops" que criamos anteriormente. Se você quiser excluir o cluster padrão chamado "kind", basta executar:
+### Criando um cluster multi-nó
 
-```bash
-kind delete cluster
-```
+Para simular um ambiente mais próximo da produção — com um control plane e múltiplos workers — crie um diretório para os arquivos do projeto e dentro dele um arquivo de configuração:
 
-Isso irá remover o cluster "kind" que foi criado automaticamente quando você instalou o Kind. Lembre-se de que, ao excluir um cluster, todos os dados e configurações associados a ele serão perdidos. Portanto, certifique-se de fazer backup de qualquer dado importante antes de excluir um cluster.
-
-## Criando um cluster com o Kind
-
-Para as demais atividades com o kubernetes que desenvolveremos, sugiro que você crie um diretório vazio e armazene os arquivos de configuração do cluster nesse diretório. Dentro desse diretório, criaremos um arquivo chamado `kind.yaml` com a configuração do cluster. O conteúdo desse arquivo é o seguinte:
-
-```yaml title="./kind.yaml" linenums="1"
+```yaml title="kind.yaml" linenums="1"
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
@@ -98,277 +121,36 @@ nodes:
   - role: worker
 ```
 
-Nesse arquivo de configuração, estamos criando um cluster com um nó de controle (control-plane) e três nós de trabalho (worker). O nó de controle é responsável por gerenciar o cluster, enquanto os nós de trabalho executam as aplicações e serviços. Note que esse é um arquivo declarativo, ou seja, ele descreve o estado desejado do cluster. O Kind irá criar o cluster com base nessa configuração. Vamos explicar as partes do arquivo:
-
-- `kind: Cluster`: Especifica que estamos criando um cluster Kubernetes.
-- `apiVersion: kind.x-k8s.io/v1alpha4`: Especifica a versão da API do Kind que estamos usando.
-- `nodes`: Define os nós do cluster. Cada nó pode ter um papel diferente, como control-plane ou worker.
-
-Para aplicar essa configuração e criar o cluster, execute o seguinte comando no terminal:
+Aplique a configuração:
 
 ```bash
 kind create cluster --config kind.yaml --name devops
 ```
 
-Isso irá criar um cluster Kubernetes com a configuração especificada no arquivo `kind.yaml`. Após a criação do cluster, você pode verificar se ele está em execução usando o comando:
+Verifique os nós do cluster:
 
 ```bash
-kubectl cluster-info --context kind-devops
+kubectl get nodes
 ```
 
-## Criando uma aplicação
+Você deve ver 4 nós: 1 control-plane e 3 workers. Esse será o cluster que utilizaremos para os exercícios das próximas aulas.
 
-Vamos agora criar uma aplicação que será utilizada em todo o percurso de estudo do kubernetes. Como ela é uma aplicação apenas para fins de demonstração, será desenvolvida da forma mais simples possível. Para isso, faremos uso do framework FastApi, que é um framework web para construção de APIs em Python.
+## Carregando imagens locais no Kind
 
-Inicialmente, crie e acesse um diretório de nome `app`:
+Um detalhe importante: como o Kind roda o Kubernetes dentro de contêineres Docker, ele não tem acesso direto às imagens que você construiu localmente. Para usar uma imagem local no cluster Kind sem publicá-la no DockerHub, use:
 
 ```bash
-mkdir app
-cd app
+kind load docker-image seu-usuario/soma-api --name devops
 ```
 
-Agora, crie um ambiente virtual `venv` e ative esse ambiente:
+Isso copia a imagem para dentro dos nós do cluster. Alternativa: publicar a imagem no DockerHub (como fizemos no capítulo anterior) e referenciá-la diretamente nos manifests.
 
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install fastapi uvicorn
-```
+## Exercícios
 
-Em seguida, crie um arquivo `main.py` com o seguinte conteúdo:
+1. Instale o Kind e o kubectl na sua máquina. Crie um cluster simples (sem arquivo de configuração) e execute `kubectl get nodes`. Quantos nós aparecem? Qual o papel (role) dele?
 
-```python title="./app/main.py" linenums="1"
-from fastapi import FastAPI
+2. Crie um cluster multi-nó com 1 control-plane e 3 workers usando o arquivo `kind.yaml`. Execute `kubectl get nodes -o wide` e observe os endereços IP de cada nó.
 
-app = FastAPI()
+3. Execute `kubectl get namespaces` e anote os namespaces padrão que já existem. Pesquise para que serve cada um deles (`default`, `kube-system`, `kube-public`, `kube-node-lease`).
 
-@app.get("/")
-def read_root():
-    return {"message": "Hello World!"}
-
-if __name__ == '__main__':
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
-```
-
-Já vamos gerar o arquivo `requirements.txt` com as dependências necessárias para a aplicação. Para isso, execute o seguinte comando:
-
-```bash
-pip freeze > requirements.txt
-```
-
-Em seguida, para testarmos a aplicação, podemos executar o seguinte comando:
-
-```bash
-python main.py
-```
-
-Isso irá iniciar o servidor da aplicação FastAPI. Você pode acessar a aplicação no navegador ou usar uma ferramenta como o `curl` para fazer uma requisição HTTP GET para o endpoint `/`, ou acessar http://localhost:8000. O servidor irá responder com a mensagem:
-
-```json
-{ "message": "Hello World!" }
-```
-
-Com o projeto FastAPI já desenvolvido, podemos desativar o ambiente virtual e voltar para o diretório de trabalho:
-
-```bash
-deactivate
-cd ..
-```
-
-## Criando a imagem Docker
-
-Com a aplicação desenvolvida, vamos criar uma imagem docker para ser publicada e depois provisionada e implantada num cluster k8s. Para tal, crie um arquivo `Dockerfile` com o seguinte conteúdo:
-
-```docker title="./Dockerfile" linenums="1"
-FROM python:3.13-slim
-WORKDIR /app
-COPY app/requirements.txt requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
-COPY app/main.py main.py
-CMD ["python", "main.py"]
-```
-
-O arquivo declara uma imagem simples para a aplicação que foi desenvolvida. Abaixo, um detalhamento de cada linha:
-
-- `FROM python:3.13-slim`: Especifica a imagem base a ser utilizada, que é uma versão leve do Python 3.13.
-- `WORKDIR /app`: Define o diretório de trabalho dentro do contêiner como `/app`.
-- `COPY app/requirements.txt requirements.txt`: Copia o arquivo `requirements.txt` para o diretório de trabalho no contêiner.
-- `RUN pip install --no-cache-dir -r requirements.txt`: Instala as dependências da aplicação especificadas no `requirements.txt`.
-- `COPY app/main.py main.py`: Copia o arquivo `main.py` para o diretório de trabalho no contêiner.
-- `CMD ["python", "main.py"]`: Define o comando a ser executado quando o contêiner for iniciado, que é rodar a aplicação FastAPI.
-
-Para testar, vamos construir a imagem. Aqui, usarei o meu nome de usuário do DockerHub (`eduardosilvasc`). Você deve usar o seu usuário para depois fazer a publicação da imagem:
-
-```bash
-docker build -t eduardosilvasc/hello-fastapi-k8s .
-```
-
-Para testar se a imagem foi criada corretamente, execute o seguinte comando:
-
-```bash
-docker run -p 8000:8000 eduardosilvasc/hello-fastapi-k8s
-```
-
-Com isso, o servidor da aplicação FastAPI estará rodando no contêiner e você poderá acessá-lo em http://localhost:8000. A resposta deve ser a mesma que obtivemos anteriormente:
-
-```json
-{ "message": "Hello World!" }
-```
-
-Agora, para publicar a imagem no DockerHub, execute o seguinte comando:
-
-```bash
-docker push eduardosilvasc/hello-fastapi-k8s
-```
-
-Claro que para isso, você deve estar logado no DockerHub. Caso não tenha feito isso, execute o seguinte comando:
-
-```bash
-docker login
-```
-
-Lembre que você precisará pegar as credenciais nas configurações do DockerHub.
-
-## Criando um pod
-
-Nessa etapa, vamos criar um pod que utiliza a imagem que criamos e registramos no repositório de imagens do DockerHub. Para isso, crie um arquivo chamado `pod.yaml`, no diretório `k8s`, com o seguinte conteúdo:
-
-```yaml title="./k8s/pod.yaml" linenums="1"
-apiVersion: v1
-kind: Pod
-metadata:
-  name: hello-fastapi
-spec:
-  containers:
-    - name: hello-fastapi
-      image: eduardosilvasc/hello-fastapi-k8s
-      ports:
-        - containerPort: 8000
-```
-
-Com o arquivo acima, estamos declarando um pod Kubernetes chamado `hello-fastapi`, que executa um contêiner baseado na imagem `eduardosilvasc/hello-fastapi-k8s` e expõe a porta 8000. Para criar o pod, execute o seguinte comando:
-
-```bash
-kubectl apply -f k8s/pod.yaml
-```
-
-Para verificar se o pod foi criado e está em execução, use o comando:
-
-```bash
-kubectl get pods
-```
-
-Você deve ver o pod `hello-fastapi` na lista de pods em execução. Para acessar a aplicação FastAPI que está rodando no pod, você pode usar o port-forwarding do Kubernetes:
-
-```bash
-kubectl port-forward pod/hello-fastapi --address 0.0.0.0 8000:8000
-```
-
-Agora, você pode acessar a aplicação em http://localhost:8000. A resposta deve ser a mesma que obtivemos anteriormente:
-
-```json
-{ "message": "Hello World!" }
-```
-
-## Criando um Deployment
-
-A criação de um pod é a parte essencial de um cluster k8s. Contudo, da forma que criamos esse recurso, o sistema não está preparado para lidar com falhas ou escalabilidade. Por exemplo, se o pod falhar ou for excluído, ele não será reiniciado automaticamente. Para resolver isso, podemos usar um recurso chamado Deployment, que é uma abstração de nível superior que gerencia a criação e atualização de pods.
-
-Para isso, vamos criar um arquivo chamado `deployment.yaml`, no diretório `k8s`, com o seguinte conteúdo:
-
-```yaml title="./k8s/deployment.yaml" linenums="1"
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: hello-fastapi
-spec:
-    replicas: 3
-    selector:
-        matchLabels:
-        app: hello-fastapi
-    template:
-        metadata:
-        labels:
-            app: hello-fastapi
-        spec:
-        containers:
-        - name: hello-fastapi
-            image: eduardosilvasc/hello-fastapi-k8s
-            ports:
-            - containerPort: 8000
-```
-
-Na configuração acima do Deployment, estamos especificando que queremos 3 réplicas do pod `hello-fastapi`. O Kubernetes irá garantir que sempre haja 3 pods em execução. Se um pod falhar ou for excluído, o Kubernetes irá criar um novo pod automaticamente para substituí-lo.
-Para criar o Deployment, execute o seguinte comando:
-
-```bash
-kubectl apply -f k8s/deployment.yaml
-```
-
-Para verificar se o Deployment foi criado e está em execução, use o comando:
-
-```bash
-kubectl get deployments
-```
-
-Você deve ver o Deployment `hello-fastapi` na lista de deployments em execução. Para verificar os pods criados pelo Deployment, use o comando:
-
-```bash
-kubectl get pods
-```
-
-Você deve ver 3 pods `hello-fastapi` em execução. Para acessar a aplicação FastAPI que está rodando nos pods, você pode usar o port-forwarding do Kubernetes:
-
-```bash
-kubectl port-forward deployment/hello-fastapi --address 0.0.0.0 8000:8000
-```
-
-Agora, você pode acessar a aplicação em http://localhost:8000. A resposta deve ser a mesma que obtivemos anteriormente:
-
-```json
-{ "message": "Hello World!" }
-```
-
-## Criando um Service
-
-Para expor a aplicação FastAPI para o mundo externo, precisamos criar um Service. Um Service é um recurso do Kubernetes que define como acessar os pods em execução. Ele fornece um ponto de acesso estável para os pods, mesmo que os pods sejam criados ou excluídos.
-Para isso, vamos criar um arquivo chamado `service.yaml`, no diretório `k8s`, com o seguinte conteúdo:
-
-```yaml title="./k8s/service.yaml" linenums="1"
-apiVersion: v1
-kind: Service
-metadata:
-  name: hello-fastapi-service
-spec:
-  selector:
-    app: hello-fastapi
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 8000
-```
-
-Nesse arquivo, estamos criando um Service chamado `hello-fastapi` que seleciona os pods com o rótulo `app: hello-fastapi`. O Service irá expor a porta 80 e encaminhar o tráfego para a porta 8000 dos pods. Para criar o Service, execute o seguinte comando:
-
-```bash
-kubectl apply -f k8s/service.yaml
-```
-
-Para verificar se o Service foi criado e está em execução, use o comando:
-
-```bash
-kubectl get services
-```
-
-Você deve ver o Service `hello-fastapi` na lista de serviços em execução. Para acessar a aplicação FastAPI que está rodando nos pods, você pode usar o port-forwarding do Kubernetes:
-
-```bash
-kubectl port-forward service/hello-fastapi-service --address 0.0.0.0 8000:8000
-```
-
-Agora, você pode acessar a aplicação em http://localhost:8000. A resposta deve ser a mesma que obtivemos anteriormente:
-
-```json
-{ "message": "Hello World!" }
-```
+4. Carregue a imagem `seu-usuario/soma-api` (construída no capítulo anterior) no cluster com `kind load docker-image`. Verifique que a imagem está disponível executando `docker exec -it devops-worker crictl images` (substitua `devops-worker` pelo nome real do nó).

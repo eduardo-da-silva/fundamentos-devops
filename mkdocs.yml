@@ -114,6 +114,12 @@ nav:
     - docker/index.md
     - Persistência de dados: docker/persistencia.md
     - Docker Compose e Redes: docker/compose-e-redes.md
-  - Orquestração: orquestracao/index.md
+    - Boas práticas e imagens de produção: docker/boas-praticas.md
+  - Orquestração de Contêineres:
+    - orquestracao/index.md
+    - Pods e Deployments: orquestracao/pods-e-deployments.md
+    - Services e Rede: orquestracao/services-e-networking.md
+    - Configuração e Escalabilidade: orquestracao/configmaps-secrets-scaling.md
+    - Observabilidade básica: orquestracao/observabilidade.md
   - Entrega Contínua: cd/index.md
   - Infraestrutura como Código: iac/index.md
