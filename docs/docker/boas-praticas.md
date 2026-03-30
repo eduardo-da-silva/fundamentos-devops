@@ -84,6 +84,7 @@ pip freeze > requirements.txt
 Execute os testes para confirmar que tudo funciona:
 
 ```bash
+pip install pytest
 pytest
 ```
 
@@ -114,7 +115,7 @@ O multi-stage build resolve isso separando a construção da execução. A ideia
 
 ### Dockerfile com estágio único (antes)
 
-```docker title="Dockerfile" linenums="1"
+```docker title="Dockerfile.single" linenums="1"
 FROM python:3.13-slim
 WORKDIR /app
 COPY requirements.txt .
