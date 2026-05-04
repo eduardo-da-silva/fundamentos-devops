@@ -121,5 +121,12 @@ nav:
     - Services e Rede: orquestracao/services-e-networking.md
     - Configuração e Escalabilidade: orquestracao/configmaps-secrets-scaling.md
     - Observabilidade básica: orquestracao/observabilidade.md
+  - Laboratório AWS Learner Lab:
+    - aws-lab/index.md
+    - Acessando o Learner Lab: aws-lab/acessando-learner-lab.md
+    - Instâncias EC2: aws-lab/instancias-ec2.md
+    - Instalando o k3s: aws-lab/instalando-k3s.md
+    - Acesso remoto com kubectl: aws-lab/acesso-remoto-kubectl.md
+    - Deploy das aplicações: aws-lab/deploy.md
   - Entrega Contínua: cd/index.md
   - Infraestrutura como Código: iac/index.md
