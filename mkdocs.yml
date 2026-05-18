@@ -128,5 +128,10 @@ nav:
     - Instalando o k3s: aws-lab/instalando-k3s.md
     - Acesso remoto com kubectl: aws-lab/acesso-remoto-kubectl.md
     - Deploy das aplicações: aws-lab/deploy.md
-  - Entrega Contínua: cd/index.md
+  - Entrega Contínua:
+    - cd/index.md
+    - Instalando o ArgoCD: cd/instalando-argocd.md
+    - Repositório GitOps com Kustomize: cd/repositorio-gitops.md
+    - Configurando o GitHub Actions: cd/configurando-github-actions.md
+    - Configurando o ArgoCD: cd/configurando-argocd-app.md
   - Infraestrutura como Código: iac/index.md
