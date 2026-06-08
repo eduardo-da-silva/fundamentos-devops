@@ -134,4 +134,11 @@ nav:
     - Repositório GitOps com Kustomize: cd/repositorio-gitops.md
     - Configurando o GitHub Actions: cd/configurando-github-actions.md
     - Configurando o ArgoCD: cd/configurando-argocd-app.md
-  - Infraestrutura como Código: iac/index.md
+  - Infraestrutura como Código:
+    - iac/index.md
+    - Conceitos e fundamentos: iac/conceitos-e-fundamentos.md
+    - Terraform para provisionamento: iac/terraform-provisionamento.md
+    - Ansible para configuração: iac/ansible-configuracao.md
+    - Integração Terraform + Ansible: iac/integracao-terraform-ansible.md
+    - Boas práticas de IaC: iac/boas-praticas-iac.md
+    - Tutorial de fixação (lab): iac/tutorial-fixacao.md
