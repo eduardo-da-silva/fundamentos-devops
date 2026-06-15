@@ -249,7 +249,7 @@ cp iac/terraform/terraform.tfvars.example iac/terraform/terraform.tfvars
 Preenchimentos importantes:
 
 - `ami_id`: AMI Ubuntu da região escolhida
-- `key_name`: nome exato da chave SSH na AWS
+- `key_name`: nome exato da chave SSH na AWS (nas nossas aulas, por ser laboratório da AWS, deve ser 'vockey')
 - `allowed_ssh_cidr`: seu IP público com `/32` (Sugiro usar `0.0.0.0/0` apenas para testes, não em produção)
 
 Para descobrir seu IP público:
