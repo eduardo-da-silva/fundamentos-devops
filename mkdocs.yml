@@ -142,3 +142,5 @@ nav:
     - Integração Terraform + Ansible: iac/integracao-terraform-ansible.md
     - Boas práticas de IaC: iac/boas-praticas-iac.md
     - Tutorial de fixação (lab): iac/tutorial-fixacao.md
+    - Dicas extras para IaC: iac/dicas-extras-iac.md
+    - Instalação automatizada do k3s e ArgoCD: iac/instalacao-automatizada-k3s-argocd.md
